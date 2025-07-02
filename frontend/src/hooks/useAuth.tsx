@@ -6,6 +6,7 @@ interface AuthContextType {
     user: User | null;
     loading: boolean;
     error: string | null;
+    token: string | null;
     login: (credentials: LoginRequest) => Promise<void>;
     register: (userData: RegisterRequest) => Promise<void>;
     logout: () => void;
@@ -24,19 +25,22 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const [user, setUser] = useState<User | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const [token, setToken] = useState<string | null>(null);
 
     // Check if user is authenticated on app load
     useEffect(() => {
         const initializeAuth = async () => {
-            const token = apiService.getToken();
+            const storedToken = apiService.getToken();
+            setToken(storedToken);
 
-            if (token && apiService.isAuthenticated()) {
+            if (storedToken && apiService.isAuthenticated()) {
                 try {
                     const userData = await apiService.getCurrentUser();
                     setUser(userData);
                 } catch (err) {
                     // Token might be invalid, clear it
                     apiService.clearAuth();
+                    setToken(null);
                     console.error('Failed to fetch user data:', err);
                 }
             }
@@ -55,6 +59,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             const authResponse = await apiService.login(credentials);
 
             if (authResponse.access_token) {
+                setToken(authResponse.access_token);
                 const userData = await apiService.getCurrentUser();
                 setUser(userData);
             }
@@ -91,6 +96,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const logout = () => {
         apiService.clearAuth();
         setUser(null);
+        setToken(null);
         setError(null);
     };
 
@@ -116,6 +122,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         user,
         loading,
         error,
+        token,
         login,
         register,
         logout,
