@@ -5,6 +5,8 @@ import {
     ClockIcon,
     CpuChipIcon,
     ExclamationTriangleIcon,
+    KeyIcon,
+    CheckCircleIcon,
 } from '@heroicons/react/24/outline';
 import {
     AreaChart,
@@ -22,13 +24,14 @@ import {
 
 import DashboardLayout from '../components/Layout/DashboardLayout';
 import MetricCard from '../components/UI/MetricCard';
-import type { AnalyticsResponse, BudgetStatus } from '../types';
+import type { AnalyticsResponse, BudgetStatus, APIKey } from '../types';
 import apiService from '../services/api';
 import { useNotify } from '../hooks/useNotifications';
 
 const Dashboard: React.FC = () => {
     const [analytics, setAnalytics] = useState<AnalyticsResponse | null>(null);
     const [budgetStatus, setBudgetStatus] = useState<BudgetStatus[]>([]);
+    const [apiKeys, setApiKeys] = useState<APIKey[]>([]);
     const [loading, setLoading] = useState(true);
     const notify = useNotify();
 
@@ -39,13 +42,15 @@ const Dashboard: React.FC = () => {
     const loadDashboardData = async () => {
         try {
             setLoading(true);
-            const [analyticsData, budgetData] = await Promise.all([
+            const [analyticsData, budgetData, apiKeysData] = await Promise.all([
                 apiService.getUsageAnalytics(30),
                 apiService.getBudgetStatus(),
+                apiService.getAPIKeys(),
             ]);
 
             setAnalytics(analyticsData);
             setBudgetStatus(budgetData);
+            setApiKeys(apiKeysData);
         } catch (error: any) {
             console.error('Failed to load dashboard data:', error);
             notify.error('Failed to load dashboard', 'Please try refreshing the page');
@@ -111,14 +116,11 @@ const Dashboard: React.FC = () => {
                     />
 
                     <MetricCard
-                        title="Avg Cost/Request"
-                        value={analytics && analytics.summary.total_requests > 0
-                            ? `$${(analytics.summary.total_cost / analytics.summary.total_requests).toFixed(4)}`
-                            : '$0.00'
-                        }
-                        icon={<ClockIcon className="h-6 w-6" />}
+                        title="Connected APIs"
+                        value={apiKeys.length.toString()}
+                        icon={<KeyIcon className="h-6 w-6" />}
                         color="gray"
-                        subtitle="Per request"
+                        subtitle={`${apiKeys.filter(key => key.is_active).length} active`}
                         loading={loading}
                     />
                 </div>
@@ -146,6 +148,99 @@ const Dashboard: React.FC = () => {
                         </div>
                     </div>
                 )}
+
+                {/* Connected API Keys Status */}
+                <div className="card p-6">
+                    <div className="flex items-center justify-between mb-4">
+                        <h3 className="text-lg font-semibold text-gray-900">Connected AI Providers</h3>
+                        <span className="text-sm text-gray-500">
+                            {apiKeys.length} {apiKeys.length === 1 ? 'provider' : 'providers'} connected
+                        </span>
+                    </div>
+
+                    {loading ? (
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            {Array.from({ length: 3 }).map((_, index) => (
+                                <div key={index} className="animate-pulse">
+                                    <div className="flex items-center p-4 border border-gray-200 rounded-lg">
+                                        <div className="h-10 w-10 bg-gray-200 rounded-lg mr-3"></div>
+                                        <div className="flex-1">
+                                            <div className="h-4 bg-gray-200 rounded w-20 mb-2"></div>
+                                            <div className="h-3 bg-gray-200 rounded w-16"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    ) : apiKeys.length === 0 ? (
+                        <div className="text-center py-8">
+                            <KeyIcon className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+                            <h4 className="text-lg font-medium text-gray-900 mb-2">No API Keys Connected</h4>
+                            <p className="text-gray-600 mb-4">
+                                Connect your AI provider API keys to start tracking usage and costs.
+                            </p>
+                            <a
+                                href="/api-keys"
+                                className="btn-primary inline-flex items-center"
+                            >
+                                <KeyIcon className="h-5 w-5 mr-2" />
+                                Add API Keys
+                            </a>
+                        </div>
+                    ) : (
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            {apiKeys.map((key) => (
+                                <div key={key.id} className="flex items-center p-4 border border-gray-200 rounded-lg hover:border-gray-300 transition-colors">
+                                    <div className="flex items-center justify-center w-10 h-10 bg-gray-100 rounded-lg mr-3">
+                                        <span className="text-lg">
+                                            {key.provider === 'openai' && '🤖'}
+                                            {key.provider === 'anthropic' && '🧠'}
+                                            {key.provider === 'azure' && '☁️'}
+                                            {!['openai', 'anthropic', 'azure'].includes(key.provider) && '🔑'}
+                                        </span>
+                                    </div>
+                                    <div className="flex-1">
+                                        <div className="flex items-center">
+                                            <h4 className="font-medium text-gray-900 capitalize">
+                                                {key.provider}
+                                            </h4>
+                                            {key.is_active && (
+                                                <CheckCircleIcon className="h-4 w-4 text-green-500 ml-2" />
+                                            )}
+                                        </div>
+                                        <p className="text-sm text-gray-600">{key.name}</p>
+                                        {key.last_used_at && (
+                                            <p className="text-xs text-gray-500">
+                                                Last used {apiService.formatDate(key.last_used_at)}
+                                            </p>
+                                        )}
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    )}
+
+                    {apiKeys.length > 0 && (
+                        <div className="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                            <div className="flex items-start justify-between">
+                                <div className="flex-1">
+                                    <p className="text-sm text-blue-800 mb-2">
+                                        <strong>Ready to track usage!</strong> Your AI API calls will be logged when you use our proxy endpoints.
+                                    </p>
+                                    <code className="text-xs bg-blue-100 px-2 py-1 rounded font-mono text-blue-900">
+                                        {window.location.origin.replace(':5173', ':8000')}/proxy/{apiKeys[0].provider}/...
+                                    </code>
+                                </div>
+                                <a
+                                    href="/integration"
+                                    className="ml-4 btn-primary text-xs px-3 py-1"
+                                >
+                                    Get Code Examples
+                                </a>
+                            </div>
+                        </div>
+                    )}
+                </div>
 
                 {/* Charts Section */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">

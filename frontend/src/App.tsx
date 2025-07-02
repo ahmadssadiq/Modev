@@ -7,6 +7,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import APIKeys from './pages/APIKeys';
 import Budget from './pages/Budget';
+import Integration from './pages/Integration';
 
 // Protected Route Component
 const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -102,6 +103,15 @@ function App() {
                 element={
                   <ProtectedRoute>
                     <APIKeys />
+                  </ProtectedRoute>
+                }
+              />
+
+              <Route
+                path="/integration"
+                element={
+                  <ProtectedRoute>
+                    <Integration />
                   </ProtectedRoute>
                 }
               />

@@ -17,6 +17,103 @@ from app.services.budget_checker import BudgetChecker
 
 router = APIRouter()
 
+# API Key management endpoints (Must be defined BEFORE the catch-all proxy route)
+@router.post("/api-keys")
+async def add_api_key(
+    api_key_data: dict,
+    current_user: User = Depends(get_current_active_user),
+    db: Session = Depends(get_db)
+):
+    """Add a new API key for a provider"""
+    import base64
+    
+    # Basic validation
+    required_fields = ["name", "provider", "api_key"]
+    for field in required_fields:
+        if field not in api_key_data:
+            raise HTTPException(status_code=400, detail=f"Missing required field: {field}")
+    
+    # Validate provider
+    if api_key_data["provider"] not in ["openai", "anthropic"]:
+        raise HTTPException(
+            status_code=400,
+            detail=f"Unsupported provider: {api_key_data['provider']}"
+        )
+    
+    # Check if user already has an API key for this provider
+    existing_key = db.query(APIKeyModel).filter(
+        APIKeyModel.user_id == current_user.id,
+        APIKeyModel.provider == api_key_data["provider"]
+    ).first()
+    
+    if existing_key:
+        # Update existing key
+        existing_key.name = api_key_data["name"]
+        existing_key.encrypted_key = base64.b64encode(api_key_data["api_key"].encode()).decode()
+        existing_key.is_active = True
+        db.commit()
+        return {"message": "API key updated successfully"}
+    else:
+        # Create new key
+        encrypted_key = base64.b64encode(api_key_data["api_key"].encode()).decode()
+        
+        new_api_key = APIKeyModel(
+            name=api_key_data["name"],
+            provider=api_key_data["provider"],
+            encrypted_key=encrypted_key,
+            user_id=current_user.id,
+            team_id=api_key_data.get("team_id")
+        )
+        
+        db.add(new_api_key)
+        db.commit()
+        
+        return {"message": "API key added successfully"}
+
+
+@router.get("/api-keys")
+async def list_api_keys(
+    current_user: User = Depends(get_current_active_user),
+    db: Session = Depends(get_db)
+):
+    """List user's API keys (without exposing the actual keys)"""
+    api_keys = db.query(APIKeyModel).filter(
+        APIKeyModel.user_id == current_user.id
+    ).all()
+    
+    return [
+        {
+            "id": key.id,
+            "name": key.name,
+            "provider": key.provider,
+            "is_active": key.is_active,
+            "created_at": key.created_at,
+            "last_used_at": key.last_used_at
+        }
+        for key in api_keys
+    ]
+
+
+@router.delete("/api-keys/{api_key_id}")
+async def delete_api_key(
+    api_key_id: int,
+    current_user: User = Depends(get_current_active_user),
+    db: Session = Depends(get_db)
+):
+    """Delete an API key"""
+    api_key = db.query(APIKeyModel).filter(
+        APIKeyModel.id == api_key_id,
+        APIKeyModel.user_id == current_user.id
+    ).first()
+    
+    if not api_key:
+        raise HTTPException(status_code=404, detail="API key not found")
+    
+    db.delete(api_key)
+    db.commit()
+    
+    return {"message": "API key deleted successfully"}
+
 # AI Provider configurations
 PROVIDER_CONFIGS = {
     "openai": {
@@ -267,99 +364,4 @@ async def proxy_request(
         raise HTTPException(status_code=500, detail=f"Internal server error: {str(e)}")
 
 
-# API Key management endpoints
-@router.post("/api-keys")
-async def add_api_key(
-    api_key_data: dict,
-    current_user: User = Depends(get_current_active_user),
-    db: Session = Depends(get_db)
-):
-    """Add a new API key for a provider"""
-    import base64
-    
-    # Basic validation
-    required_fields = ["name", "provider", "api_key"]
-    for field in required_fields:
-        if field not in api_key_data:
-            raise HTTPException(status_code=400, detail=f"Missing required field: {field}")
-    
-    # Validate provider
-    if api_key_data["provider"] not in PROVIDER_CONFIGS:
-        raise HTTPException(
-            status_code=400,
-            detail=f"Unsupported provider: {api_key_data['provider']}"
-        )
-    
-    # Check if user already has an API key for this provider
-    existing_key = db.query(APIKeyModel).filter(
-        APIKeyModel.user_id == current_user.id,
-        APIKeyModel.provider == api_key_data["provider"]
-    ).first()
-    
-    if existing_key:
-        # Update existing key
-        existing_key.name = api_key_data["name"]
-        existing_key.encrypted_key = base64.b64encode(api_key_data["api_key"].encode()).decode()
-        existing_key.is_active = True
-        db.commit()
-        return {"message": "API key updated successfully"}
-    else:
-        # Create new key
-        encrypted_key = base64.b64encode(api_key_data["api_key"].encode()).decode()
-        
-        new_api_key = APIKeyModel(
-            name=api_key_data["name"],
-            provider=api_key_data["provider"],
-            encrypted_key=encrypted_key,
-            user_id=current_user.id,
-            team_id=api_key_data.get("team_id")
-        )
-        
-        db.add(new_api_key)
-        db.commit()
-        
-        return {"message": "API key added successfully"}
-
-
-@router.get("/api-keys")
-async def list_api_keys(
-    current_user: User = Depends(get_current_active_user),
-    db: Session = Depends(get_db)
-):
-    """List user's API keys (without exposing the actual keys)"""
-    api_keys = db.query(APIKeyModel).filter(
-        APIKeyModel.user_id == current_user.id
-    ).all()
-    
-    return [
-        {
-            "id": key.id,
-            "name": key.name,
-            "provider": key.provider,
-            "is_active": key.is_active,
-            "created_at": key.created_at,
-            "last_used_at": key.last_used_at
-        }
-        for key in api_keys
-    ]
-
-
-@router.delete("/api-keys/{api_key_id}")
-async def delete_api_key(
-    api_key_id: int,
-    current_user: User = Depends(get_current_active_user),
-    db: Session = Depends(get_db)
-):
-    """Delete an API key"""
-    api_key = db.query(APIKeyModel).filter(
-        APIKeyModel.id == api_key_id,
-        APIKeyModel.user_id == current_user.id
-    ).first()
-    
-    if not api_key:
-        raise HTTPException(status_code=404, detail="API key not found")
-    
-    db.delete(api_key)
-    db.commit()
-    
-    return {"message": "API key deleted successfully"} 
+ 

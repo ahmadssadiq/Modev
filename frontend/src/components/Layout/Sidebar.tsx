@@ -9,6 +9,7 @@ import {
     LightBulbIcon,
     UserIcon,
     DocumentChartBarIcon,
+    CodeBracketIcon,
 } from '@heroicons/react/24/outline';
 import { useAuth } from '../../hooks/useAuth';
 
@@ -17,6 +18,7 @@ const navigation = [
     { name: 'Analytics', href: '/analytics', icon: ChartBarIcon },
     { name: 'Budget', href: '/budget', icon: CurrencyDollarIcon },
     { name: 'API Keys', href: '/api-keys', icon: KeyIcon },
+    { name: 'Integration', href: '/integration', icon: CodeBracketIcon },
     { name: 'Recommendations', href: '/recommendations', icon: LightBulbIcon },
     { name: 'Reports', href: '/reports', icon: DocumentChartBarIcon },
     { name: 'Settings', href: '/settings', icon: CogIcon },
@@ -85,12 +87,12 @@ const Sidebar: React.FC = () => {
                 <div className="mb-4">
                     <span
                         className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${user?.plan === 'enterprise'
-                                ? 'bg-purple-100 text-purple-800'
-                                : user?.plan === 'premium'
-                                    ? 'bg-yellow-100 text-yellow-800'
-                                    : user?.plan === 'basic'
-                                        ? 'bg-blue-100 text-blue-800'
-                                        : 'bg-gray-100 text-gray-800'
+                            ? 'bg-purple-100 text-purple-800'
+                            : user?.plan === 'premium'
+                                ? 'bg-yellow-100 text-yellow-800'
+                                : user?.plan === 'basic'
+                                    ? 'bg-blue-100 text-blue-800'
+                                    : 'bg-gray-100 text-gray-800'
                             }`}
                     >
                         {user?.plan === 'free' ? 'Free Tier' : `${user?.plan} Plan`}
