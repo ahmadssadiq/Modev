@@ -24,28 +24,151 @@ A modern React TypeScript dashboard for monitoring and optimizing AI API costs i
 - **Headless UI** - Accessible UI Components
 - **Heroicons** - Beautiful Icons
 
-## 📦 Installation
+## 🚀 Quick Start
 
-1. **Install Dependencies**
+### Prerequisites
+
+- Node.js 18+ (20+ recommended)
+- npm or yarn
+- Git
+
+### Step-by-Step Setup
+
+1. **Navigate to frontend directory**:
+   ```bash
+   cd frontend
+   ```
+
+2. **Install Dependencies**:
    ```bash
    npm install
    ```
 
-2. **Environment Setup**
-   Create a `.env` file in the frontend directory:
-   ```env
-   VITE_API_URL=http://localhost:8000
-   VITE_NODE_ENV=development
-   VITE_APP_NAME="AI Cost Optimizer"
-   VITE_APP_VERSION="1.0.0"
+3. **Environment Configuration**:
+   ```bash
+   # Create environment file
+   echo "VITE_API_URL=http://localhost:8000" > .env
+   
+   # Or create .env file manually with:
+   # VITE_API_URL=http://localhost:8000
+   # VITE_NODE_ENV=development
+   # VITE_APP_NAME="AI Cost Optimizer"
+   # VITE_APP_VERSION="1.0.0"
    ```
 
-3. **Start Development Server**
+4. **Start Development Server**:
    ```bash
    npm run dev
    ```
 
-   The application will be available at http://localhost:5173
+### ✅ Verify Installation
+
+The development server should start with output like:
+```
+VITE v5.x.x ready in XXXms
+
+➜  Local:   http://localhost:5173/
+➜  Network: use --host to expose
+➜  press h + enter to show help
+```
+
+**Access the application**: http://localhost:5173
+
+### 🎯 Quick Test
+
+1. Open http://localhost:5173 in your browser
+2. You should see the login page
+3. If backend is running, try registering a new account
+4. Dashboard should load with sample data
+
+## 🔧 Troubleshooting
+
+### Common Issues
+
+#### Dependencies Installation Failed
+```bash
+npm ERR! Could not resolve dependency
+```
+**Solutions**:
+- Clear npm cache: `npm cache clean --force`
+- Delete node_modules: `rm -rf node_modules package-lock.json && npm install`
+- Use different Node version: Use Node 18+ or 20+
+
+#### Build Errors with Tailwind CSS
+```
+Error: Cannot apply unknown utility class
+```
+**Solutions**:
+- Ensure PostCSS is configured correctly
+- Check `tailwind.config.js` and `postcss.config.js`
+- Restart dev server: `Ctrl+C` then `npm run dev`
+
+#### TypeScript Errors
+```
+Type 'X' is not assignable to type 'Y'
+```
+**Solutions**:
+- Use type-only imports: `import type { Type } from './types'`
+- Check TypeScript version: `npx tsc --version`
+- Clear TypeScript cache: `rm -rf node_modules/.cache`
+
+#### API Connection Issues
+```
+Network Error / CORS Error
+```
+**Solutions**:
+- Ensure backend is running on http://localhost:8000
+- Check VITE_API_URL in `.env` file
+- Verify CORS is enabled in backend
+
+#### Port Already in Use
+```
+Error: Port 5173 is already in use
+```
+**Solutions**:
+- Kill existing process: `lsof -ti:5173 | xargs kill -9`
+- Use different port: `npm run dev -- --port 3000`
+
+### Alternative Commands
+
+```bash
+# Build for production
+npm run build
+
+# Preview production build
+npm run preview
+
+# Type checking
+npx tsc --noEmit
+
+# Lint code
+npm run lint
+
+# Start on different port
+npm run dev -- --port 3000 --host
+```
+
+## 🚀 Running Both Frontend & Backend
+
+### Complete Setup (Both Services)
+
+**Terminal 1 - Backend**:
+```bash
+cd backend
+source .venv/bin/activate
+uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+```
+
+**Terminal 2 - Frontend**:
+```bash
+cd frontend
+npm run dev
+```
+
+**Access**:
+- Frontend: http://localhost:5173
+- Backend API: http://localhost:8000
+- API Docs: http://localhost:8000/docs
 
 ## 🏗️ Project Structure
 

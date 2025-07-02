@@ -22,20 +22,26 @@ A FastAPI-based backend service for the AI Cost Optimization Platform. This serv
 - **SendGrid**: Email notifications
 - **httpx**: Async HTTP client for AI provider requests
 
-## Quick Start
+## 🚀 Quick Start
 
 ### Prerequisites
 
-- Python 3.10+
-- PostgreSQL (optional - SQLite used for development)
+- Python 3.9+ (3.10+ recommended)
+- Git
 
-### Installation
+### Step-by-Step Setup
 
-1. **Clone and setup**:
+1. **Clone and setup virtual environment**:
    ```bash
+   # Navigate to backend directory
    cd backend
+   
+   # Create virtual environment
    python -m venv .venv
-   source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+   
+   # Activate virtual environment
+   source .venv/bin/activate  # On macOS/Linux
+   # .venv\Scripts\activate     # On Windows
    ```
 
 2. **Install dependencies**:
@@ -43,23 +49,99 @@ A FastAPI-based backend service for the AI Cost Optimization Platform. This serv
    pip install -r requirements.txt
    ```
 
-3. **Environment setup**:
+3. **Environment configuration**:
    ```bash
+   # Copy environment template
    cp .env.example .env
-   # Edit .env with your configuration
+   
+   # The default configuration uses SQLite (no additional setup needed)
+   # For PostgreSQL, update DATABASE_URL in .env
    ```
 
 4. **Database setup**:
    ```bash
+   # Run database migrations (creates SQLite database automatically)
    alembic upgrade head
    ```
 
-5. **Start the server**:
+5. **Start the backend server**:
    ```bash
+   # Recommended method
    uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
    ```
 
-The API will be available at `http://localhost:8000`
+### ✅ Verify Installation
+
+The server should start with output like:
+```
+INFO:     Started server process [XXXX]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+```
+
+Test the endpoints:
+```bash
+# Health check
+curl http://localhost:8000/health
+
+# Should return: {"status":"ok","database":"connected","environment":"development"}
+```
+
+### 🌐 Access Points
+
+- **API Server**: http://localhost:8000
+- **Interactive API Docs**: http://localhost:8000/docs
+- **ReDoc Documentation**: http://localhost:8000/redoc
+- **Health Check**: http://localhost:8000/health
+
+## 🔧 Troubleshooting
+
+### Common Issues
+
+#### Database Connection Error
+```
+psycopg2.OperationalError: connection to server failed: FATAL: role "username" does not exist
+```
+**Solution**: Update `.env` file to use SQLite:
+```bash
+DATABASE_URL=sqlite:///./ai_cost_optimizer.db
+```
+
+#### Module Import Error
+```
+ModuleNotFoundError: No module named 'app'
+```
+**Solutions**:
+- Use uvicorn directly: `uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload`
+- Ensure you're in the `backend` directory
+- Check virtual environment is activated
+
+#### Port Already in Use
+```
+OSError: [Errno 48] Address already in use
+```
+**Solutions**:
+- Kill existing process: `lsof -ti:8000 | xargs kill -9`
+- Use different port: `--port 8001`
+
+#### Virtual Environment Issues
+**Solutions**:
+- Deactivate and reactivate: `deactivate && source .venv/bin/activate`
+- Recreate environment: `rm -rf .venv && python -m venv .venv`
+
+### Alternative Startup Methods
+
+```bash
+# Method 1: Direct uvicorn (recommended)
+uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+
+# Method 2: Python module
+python -m uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+
+# Method 3: Custom server script (if imports work)
+python app/server.py
+```
 
 ## Environment Variables
 

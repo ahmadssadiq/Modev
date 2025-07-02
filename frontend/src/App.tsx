@@ -4,6 +4,9 @@ import { AuthProvider, useAuth } from './hooks/useAuth';
 import { NotificationsProvider } from './hooks/useNotifications';
 import Dashboard from './pages/Dashboard';
 import Login from './pages/Login';
+import Register from './pages/Register';
+import APIKeys from './pages/APIKeys';
+import Budget from './pages/Budget';
 
 // Protected Route Component
 const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -51,6 +54,14 @@ function App() {
                   </PublicRoute>
                 }
               />
+              <Route
+                path="/register"
+                element={
+                  <PublicRoute>
+                    <Register />
+                  </PublicRoute>
+                }
+              />
 
               {/* Protected Routes */}
               <Route
@@ -81,12 +92,7 @@ function App() {
                 path="/budget"
                 element={
                   <ProtectedRoute>
-                    <div className="min-h-screen flex items-center justify-center">
-                      <div className="text-center">
-                        <h1 className="text-2xl font-bold text-gray-900">Budget Management</h1>
-                        <p className="text-gray-600 mt-2">Coming soon...</p>
-                      </div>
-                    </div>
+                    <Budget />
                   </ProtectedRoute>
                 }
               />
@@ -95,12 +101,7 @@ function App() {
                 path="/api-keys"
                 element={
                   <ProtectedRoute>
-                    <div className="min-h-screen flex items-center justify-center">
-                      <div className="text-center">
-                        <h1 className="text-2xl font-bold text-gray-900">API Keys</h1>
-                        <p className="text-gray-600 mt-2">Coming soon...</p>
-                      </div>
-                    </div>
+                    <APIKeys />
                   </ProtectedRoute>
                 }
               />
