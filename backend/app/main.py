@@ -23,7 +23,7 @@ app = FastAPI(
 # Add CORS middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "http://localhost:5173"],  # React dev servers
+    allow_origins=["http://localhost:3000", "http://localhost:5173", "http://localhost:5174"],  # React dev servers
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -38,9 +38,10 @@ if os.getenv("ENVIRONMENT") == "production":
 
 # Include routers
 app.include_router(auth.router, prefix="/auth", tags=["authentication"])
-app.include_router(proxy.router, prefix="/proxy", tags=["ai-proxy"])
 app.include_router(analytics.router, prefix="/analytics", tags=["analytics"])
 app.include_router(admin.router, prefix="/admin", tags=["admin"])
+app.include_router(proxy.router, prefix="/proxy", tags=["ai-proxy"])
+app.include_router(proxy.router, tags=["simplified-proxy"])  # Include proxy router at root for /v1/ routes LAST
 
 @app.get("/")
 async def root():

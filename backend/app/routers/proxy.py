@@ -17,17 +17,119 @@ from app.services.budget_checker import BudgetChecker
 
 router = APIRouter()
 
+# AI Provider configurations
+PROVIDER_CONFIGS = {
+    "openai": {
+        "base_url": "https://api.openai.com",
+        "headers": lambda api_key: {"Authorization": f"Bearer {api_key}"}
+    },
+    "anthropic": {
+        "base_url": "https://api.anthropic.com",
+        "headers": lambda api_key: {
+            "x-api-key": api_key,
+            "anthropic-version": "2023-06-01"
+        }
+    }
+}
+
+# Helper functions
+async def get_user_api_key(
+    provider: str,
+    current_user: User = Depends(get_current_active_user),
+    db: Session = Depends(get_db)
+) -> APIKeyModel:
+    """Get user's API key for the specified provider"""
+    api_key = db.query(APIKeyModel).filter(
+        APIKeyModel.user_id == current_user.id,
+        APIKeyModel.provider == provider,
+        APIKeyModel.is_active == True
+    ).first()
+    
+    if not api_key:
+        raise HTTPException(
+            status_code=404,
+            detail=f"No active API key found for {provider}. Please add your API key first."
+        )
+    
+    return api_key
+
+async def get_user_api_key_direct(
+    provider: str,
+    current_user: User,
+    db: Session
+) -> APIKeyModel:
+    """Get user's API key for the specified provider (direct function without dependencies)"""
+    api_key = db.query(APIKeyModel).filter(
+        APIKeyModel.user_id == current_user.id,
+        APIKeyModel.provider == provider,
+        APIKeyModel.is_active == True
+    ).first()
+    
+    if not api_key:
+        raise HTTPException(
+            status_code=404,
+            detail=f"No active API key found for {provider}. Please add your API key first."
+        )
+    
+    return api_key
+
+def decrypt_api_key(encrypted_key: str) -> str:
+    """Decrypt the stored API key"""
+    # For now, we'll use a simple base64 encoding
+    # In production, use proper encryption like Fernet
+    import base64
+    try:
+        return base64.b64decode(encrypted_key.encode()).decode()
+    except Exception:
+        raise HTTPException(status_code=500, detail="Invalid API key format")
+
+async def log_usage(
+    db: Session,
+    user_id: int,
+    api_key_id: int,
+    provider: str,
+    model: str,
+    endpoint: str,
+    prompt_tokens: int,
+    completion_tokens: int,
+    cost: float,
+    latency_ms: int,
+    status_code: int,
+    request_size: int = None,
+    response_size: int = None,
+    extra_data: Dict[str, Any] = None
+):
+    """Log API usage to database"""
+    usage_log = UsageLog(
+        user_id=user_id,
+        api_key_id=api_key_id,
+        provider=provider,
+        model=model,
+        endpoint=endpoint,
+        prompt_tokens=prompt_tokens,
+        completion_tokens=completion_tokens,
+        total_tokens=prompt_tokens + completion_tokens,
+        cost=cost,
+        latency_ms=latency_ms,
+        status_code=status_code,
+        request_size_bytes=request_size,
+        response_size_bytes=response_size,
+        extra_data=extra_data
+    )
+    
+    db.add(usage_log)
+    db.commit()
+
 # Token validation function for URL-based authentication
 async def get_user_from_token(token: str, db: Session) -> User:
     """Get user from JWT token for URL-based authentication"""
     from app.core.auth import verify_token
     try:
-        payload = verify_token(token)
-        email = payload.get("sub")
-        if email is None:
+        token_data = verify_token(token)
+        if token_data is None:
             raise HTTPException(status_code=401, detail="Invalid token")
         
-        user = db.query(User).filter(User.email == email).first()
+        user = db.query(User).filter(User.email == token_data.email).first()
         if user is None:
             raise HTTPException(status_code=401, detail="User not found")
         
@@ -35,7 +137,102 @@ async def get_user_from_token(token: str, db: Session) -> User:
     except Exception:
         raise HTTPException(status_code=401, detail="Invalid or expired token")
 
-# Simplified one-line integration route - Token in URL path
+# API Key management endpoints (Must be defined BEFORE the catch-all proxy route)
+@router.post("/api-keys")
+async def add_api_key(
+    api_key_data: dict,
+    current_user: User = Depends(get_current_active_user),
+    db: Session = Depends(get_db)
+):
+    """Add a new API key for a provider"""
+    import base64
+    
+    # Basic validation
+    required_fields = ["name", "provider", "api_key"]
+    for field in required_fields:
+        if field not in api_key_data:
+            raise HTTPException(status_code=400, detail=f"Missing required field: {field}")
+    
+    # Validate provider
+    if api_key_data["provider"] not in ["openai", "anthropic"]:
+        raise HTTPException(
+            status_code=400,
+            detail=f"Unsupported provider: {api_key_data['provider']}"
+        )
+    
+    # Check if user already has an API key for this provider
+    existing_key = db.query(APIKeyModel).filter(
+        APIKeyModel.user_id == current_user.id,
+        APIKeyModel.provider == api_key_data["provider"]
+    ).first()
+    
+    if existing_key:
+        # Update existing key
+        existing_key.name = api_key_data["name"]
+        existing_key.encrypted_key = base64.b64encode(api_key_data["api_key"].encode()).decode()
+        existing_key.is_active = True
+        db.commit()
+        return {"message": "API key updated successfully"}
+    else:
+        # Create new key
+        encrypted_key = base64.b64encode(api_key_data["api_key"].encode()).decode()
+        
+        new_api_key = APIKeyModel(
+            name=api_key_data["name"],
+            provider=api_key_data["provider"],
+            encrypted_key=encrypted_key,
+            user_id=current_user.id,
+            team_id=api_key_data.get("team_id")
+        )
+        
+        db.add(new_api_key)
+        db.commit()
+        
+        return {"message": "API key added successfully"}
+
+@router.get("/api-keys")
+async def list_api_keys(
+    current_user: User = Depends(get_current_active_user),
+    db: Session = Depends(get_db)
+):
+    """List user's API keys (without exposing the actual keys)"""
+    api_keys = db.query(APIKeyModel).filter(
+        APIKeyModel.user_id == current_user.id
+    ).all()
+    
+    return [
+        {
+            "id": key.id,
+            "name": key.name,
+            "provider": key.provider,
+            "is_active": key.is_active,
+            "created_at": key.created_at,
+            "last_used_at": key.last_used_at
+        }
+        for key in api_keys
+    ]
+
+@router.delete("/api-keys/{api_key_id}")
+async def delete_api_key(
+    api_key_id: int,
+    current_user: User = Depends(get_current_active_user),
+    db: Session = Depends(get_db)
+):
+    """Delete an API key"""
+    api_key = db.query(APIKeyModel).filter(
+        APIKeyModel.id == api_key_id,
+        APIKeyModel.user_id == current_user.id
+    ).first()
+    
+    if not api_key:
+        raise HTTPException(status_code=404, detail="API key not found")
+    
+    db.delete(api_key)
+    db.commit()
+    
+    return {"message": "API key deleted successfully"}
+
+# Simplified one-line integration route - Token in URL path (MUST come before catch-all route)
 @router.api_route(
     "/v1/{token}/{provider}/{path:path}",
     methods=["GET", "POST", "PUT", "DELETE", "PATCH"]
@@ -205,209 +402,8 @@ async def simplified_proxy_request(
         )
         raise HTTPException(status_code=500, detail=f"Internal server error: {str(e)}")
 
-# API Key management endpoints (Must be defined BEFORE the catch-all proxy route)
-@router.post("/api-keys")
-async def add_api_key(
-    api_key_data: dict,
-    current_user: User = Depends(get_current_active_user),
-    db: Session = Depends(get_db)
-):
-    """Add a new API key for a provider"""
-    import base64
-    
-    # Basic validation
-    required_fields = ["name", "provider", "api_key"]
-    for field in required_fields:
-        if field not in api_key_data:
-            raise HTTPException(status_code=400, detail=f"Missing required field: {field}")
-    
-    # Validate provider
-    if api_key_data["provider"] not in ["openai", "anthropic"]:
-        raise HTTPException(
-            status_code=400,
-            detail=f"Unsupported provider: {api_key_data['provider']}"
-        )
-    
-    # Check if user already has an API key for this provider
-    existing_key = db.query(APIKeyModel).filter(
-        APIKeyModel.user_id == current_user.id,
-        APIKeyModel.provider == api_key_data["provider"]
-    ).first()
-    
-    if existing_key:
-        # Update existing key
-        existing_key.name = api_key_data["name"]
-        existing_key.encrypted_key = base64.b64encode(api_key_data["api_key"].encode()).decode()
-        existing_key.is_active = True
-        db.commit()
-        return {"message": "API key updated successfully"}
-    else:
-        # Create new key
-        encrypted_key = base64.b64encode(api_key_data["api_key"].encode()).decode()
-        
-        new_api_key = APIKeyModel(
-            name=api_key_data["name"],
-            provider=api_key_data["provider"],
-            encrypted_key=encrypted_key,
-            user_id=current_user.id,
-            team_id=api_key_data.get("team_id")
-        )
-        
-        db.add(new_api_key)
-        db.commit()
-        
-        return {"message": "API key added successfully"}
-
-
-@router.get("/api-keys")
-async def list_api_keys(
-    current_user: User = Depends(get_current_active_user),
-    db: Session = Depends(get_db)
-):
-    """List user's API keys (without exposing the actual keys)"""
-    api_keys = db.query(APIKeyModel).filter(
-        APIKeyModel.user_id == current_user.id
-    ).all()
-    
-    return [
-        {
-            "id": key.id,
-            "name": key.name,
-            "provider": key.provider,
-            "is_active": key.is_active,
-            "created_at": key.created_at,
-            "last_used_at": key.last_used_at
-        }
-        for key in api_keys
-    ]
-
-
-@router.delete("/api-keys/{api_key_id}")
-async def delete_api_key(
-    api_key_id: int,
-    current_user: User = Depends(get_current_active_user),
-    db: Session = Depends(get_db)
-):
-    """Delete an API key"""
-    api_key = db.query(APIKeyModel).filter(
-        APIKeyModel.id == api_key_id,
-        APIKeyModel.user_id == current_user.id
-    ).first()
-    
-    if not api_key:
-        raise HTTPException(status_code=404, detail="API key not found")
-    
-    db.delete(api_key)
-    db.commit()
-    
-    return {"message": "API key deleted successfully"}
-
-# AI Provider configurations
-PROVIDER_CONFIGS = {
-    "openai": {
-        "base_url": "https://api.openai.com",
-        "headers": lambda api_key: {"Authorization": f"Bearer {api_key}"}
-    },
-    "anthropic": {
-        "base_url": "https://api.anthropic.com",
-        "headers": lambda api_key: {
-            "x-api-key": api_key,
-            "anthropic-version": "2023-06-01"
-        }
-    }
-}
-
-
-async def get_user_api_key(
-    provider: str,
-    current_user: User = Depends(get_current_active_user),
-    db: Session = Depends(get_db)
-) -> APIKeyModel:
-    """Get user's API key for the specified provider"""
-    api_key = db.query(APIKeyModel).filter(
-        APIKeyModel.user_id == current_user.id,
-        APIKeyModel.provider == provider,
-        APIKeyModel.is_active == True
-    ).first()
-    
-    if not api_key:
-        raise HTTPException(
-            status_code=404,
-            detail=f"No active API key found for {provider}. Please add your API key first."
-        )
-    
-    return api_key
-
-async def get_user_api_key_direct(
-    provider: str,
-    current_user: User,
-    db: Session
-) -> APIKeyModel:
-    """Get user's API key for the specified provider (direct function without dependencies)"""
-    api_key = db.query(APIKeyModel).filter(
-        APIKeyModel.user_id == current_user.id,
-        APIKeyModel.provider == provider,
-        APIKeyModel.is_active == True
-    ).first()
-    
-    if not api_key:
-        raise HTTPException(
-            status_code=404,
-            detail=f"No active API key found for {provider}. Please add your API key first."
-        )
-    
-    return api_key
-
-
-def decrypt_api_key(encrypted_key: str) -> str:
-    """Decrypt the stored API key"""
-    # For now, we'll use a simple base64 encoding
-    # In production, use proper encryption like Fernet
-    import base64
-    try:
-        return base64.b64decode(encrypted_key.encode()).decode()
-    except Exception:
-        raise HTTPException(status_code=500, detail="Invalid API key format")
-
-
-async def log_usage(
-    db: Session,
-    user_id: int,
-    api_key_id: int,
-    provider: str,
-    model: str,
-    endpoint: str,
-    prompt_tokens: int,
-    completion_tokens: int,
-    cost: float,
-    latency_ms: int,
-    status_code: int,
-    request_size: int = None,
-    response_size: int = None,
-    extra_data: Dict[str, Any] = None
-):
-    """Log API usage to database"""
-    usage_log = UsageLog(
-        user_id=user_id,
-        api_key_id=api_key_id,
-        provider=provider,
-        model=model,
-        endpoint=endpoint,
-        prompt_tokens=prompt_tokens,
-        completion_tokens=completion_tokens,
-        total_tokens=prompt_tokens + completion_tokens,
-        cost=cost,
-        latency_ms=latency_ms,
-        status_code=status_code,
-        request_size_bytes=request_size,
-        response_size_bytes=response_size,
-        extra_data=extra_data
-    )
-    
-    db.add(usage_log)
-    db.commit()
-
-
+# NOTE: More specific routes must come BEFORE catch-all routes
+# This catch-all route must be LAST to avoid intercepting specific routes
 @router.api_route(
     "/{provider}/{path:path}",
     methods=["GET", "POST", "PUT", "DELETE", "PATCH"]
