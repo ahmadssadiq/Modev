@@ -290,36 +290,167 @@ const Integration: React.FC = () => {
                 {/* Quick Start Examples - Only show if setup is complete */}
                 {setupProgress.isComplete && (
                     <div className="card p-6">
-                        <h3 className="text-lg font-semibold text-gray-900 mb-4">Quick Start Examples</h3>
+                        <div className="flex items-center justify-between mb-4">
+                            <h3 className="text-lg font-semibold text-gray-900">🚀 One-Line Integration</h3>
+                            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                Recommended
+                            </span>
+                        </div>
+                        <p className="text-gray-600 mb-6">
+                            Just change your baseURL - no headers, no complex setup. Works with any OpenAI-compatible SDK.
+                        </p>
 
-                        {/* cURL Example */}
-                        <div className="space-y-4">
+                        <div className="space-y-6">
+                            {/* OpenAI SDK (JavaScript) */}
                             <div>
-                                <h4 className="font-medium text-gray-900 mb-2">cURL Example</h4>
+                                <h4 className="font-medium text-gray-900 mb-2 flex items-center">
+                                    <span className="bg-yellow-100 text-yellow-800 text-xs font-medium px-2 py-1 rounded mr-2">JavaScript</span>
+                                    OpenAI SDK - One Line Change
+                                </h4>
                                 <div className="relative">
                                     <pre className="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto text-sm">
-                                        {`curl -X POST "${apiUrl}/proxy/${apiKeys[0]?.provider || 'openai'}/v1/chat/completions" \\
-  -H "Authorization: Bearer ${token ? truncateToken(token) : 'YOUR_TOKEN'}" \\
+                                        {`import OpenAI from "openai";
+
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY,
+  baseURL: "${apiUrl}/v1/${token ? truncateToken(token) : 'YOUR_TOKEN'}/${apiKeys[0]?.provider || 'openai'}/"
+});
+
+// That's it! Use normally:
+const response = await openai.chat.completions.create({
+  model: "gpt-3.5-turbo",
+  messages: [{ role: "user", content: "Hello!" }]
+});`}
+                                    </pre>
+                                    <button
+                                        onClick={() => copyToClipboard(
+                                            `import OpenAI from "openai";
+
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY,
+  baseURL: "${apiUrl}/v1/${token}/${apiKeys[0]?.provider || 'openai'}/"
+});
+
+// That's it! Use normally:
+const response = await openai.chat.completions.create({
+  model: "gpt-3.5-turbo",
+  messages: [{ role: "user", content: "Hello!" }]
+});`,
+                                            'OpenAI JavaScript SDK'
+                                        )}
+                                        className="absolute top-2 right-2 btn-secondary p-2 text-xs"
+                                    >
+                                        <ClipboardIcon className="h-4 w-4" />
+                                    </button>
+                                </div>
+                            </div>
+
+                            {/* Python SDK */}
+                            <div>
+                                <h4 className="font-medium text-gray-900 mb-2 flex items-center">
+                                    <span className="bg-blue-100 text-blue-800 text-xs font-medium px-2 py-1 rounded mr-2">Python</span>
+                                    OpenAI SDK - One Line Change
+                                </h4>
+                                <div className="relative">
+                                    <pre className="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto text-sm">
+                                        {`from openai import OpenAI
+
+client = OpenAI(
+    api_key=os.getenv("OPENAI_API_KEY"),
+    base_url="${apiUrl}/v1/${token ? truncateToken(token) : 'YOUR_TOKEN'}/${apiKeys[0]?.provider || 'openai'}/"
+)
+
+# That's it! Use normally:
+response = client.chat.completions.create(
+    model="gpt-3.5-turbo",
+    messages=[{"role": "user", "content": "Hello!"}]
+)`}
+                                    </pre>
+                                    <button
+                                        onClick={() => copyToClipboard(
+                                            `from openai import OpenAI
+
+client = OpenAI(
+    api_key=os.getenv("OPENAI_API_KEY"),
+    base_url="${apiUrl}/v1/${token}/${apiKeys[0]?.provider || 'openai'}/"
+)
+
+# That's it! Use normally:
+response = client.chat.completions.create(
+    model="gpt-3.5-turbo",
+    messages=[{"role": "user", "content": "Hello!"}]
+)`,
+                                            'OpenAI Python SDK'
+                                        )}
+                                        className="absolute top-2 right-2 btn-secondary p-2 text-xs"
+                                    >
+                                        <ClipboardIcon className="h-4 w-4" />
+                                    </button>
+                                </div>
+                            </div>
+
+                            {/* LangChain Example */}
+                            <div>
+                                <h4 className="font-medium text-gray-900 mb-2 flex items-center">
+                                    <span className="bg-purple-100 text-purple-800 text-xs font-medium px-2 py-1 rounded mr-2">LangChain</span>
+                                    Works with Any Framework
+                                </h4>
+                                <div className="relative">
+                                    <pre className="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto text-sm">
+                                        {`from langchain_openai import ChatOpenAI
+
+llm = ChatOpenAI(
+    openai_api_key=os.getenv("OPENAI_API_KEY"),
+    base_url="${apiUrl}/v1/${token ? truncateToken(token) : 'YOUR_TOKEN'}/${apiKeys[0]?.provider || 'openai'}/"
+)
+
+# Works with any LangChain chain!
+response = llm.invoke("Hello, world!")`}
+                                    </pre>
+                                    <button
+                                        onClick={() => copyToClipboard(
+                                            `from langchain_openai import ChatOpenAI
+
+llm = ChatOpenAI(
+    openai_api_key=os.getenv("OPENAI_API_KEY"),
+    base_url="${apiUrl}/v1/${token}/${apiKeys[0]?.provider || 'openai'}/"
+)
+
+# Works with any LangChain chain!
+response = llm.invoke("Hello, world!")`,
+                                            'LangChain example'
+                                        )}
+                                        className="absolute top-2 right-2 btn-secondary p-2 text-xs"
+                                    >
+                                        <ClipboardIcon className="h-4 w-4" />
+                                    </button>
+                                </div>
+                            </div>
+
+                            {/* Simple cURL */}
+                            <div>
+                                <h4 className="font-medium text-gray-900 mb-2 flex items-center">
+                                    <span className="bg-gray-100 text-gray-800 text-xs font-medium px-2 py-1 rounded mr-2">cURL</span>
+                                    Direct API Testing
+                                </h4>
+                                <div className="relative">
+                                    <pre className="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto text-sm">
+                                        {`curl -X POST "${apiUrl}/v1/${token ? truncateToken(token) : 'YOUR_TOKEN'}/${apiKeys[0]?.provider || 'openai'}/chat/completions" \\
   -H "Content-Type: application/json" \\
   -d '{
     "model": "gpt-3.5-turbo",
-    "messages": [
-      {"role": "user", "content": "Hello, world!"}
-    ],
-    "max_tokens": 100
+    "messages": [{"role": "user", "content": "Hello!"}],
+    "max_tokens": 50
   }'`}
                                     </pre>
                                     <button
                                         onClick={() => copyToClipboard(
-                                            `curl -X POST "${apiUrl}/proxy/${apiKeys[0]?.provider || 'openai'}/v1/chat/completions" \\
-  -H "Authorization: Bearer ${token}" \\
+                                            `curl -X POST "${apiUrl}/v1/${token}/${apiKeys[0]?.provider || 'openai'}/chat/completions" \\
   -H "Content-Type: application/json" \\
   -d '{
     "model": "gpt-3.5-turbo",
-    "messages": [
-      {"role": "user", "content": "Hello, world!"}
-    ],
-    "max_tokens": 100
+    "messages": [{"role": "user", "content": "Hello!"}],
+    "max_tokens": 50
   }'`,
                                             'cURL example'
                                         )}
@@ -329,63 +460,19 @@ const Integration: React.FC = () => {
                                     </button>
                                 </div>
                             </div>
+                        </div>
 
-                            {/* Python Example */}
-                            <div>
-                                <h4 className="font-medium text-gray-900 mb-2">Python Example</h4>
-                                <div className="relative">
-                                    <pre className="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto text-sm">
-                                        {`import requests
-
-# Configuration
-API_BASE = "${apiUrl}"
-API_TOKEN = "${token ? truncateToken(token) : 'YOUR_TOKEN'}"
-
-# Make request through proxy
-response = requests.post(
-    f"{API_BASE}/proxy/${apiKeys[0]?.provider || 'openai'}/v1/chat/completions",
-    headers={
-        "Authorization": f"Bearer {API_TOKEN}",
-        "Content-Type": "application/json"
-    },
-    json={
-        "model": "gpt-3.5-turbo",
-        "messages": [{"role": "user", "content": "Hello!"}],
-        "max_tokens": 100
-    }
-)
-
-print(response.json())`}
-                                    </pre>
-                                    <button
-                                        onClick={() => copyToClipboard(
-                                            `import requests
-
-# Configuration
-API_BASE = "${apiUrl}"
-API_TOKEN = "${token}"
-
-# Make request through proxy
-response = requests.post(
-    f"{API_BASE}/proxy/${apiKeys[0]?.provider || 'openai'}/v1/chat/completions",
-    headers={
-        "Authorization": f"Bearer {API_TOKEN}",
-        "Content-Type": "application/json"
-    },
-    json={
-        "model": "gpt-3.5-turbo",
-        "messages": [{"role": "user", "content": "Hello!"}],
-        "max_tokens": 100
-    }
-)
-
-print(response.json())`,
-                                            'Python example'
-                                        )}
-                                        className="absolute top-2 right-2 btn-secondary p-2 text-xs"
-                                    >
-                                        <ClipboardIcon className="h-4 w-4" />
-                                    </button>
+                        <div className="mt-6 p-4 bg-green-50 border border-green-200 rounded-lg">
+                            <div className="flex">
+                                <CheckIcon className="h-5 w-5 text-green-600 mr-2 flex-shrink-0 mt-0.5" />
+                                <div>
+                                    <h4 className="text-green-900 font-medium">Why This is Amazing:</h4>
+                                    <ul className="text-sm text-green-800 mt-1 space-y-1">
+                                        <li>• <strong>Zero refactoring</strong> - works with existing code</li>
+                                        <li>• <strong>Any framework</strong> - OpenAI SDK, LangChain, LiteLLM, etc.</li>
+                                        <li>• <strong>Drop-in replacement</strong> - same API, enhanced with analytics</li>
+                                        <li>• <strong>Immediate cost tracking</strong> - see usage in your dashboard instantly</li>
+                                    </ul>
                                 </div>
                             </div>
                         </div>

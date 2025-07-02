@@ -17,6 +17,194 @@ from app.services.budget_checker import BudgetChecker
 
 router = APIRouter()
 
+# Token validation function for URL-based authentication
+async def get_user_from_token(token: str, db: Session) -> User:
+    """Get user from JWT token for URL-based authentication"""
+    from app.core.auth import verify_token
+    try:
+        payload = verify_token(token)
+        email = payload.get("sub")
+        if email is None:
+            raise HTTPException(status_code=401, detail="Invalid token")
+        
+        user = db.query(User).filter(User.email == email).first()
+        if user is None:
+            raise HTTPException(status_code=401, detail="User not found")
+        
+        return user
+    except Exception:
+        raise HTTPException(status_code=401, detail="Invalid or expired token")
+
+# Simplified one-line integration route - Token in URL path
+@router.api_route(
+    "/v1/{token}/{provider}/{path:path}",
+    methods=["GET", "POST", "PUT", "DELETE", "PATCH"]
+)
+async def simplified_proxy_request(
+    token: str,
+    provider: str,
+    path: str,
+    request: Request,
+    db: Session = Depends(get_db)
+):
+    """
+    Simplified proxy for one-line integration - token in URL path.
+    Usage: baseURL: 'http://localhost:8000/v1/{YOUR_TOKEN}/{PROVIDER}/'
+    """
+    
+    # Validate provider
+    if provider not in PROVIDER_CONFIGS:
+        raise HTTPException(
+            status_code=400,
+            detail=f"Unsupported provider: {provider}. Supported: {list(PROVIDER_CONFIGS.keys())}"
+        )
+    
+    # Get user from token
+    current_user = await get_user_from_token(token, db)
+    
+    # Get user's API key for this provider
+    user_api_key = await get_user_api_key_direct(provider, current_user, db)
+    actual_api_key = decrypt_api_key(user_api_key.encrypted_key)
+    
+    # Check budget before making the request
+    budget_checker = BudgetChecker(db)
+    await budget_checker.check_budget_limits(current_user.id)
+    
+    # Prepare request details
+    provider_config = PROVIDER_CONFIGS[provider]
+    target_url = f"{provider_config['base_url']}/{path}"
+    headers = provider_config["headers"](actual_api_key)
+    
+    # Get request body
+    body = await request.body()
+    request_size = len(body) if body else 0
+    
+    # Parse request body for token counting
+    request_data = {}
+    if body:
+        try:
+            request_data = json.loads(body)
+        except json.JSONDecodeError:
+            pass
+    
+    # Extract model from request
+    model = request_data.get("model", "unknown")
+    
+    # Prepare headers for forwarding
+    forward_headers = {}
+    for key, value in request.headers.items():
+        if key.lower() not in ["host", "authorization", "x-api-key"]:
+            forward_headers[key] = value
+    
+    # Add provider-specific headers
+    forward_headers.update(headers)
+    
+    # Start timing
+    start_time = time.time()
+    
+    try:
+        # Make the request to the AI provider
+        async with httpx.AsyncClient(timeout=300.0) as client:
+            response = await client.request(
+                method=request.method,
+                url=target_url,
+                headers=forward_headers,
+                content=body,
+                params=request.query_params
+            )
+        
+        # Calculate latency
+        latency_ms = int((time.time() - start_time) * 1000)
+        
+        # Get response content
+        response_content = response.content
+        response_size = len(response_content)
+        
+        # Parse response for token counting and cost calculation
+        prompt_tokens = 0
+        completion_tokens = 0
+        cost = 0.0
+        
+        try:
+            if response.status_code == 200:
+                response_json = json.loads(response_content)
+                
+                # Extract usage information based on provider
+                if provider == "openai":
+                    usage = response_json.get("usage", {})
+                    prompt_tokens = usage.get("prompt_tokens", 0)
+                    completion_tokens = usage.get("completion_tokens", 0)
+                elif provider == "anthropic":
+                    usage = response_json.get("usage", {})
+                    prompt_tokens = usage.get("input_tokens", 0)
+                    completion_tokens = usage.get("output_tokens", 0)
+                
+                # Calculate cost
+                cost_calculator = CostCalculator(db)
+                cost = await cost_calculator.calculate_cost(
+                    provider, model, prompt_tokens, completion_tokens
+                )
+        
+        except (json.JSONDecodeError, KeyError):
+            # If we can't parse the response, log with 0 tokens
+            pass
+        
+        # Log the usage
+        await log_usage(
+            db=db,
+            user_id=current_user.id,
+            api_key_id=user_api_key.id,
+            provider=provider,
+            model=model,
+            endpoint=f"/{path}",
+            prompt_tokens=prompt_tokens,
+            completion_tokens=completion_tokens,
+            cost=cost,
+            latency_ms=latency_ms,
+            status_code=response.status_code,
+            request_size=request_size,
+            response_size=response_size,
+            extra_data={
+                "method": request.method,
+                "query_params": dict(request.query_params)
+            }
+        )
+        
+        # Update API key last used timestamp
+        user_api_key.last_used_at = db.query(UsageLog).order_by(UsageLog.created_at.desc()).first().created_at
+        db.commit()
+        
+        # Return the response from the AI provider
+        return Response(
+            content=response_content,
+            status_code=response.status_code,
+            headers=dict(response.headers),
+            media_type=response.headers.get("content-type")
+        )
+        
+    except httpx.TimeoutException:
+        raise HTTPException(status_code=504, detail="Request to AI provider timed out")
+    except httpx.RequestError as e:
+        raise HTTPException(status_code=502, detail=f"Error connecting to {provider}: {str(e)}")
+    except Exception as e:
+        # Log error usage
+        await log_usage(
+            db=db,
+            user_id=current_user.id,
+            api_key_id=user_api_key.id,
+            provider=provider,
+            model=model,
+            endpoint=f"/{path}",
+            prompt_tokens=0,
+            completion_tokens=0,
+            cost=0.0,
+            latency_ms=int((time.time() - start_time) * 1000),
+            status_code=500,
+            request_size=request_size,
+            extra_data={"error": str(e)}
+        )
+        raise HTTPException(status_code=500, detail=f"Internal server error: {str(e)}")
+
 # API Key management endpoints (Must be defined BEFORE the catch-all proxy route)
 @router.post("/api-keys")
 async def add_api_key(
@@ -136,6 +324,26 @@ async def get_user_api_key(
     db: Session = Depends(get_db)
 ) -> APIKeyModel:
     """Get user's API key for the specified provider"""
+    api_key = db.query(APIKeyModel).filter(
+        APIKeyModel.user_id == current_user.id,
+        APIKeyModel.provider == provider,
+        APIKeyModel.is_active == True
+    ).first()
+    
+    if not api_key:
+        raise HTTPException(
+            status_code=404,
+            detail=f"No active API key found for {provider}. Please add your API key first."
+        )
+    
+    return api_key
+
+async def get_user_api_key_direct(
+    provider: str,
+    current_user: User,
+    db: Session
+) -> APIKeyModel:
+    """Get user's API key for the specified provider (direct function without dependencies)"""
     api_key = db.query(APIKeyModel).filter(
         APIKeyModel.user_id == current_user.id,
         APIKeyModel.provider == provider,
