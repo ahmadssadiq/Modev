@@ -87,7 +87,7 @@ const Login: React.FC = () => {
                 <Box
                     sx={{
                         flex: 1,
-                        backgroundImage: 'url(https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80)',
+                        backgroundImage: 'url(https://images.unsplash.com/photo-1749226697962-950d46f7a0f7?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)',
                         backgroundSize: 'cover',
                         backgroundPosition: 'center',
                         backgroundRepeat: 'no-repeat',

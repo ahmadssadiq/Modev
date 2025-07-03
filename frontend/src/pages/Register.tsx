@@ -106,7 +106,7 @@ const Register: React.FC = () => {
                 <Box
                     sx={{
                         flex: 1,
-                        backgroundImage: 'url(https://images.unsplash.com/photo-1519904981063-b0cf448d479e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80)',
+                        backgroundImage: 'url(https://images.unsplash.com/photo-1612522677838-2338b1b0b65d?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)',
                         backgroundSize: 'cover',
                         backgroundPosition: 'center',
                         backgroundRepeat: 'no-repeat',
