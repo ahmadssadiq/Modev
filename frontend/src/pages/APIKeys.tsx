@@ -134,8 +134,8 @@ const APIKeys: React.FC = () => {
                     ) : apiKeys.length === 0 ? (
                         <div className="text-center py-12">
                             <KeyIcon className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-                            <h3 className="text-lg font-medium text-gray-900 mb-2">No API Keys</h3>
-                            <p className="text-gray-600 mb-6">
+                            <h3 className="text-lg font-medium text-gray-900 mb-2" style={{ fontFamily: '"Instrument Serif", serif', fontWeight: 400 }}>No API Keys</h3>
+                            <p className="text-gray-600 mb-6" style={{ fontFamily: '"Nunito Sans", sans-serif' }}>
                                 Add your first API key to start tracking your AI usage and costs.
                             </p>
                             <button
@@ -154,16 +154,16 @@ const APIKeys: React.FC = () => {
                                             <span className="text-lg">{getProviderLogo(key.provider)}</span>
                                         </div>
                                         <div>
-                                            <h3 className="font-medium text-gray-900">{key.name}</h3>
+                                            <h3 className="font-medium text-gray-900" style={{ fontFamily: '"Instrument Serif", serif', fontWeight: 400 }}>{key.name}</h3>
                                             <div className="flex items-center space-x-2">
-                                                <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getProviderColor(key.provider)}`}>
+                                                <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getProviderColor(key.provider)}`} style={{ fontFamily: '"Nunito Sans", sans-serif' }}>
                                                     {key.provider.charAt(0).toUpperCase() + key.provider.slice(1)}
                                                 </span>
-                                                <span className="text-sm text-gray-500">
+                                                <span className="text-sm text-gray-500" style={{ fontFamily: '"Nunito Sans", sans-serif' }}>
                                                     Added {apiService.formatDate(key.created_at)}
                                                 </span>
                                                 {key.last_used_at && (
-                                                    <span className="text-sm text-gray-500">
+                                                    <span className="text-sm text-gray-500" style={{ fontFamily: '"Nunito Sans", sans-serif' }}>
                                                         • Last used {apiService.formatDate(key.last_used_at)}
                                                     </span>
                                                 )}
@@ -171,7 +171,7 @@ const APIKeys: React.FC = () => {
                                         </div>
                                     </div>
                                     <div className="flex items-center space-x-2">
-                                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${key.is_active ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
+                                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${key.is_active ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`} style={{ fontFamily: '"Nunito Sans", sans-serif' }}>
                                             {key.is_active ? 'Active' : 'Inactive'}
                                         </span>
                                         <button
@@ -190,23 +190,23 @@ const APIKeys: React.FC = () => {
 
                 {/* Instructions */}
                 <div className="card p-6">
-                    <h3 className="text-lg font-semibold text-gray-900 mb-4">How to Use Your API Keys</h3>
-                    <div className="space-y-4 text-sm text-gray-600">
+                    <h3 className="text-lg font-semibold text-gray-900 mb-4" style={{ fontFamily: '"Instrument Serif", serif', fontWeight: 400 }}>How to Use Your API Keys</h3>
+                    <div className="space-y-4 text-sm text-gray-600" style={{ fontFamily: '"Nunito Sans", sans-serif' }}>
                         <div>
-                            <h4 className="font-medium text-gray-900 mb-2">1. Update your API endpoint:</h4>
-                            <div className="bg-gray-50 p-3 rounded-lg font-mono text-sm">
+                            <h4 className="font-medium text-gray-900 mb-2" style={{ fontFamily: '"Instrument Serif", serif', fontWeight: 400 }}>1. Update your API endpoint:</h4>
+                            <div className="bg-gray-50 p-3 rounded-lg font-mono text-sm" style={{ fontFamily: '"Nunito Sans", sans-serif' }}>
                                 # Instead of: https://api.openai.com/v1/chat/completions<br />
                                 # Use: http://localhost:8000/proxy/openai/v1/chat/completions
                             </div>
                         </div>
                         <div>
-                            <h4 className="font-medium text-gray-900 mb-2">2. Use your platform token for authentication:</h4>
-                            <div className="bg-gray-50 p-3 rounded-lg font-mono text-sm">
+                            <h4 className="font-medium text-gray-900 mb-2" style={{ fontFamily: '"Instrument Serif", serif', fontWeight: 400 }}>2. Use your platform token for authentication:</h4>
+                            <div className="bg-gray-50 p-3 rounded-lg font-mono text-sm" style={{ fontFamily: '"Nunito Sans", sans-serif' }}>
                                 Authorization: Bearer YOUR_PLATFORM_TOKEN
                             </div>
                         </div>
                         <div>
-                            <h4 className="font-medium text-gray-900 mb-2">3. Supported providers:</h4>
+                            <h4 className="font-medium text-gray-900 mb-2" style={{ fontFamily: '"Instrument Serif", serif', fontWeight: 400 }}>3. Supported providers:</h4>
                             <ul className="list-disc list-inside space-y-1">
                                 <li><strong>OpenAI:</strong> /proxy/openai/v1/...</li>
                                 <li><strong>Anthropic:</strong> /proxy/anthropic/v1/...</li>
@@ -222,10 +222,10 @@ const APIKeys: React.FC = () => {
                 <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
                     <div className="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
                         <div className="mt-3">
-                            <h3 className="text-lg font-medium text-gray-900 mb-4">Add API Key</h3>
+                            <h3 className="text-lg font-medium text-gray-900 mb-4" style={{ fontFamily: '"Instrument Serif", serif', fontWeight: 400 }}>Add API Key</h3>
                             <div className="space-y-4">
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                                    <label className="block text-sm font-medium text-gray-700 mb-1" style={{ fontFamily: '"Nunito Sans", sans-serif' }}>
                                         Key Name
                                     </label>
                                     <input
@@ -234,17 +234,19 @@ const APIKeys: React.FC = () => {
                                         onChange={(e) => setNewApiKey({ ...newApiKey, name: e.target.value })}
                                         placeholder="e.g., My OpenAI Key"
                                         className="input-field"
+                                        style={{ fontFamily: '"Nunito Sans", sans-serif' }}
                                     />
                                 </div>
 
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                                    <label className="block text-sm font-medium text-gray-700 mb-1" style={{ fontFamily: '"Nunito Sans", sans-serif' }}>
                                         Provider
                                     </label>
                                     <select
                                         value={newApiKey.provider}
                                         onChange={(e) => setNewApiKey({ ...newApiKey, provider: e.target.value })}
                                         className="input-field"
+                                        style={{ fontFamily: '"Nunito Sans", sans-serif' }}
                                     >
                                         <option value="openai">OpenAI</option>
                                         <option value="anthropic">Anthropic</option>
@@ -253,7 +255,7 @@ const APIKeys: React.FC = () => {
                                 </div>
 
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                                    <label className="block text-sm font-medium text-gray-700 mb-1" style={{ fontFamily: '"Nunito Sans", sans-serif' }}>
                                         API Key
                                     </label>
                                     <div className="relative">
@@ -263,6 +265,7 @@ const APIKeys: React.FC = () => {
                                             onChange={(e) => setNewApiKey({ ...newApiKey, api_key: e.target.value })}
                                             placeholder="sk-..."
                                             className="input-field pr-10"
+                                            style={{ fontFamily: '"Nunito Sans", sans-serif' }}
                                         />
                                         <button
                                             type="button"
@@ -276,7 +279,7 @@ const APIKeys: React.FC = () => {
                                             )}
                                         </button>
                                     </div>
-                                    <p className="text-xs text-gray-500 mt-1">
+                                    <p className="text-xs text-gray-500 mt-1" style={{ fontFamily: '"Nunito Sans", sans-serif' }}>
                                         Your API key will be encrypted and stored securely.
                                     </p>
                                 </div>

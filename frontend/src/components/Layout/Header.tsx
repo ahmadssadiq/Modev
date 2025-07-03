@@ -18,9 +18,9 @@ const Header: React.FC<HeaderProps> = ({ title, subtitle, actions }) => {
                 <div className="flex-1">
                     {title && (
                         <div>
-                            <h1 className="text-2xl font-semibold text-gray-900">{title}</h1>
+                            <h1 className="text-2xl font-semibold text-gray-900" style={{ fontFamily: '"Instrument Serif", serif', fontWeight: 400 }}>{title}</h1>
                             {subtitle && (
-                                <p className="text-sm text-gray-600">{subtitle}</p>
+                                <p className="text-sm text-gray-600" style={{ fontFamily: '"Nunito Sans", sans-serif' }}>{subtitle}</p>
                             )}
                         </div>
                     )}
@@ -57,10 +57,10 @@ const Header: React.FC<HeaderProps> = ({ title, subtitle, actions }) => {
                     {/* User info */}
                     <div className="flex items-center space-x-3">
                         <div className="text-right">
-                            <div className="text-sm font-medium text-gray-900">
+                            <div className="text-sm font-medium text-gray-900" style={{ fontFamily: '"Nunito Sans", sans-serif' }}>
                                 {user?.full_name || user?.email}
                             </div>
-                            <div className="text-xs text-gray-500 capitalize">
+                            <div className="text-xs text-gray-500 capitalize" style={{ fontFamily: '"Nunito Sans", sans-serif' }}>
                                 {user?.plan} Plan
                             </div>
                         </div>

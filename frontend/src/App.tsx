@@ -116,8 +116,8 @@ function App() {
                     <ProtectedRoute>
                       <div className="min-h-screen flex items-center justify-center">
                         <div className="text-center">
-                          <h1 className="text-2xl font-bold text-gray-900">Analytics</h1>
-                          <p className="text-gray-600 mt-2">Coming soon...</p>
+                          <h1 className="text-2xl font-bold text-gray-900" style={{ fontFamily: '"Instrument Serif", serif', fontWeight: 400 }}>Analytics</h1>
+                          <p className="text-gray-600 mt-2" style={{ fontFamily: '"Nunito Sans", sans-serif' }}>Coming soon...</p>
                         </div>
                       </div>
                     </ProtectedRoute>
@@ -157,8 +157,8 @@ function App() {
                     <ProtectedRoute>
                       <div className="min-h-screen flex items-center justify-center">
                         <div className="text-center">
-                          <h1 className="text-2xl font-bold text-gray-900">Recommendations</h1>
-                          <p className="text-gray-600 mt-2">Coming soon...</p>
+                          <h1 className="text-2xl font-bold text-gray-900" style={{ fontFamily: '"Instrument Serif", serif', fontWeight: 400 }}>Recommendations</h1>
+                          <p className="text-gray-600 mt-2" style={{ fontFamily: '"Nunito Sans", sans-serif' }}>Coming soon...</p>
                         </div>
                       </div>
                     </ProtectedRoute>
@@ -171,8 +171,8 @@ function App() {
                     <ProtectedRoute>
                       <div className="min-h-screen flex items-center justify-center">
                         <div className="text-center">
-                          <h1 className="text-2xl font-bold text-gray-900">Reports</h1>
-                          <p className="text-gray-600 mt-2">Coming soon...</p>
+                          <h1 className="text-2xl font-bold text-gray-900" style={{ fontFamily: '"Instrument Serif", serif', fontWeight: 400 }}>Reports</h1>
+                          <p className="text-gray-600 mt-2" style={{ fontFamily: '"Nunito Sans", sans-serif' }}>Coming soon...</p>
                         </div>
                       </div>
                     </ProtectedRoute>
@@ -185,8 +185,8 @@ function App() {
                     <ProtectedRoute>
                       <div className="min-h-screen flex items-center justify-center">
                         <div className="text-center">
-                          <h1 className="text-2xl font-bold text-gray-900">Settings</h1>
-                          <p className="text-gray-600 mt-2">Coming soon...</p>
+                          <h1 className="text-2xl font-bold text-gray-900" style={{ fontFamily: '"Instrument Serif", serif', fontWeight: 400 }}>Settings</h1>
+                          <p className="text-gray-600 mt-2" style={{ fontFamily: '"Nunito Sans", sans-serif' }}>Coming soon...</p>
                         </div>
                       </div>
                     </ProtectedRoute>
@@ -199,8 +199,8 @@ function App() {
                   element={
                     <div className="min-h-screen flex items-center justify-center">
                       <div className="text-center">
-                        <h1 className="text-2xl font-bold text-gray-900">Terms of Service</h1>
-                        <p className="text-gray-600 mt-2">Coming soon...</p>
+                        <h1 className="text-2xl font-bold text-gray-900" style={{ fontFamily: '"Instrument Serif", serif', fontWeight: 400 }}>Terms of Service</h1>
+                        <p className="text-gray-600 mt-2" style={{ fontFamily: '"Nunito Sans", sans-serif' }}>Coming soon...</p>
                       </div>
                     </div>
                   }
@@ -211,8 +211,8 @@ function App() {
                   element={
                     <div className="min-h-screen flex items-center justify-center">
                       <div className="text-center">
-                        <h1 className="text-2xl font-bold text-gray-900">Privacy Policy</h1>
-                        <p className="text-gray-600 mt-2">Coming soon...</p>
+                        <h1 className="text-2xl font-bold text-gray-900" style={{ fontFamily: '"Instrument Serif", serif', fontWeight: 400 }}>Privacy Policy</h1>
+                        <p className="text-gray-600 mt-2" style={{ fontFamily: '"Nunito Sans", sans-serif' }}>Coming soon...</p>
                       </div>
                     </div>
                   }
@@ -224,8 +224,8 @@ function App() {
                   element={
                     <div className="min-h-screen flex items-center justify-center">
                       <div className="text-center">
-                        <h1 className="text-4xl font-bold text-gray-900">404</h1>
-                        <p className="text-gray-600 mt-2">Page not found</p>
+                        <h1 className="text-4xl font-bold text-gray-900" style={{ fontFamily: '"Instrument Serif", serif', fontWeight: 400 }}>404</h1>
+                        <p className="text-gray-600 mt-2" style={{ fontFamily: '"Nunito Sans", sans-serif' }}>Page not found</p>
                       </div>
                     </div>
                   }

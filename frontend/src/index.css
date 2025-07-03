@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -17,7 +15,7 @@ html {
 
 body {
   margin: 0;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+  font-family: 'Nunito Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -188,6 +186,7 @@ img {
   text-transform: none !important;
   border-radius: 12px !important;
   font-weight: 600 !important;
+  font-family: 'Nunito Sans', sans-serif !important;
 }
 
 .MuiCard-root {
@@ -196,6 +195,25 @@ img {
 
 .MuiPaper-root {
   border-radius: 12px !important;
+}
+
+/* Typography overrides for consistent font usage */
+.MuiTypography-h1,
+.MuiTypography-h2,
+.MuiTypography-h3,
+.MuiTypography-h4,
+.MuiTypography-h5,
+.MuiTypography-h6 {
+  font-family: 'Instrument Serif', serif !important;
+  font-weight: 400 !important;
+}
+
+.MuiTypography-body1,
+.MuiTypography-body2,
+.MuiTypography-caption,
+.MuiTypography-subtitle1,
+.MuiTypography-subtitle2 {
+  font-family: 'Nunito Sans', sans-serif !important;
 }
 
 /* Responsive typography adjustments */
@@ -264,30 +282,37 @@ img {
 
   .btn-primary {
     @apply bg-primary-600 hover:bg-primary-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2;
+    font-family: 'Nunito Sans', sans-serif;
   }
 
   .btn-secondary {
     @apply bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium py-2 px-4 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2;
+    font-family: 'Nunito Sans', sans-serif;
   }
 
   .btn-success {
     @apply bg-success-600 hover:bg-success-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-success-500 focus:ring-offset-2;
+    font-family: 'Nunito Sans', sans-serif;
   }
 
   .btn-warning {
     @apply bg-warning-500 hover:bg-warning-600 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-warning-400 focus:ring-offset-2;
+    font-family: 'Nunito Sans', sans-serif;
   }
 
   .btn-danger {
     @apply bg-danger-600 hover:bg-danger-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-danger-500 focus:ring-offset-2;
+    font-family: 'Nunito Sans', sans-serif;
   }
 
   .input-field {
     @apply block w-full rounded-lg border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 text-sm;
+    font-family: 'Nunito Sans', sans-serif;
   }
 
   .sidebar-link {
     @apply flex items-center px-4 py-2 text-sm font-medium rounded-lg transition-colors duration-200;
+    font-family: 'Nunito Sans', sans-serif;
   }
 
   .sidebar-link-active {
@@ -304,14 +329,17 @@ img {
 
   .stat-increase {
     @apply text-success-600 bg-success-100 px-2 py-1 rounded-full text-xs font-medium;
+    font-family: 'Nunito Sans', sans-serif;
   }
 
   .stat-decrease {
     @apply text-danger-600 bg-danger-100 px-2 py-1 rounded-full text-xs font-medium;
+    font-family: 'Nunito Sans', sans-serif;
   }
 
   .badge {
     @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+    font-family: 'Nunito Sans', sans-serif;
   }
 
   .badge-success {

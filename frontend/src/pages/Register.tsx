@@ -157,8 +157,9 @@ const Register: React.FC = () => {
                             <Typography
                                 variant="subtitle1"
                                 sx={{
+                                    fontFamily: '"Instrument Serif", serif',
                                     color: '#ffffff',
-                                    fontWeight: 600,
+                                    fontWeight: 400,
                                     fontSize: '0.9rem',
                                 }}
                             >
@@ -184,8 +185,9 @@ const Register: React.FC = () => {
                             <Typography
                                 variant="h5"
                                 sx={{
+                                    fontFamily: '"Instrument Serif", serif',
                                     color: '#1a1a1a',
-                                    fontWeight: 600,
+                                    fontWeight: 400,
                                     mb: 0.5,
                                     fontSize: '1.5rem',
                                 }}
@@ -196,6 +198,7 @@ const Register: React.FC = () => {
                             <Typography
                                 variant="body2"
                                 sx={{
+                                    fontFamily: '"Nunito Sans", sans-serif',
                                     color: '#666666',
                                     mb: 2,
                                     fontSize: '0.8rem',
@@ -210,6 +213,7 @@ const Register: React.FC = () => {
                                     <Typography
                                         variant="body2"
                                         sx={{
+                                            fontFamily: '"Nunito Sans", sans-serif',
                                             color: '#333333',
                                             mb: 0.5,
                                             fontWeight: 500,
@@ -245,6 +249,7 @@ const Register: React.FC = () => {
                                                     border: '2px solid #ef4444',
                                                 },
                                                 '& input': {
+                                                    fontFamily: '"Nunito Sans", sans-serif',
                                                     color: '#333333',
                                                     fontSize: '0.8rem',
                                                     py: 1,
@@ -255,6 +260,7 @@ const Register: React.FC = () => {
                                                 },
                                             },
                                             '& .MuiFormHelperText-root': {
+                                                fontFamily: '"Nunito Sans", sans-serif',
                                                 fontSize: '0.7rem',
                                                 mt: 0.5,
                                             },
@@ -267,6 +273,7 @@ const Register: React.FC = () => {
                                     <Typography
                                         variant="body2"
                                         sx={{
+                                            fontFamily: '"Nunito Sans", sans-serif',
                                             color: '#333333',
                                             mb: 0.5,
                                             fontWeight: 500,
@@ -302,6 +309,7 @@ const Register: React.FC = () => {
                                                     border: '2px solid #ef4444',
                                                 },
                                                 '& input': {
+                                                    fontFamily: '"Nunito Sans", sans-serif',
                                                     color: '#333333',
                                                     fontSize: '0.8rem',
                                                     py: 1,
@@ -312,6 +320,7 @@ const Register: React.FC = () => {
                                                 },
                                             },
                                             '& .MuiFormHelperText-root': {
+                                                fontFamily: '"Nunito Sans", sans-serif',
                                                 fontSize: '0.7rem',
                                                 mt: 0.5,
                                             },
@@ -324,6 +333,7 @@ const Register: React.FC = () => {
                                     <Typography
                                         variant="body2"
                                         sx={{
+                                            fontFamily: '"Nunito Sans", sans-serif',
                                             color: '#333333',
                                             mb: 0.5,
                                             fontWeight: 500,
@@ -378,6 +388,7 @@ const Register: React.FC = () => {
                                                     border: '2px solid #ef4444',
                                                 },
                                                 '& input': {
+                                                    fontFamily: '"Nunito Sans", sans-serif',
                                                     color: '#333333',
                                                     fontSize: '0.8rem',
                                                     py: 1,
@@ -388,6 +399,7 @@ const Register: React.FC = () => {
                                                 },
                                             },
                                             '& .MuiFormHelperText-root': {
+                                                fontFamily: '"Nunito Sans", sans-serif',
                                                 fontSize: '0.7rem',
                                                 mt: 0.5,
                                             },
@@ -400,6 +412,7 @@ const Register: React.FC = () => {
                                     <Typography
                                         variant="body2"
                                         sx={{
+                                            fontFamily: '"Nunito Sans", sans-serif',
                                             color: '#333333',
                                             mb: 0.5,
                                             fontWeight: 500,
@@ -454,6 +467,7 @@ const Register: React.FC = () => {
                                                     border: '2px solid #ef4444',
                                                 },
                                                 '& input': {
+                                                    fontFamily: '"Nunito Sans", sans-serif',
                                                     color: '#333333',
                                                     fontSize: '0.8rem',
                                                     py: 1,
@@ -464,6 +478,7 @@ const Register: React.FC = () => {
                                                 },
                                             },
                                             '& .MuiFormHelperText-root': {
+                                                fontFamily: '"Nunito Sans", sans-serif',
                                                 fontSize: '0.7rem',
                                                 mt: 0.5,
                                             },
@@ -471,7 +486,7 @@ const Register: React.FC = () => {
                                     />
                                 </Box>
 
-                                Terms Agreement
+                                {/* Terms Agreement */}
                                 <FormControlLabel
                                     control={
                                         <Checkbox
@@ -488,27 +503,42 @@ const Register: React.FC = () => {
                                         />
                                     }
                                     label={
-                                        <Typography variant="body2" sx={{ color: '#666666', fontSize: '0.75rem' }}>
+                                        <Typography
+                                            variant="body2"
+                                            sx={{
+                                                fontFamily: '"Nunito Sans", sans-serif',
+                                                color: '#666666',
+                                                fontSize: '0.75rem'
+                                            }}
+                                        >
                                             I agree to the{' '}
-                                            <Link to="/terms" style={{ color: '#667eea', textDecoration: 'none' }}>
+                                            <Link
+                                                to="/terms"
+                                                style={{
+                                                    fontFamily: '"Nunito Sans", sans-serif',
+                                                    color: '#667eea',
+                                                    textDecoration: 'none'
+                                                }}
+                                            >
                                                 Terms of Service
                                             </Link>{' '}
                                             and{' '}
-                                            <Link to="/privacy" style={{ color: '#667eea', textDecoration: 'none' }}>
+                                            <Link
+                                                to="/privacy"
+                                                style={{
+                                                    fontFamily: '"Nunito Sans", sans-serif',
+                                                    color: '#667eea',
+                                                    textDecoration: 'none'
+                                                }}
+                                            >
                                                 Privacy Policy
                                             </Link>
                                         </Typography>
                                     }
-                                    sx={{ mt: -0.5, mb: -0.5 }}
                                 />
-                                {errors.agreeToTerms && (
-                                    <Typography variant="caption" sx={{ color: '#dc2626', fontSize: '0.65rem', display: 'block', mt: -1, ml: 3 }}>
-                                        {errors.agreeToTerms}
-                                    </Typography>
-                                )}
 
                                 {/* Error Display */}
-                                {error && (
+                                {(error || errors.agreeToTerms) && (
                                     <Box
                                         sx={{
                                             p: 1.5,
@@ -517,8 +547,15 @@ const Register: React.FC = () => {
                                             border: '1px solid #fecaca',
                                         }}
                                     >
-                                        <Typography variant="body2" sx={{ color: '#dc2626', fontSize: '0.75rem' }}>
-                                            {error}
+                                        <Typography
+                                            variant="body2"
+                                            sx={{
+                                                fontFamily: '"Nunito Sans", sans-serif',
+                                                color: '#dc2626',
+                                                fontSize: '0.75rem'
+                                            }}
+                                        >
+                                            {error || errors.agreeToTerms}
                                         </Typography>
                                     </Box>
                                 )}
@@ -534,6 +571,7 @@ const Register: React.FC = () => {
                                         borderRadius: 2,
                                         background: '#1976d2',
                                         textTransform: 'none',
+                                        fontFamily: '"Nunito Sans", sans-serif',
                                         fontWeight: 600,
                                         fontSize: '0.8rem',
                                         boxShadow: 'none',
@@ -546,21 +584,22 @@ const Register: React.FC = () => {
                                         },
                                     }}
                                 >
-                                    {loading ? 'Creating account...' : 'Sign up'}
+                                    {loading ? 'Creating account...' : 'Create account'}
                                 </Button>
 
                                 <Divider sx={{ my: 1 }} />
 
-                                {/* Google Sign Up
-                                <Button
+                                {/* Google Sign Up */}
+                                {/* <Button
                                     fullWidth
                                     variant="outlined"
                                     sx={{
                                         py: 1,
                                         borderRadius: 2,
                                         borderColor: '#e0e0e0',
-                                        color: '#333333',
+                                        color: '#ffffff',
                                         textTransform: 'none',
+                                        fontFamily: '"Nunito Sans", sans-serif',
                                         fontWeight: 500,
                                         fontSize: '0.8rem',
                                         backgroundColor: '#333333',
@@ -574,7 +613,7 @@ const Register: React.FC = () => {
                                             sx={{
                                                 width: 16,
                                                 height: 16,
-                                                backgroundImage: 'url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHZpZXdCb3g9IjAgMCAxOCAxOCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTE3LjY0IDkuMjA0NTVDMTcuNjQgOC41NjYzNiAxNy41ODI3IDcuOTUyNzMgMTcuNDc2NCA3LjM2MzY0SDE5VjEwLjY5OTFIMTMuNDQzNkMxMy4yNDE4IDExLjYyNTUgMTIuNDY2NCAxMi4zNzA5IDExLjQ1NDUgMTIuODM2NEw5LjM1OTA5IDExLjkzNjRWMTUuMTY5MUgxNC41MzgyQzE2LjU5NTUgMTMuMzM2NCAxNy42NCA1NC1lLTUgMTcuNjQgOS4yMDQ1NVoiIGZpbGw9IiM0Mjg1RjQiLz4KPHBhdGggZD0iTTkgMThDMTEuNDMgMTggMTMuNDY3MyAxNy4xOTQ1IDE1IDEwLjI3MjdMMTEuNDU0NSAxMi44MzY0QzEwLjU5MDkgMTMuNzY2NCA5IDEzIDk5IDEzUzYuNDA5MSAxNS4yNzI3IDYuNDA5MSAxNS4yNzI3TDQuMjI3MjcgMTUuMjcyN0M1LjY5MDkxIDEzLjk2MzYgOCAxNCA5IDE4WiIgZmlsbD0iIzM0QTg1MyIvPgo8cGF0aCBkPSJNNC4yMjcyNyAxNS4yNzI3QzMuODQwOTEgMTQuMjk1NSA0LjE4MTgyIDEzLjE4MTggNCA5VjEyLjgzNjRIMTFMMTEuNDU0NSAxMi44MzY0QzEyLjQ5MDkgMTAuODE4MiAxMy4zNjM2IDUuODA5MDkgOSA1LjU0NTQ1WiIgZmlsbD0iI0ZCQkMwNSIvPgo8cGF0aCBkPSJNOSA0LjJDMTAuNjY4NCA0LjIgMTIuMjA0NSA0Ljc2MDkxIDEzLjQ1NDUgNi4wNTQ1NUwxMS40NTQ1IDcuNzI3MjdDMTAuNzQ1NSA3LjIyNzI3IDEwLjIyNzMgNi45ODI3MyA5IDUuNDU0NTVDNi45OTU0NSA1LjQ1NDU1IDUuMjQwOTEgNi44NjM2NCA0LjY4MTgyIDguNTQ1NDVMNC4yMjcyNyAxMS40NTQ1SDE4QzQgNi4yNTQ1NSA1LjcyNzI3IDQuMiA5IDQuMloiIGZpbGw9IiNFQTQzMzUiLz4KPC9zdmc+)',
+                                                backgroundImage: 'url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHZpZXdCb3g9IjAgMCAxOCAxOCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTE3LjY0IDkuMjA0NTVDMTcuNjQgOC41NjYzNiAxNy41ODI3IDcuOTUyNzMgMTcuNDc2NCA3LjM2MzY0SDE5VjEwLjY5OTFIMTMuNDQzNkMxMy4yNDE4IDExLjYyNTUgMTIuNDY2NCAxMi4zNzA5IDExLjQ1NDUgMTIuODM2NEw5LjM1OTA5IDExLjkzNjRWMTUuMTY5MUgxNC41MzgyQzE2LjU5NTUgMTMuMzM2NCAxNy42NCA1NC1lLTUgMTcuNjQgOS4yMDQ1NVoiIGZpbGw9IiM0Mjg1RjQiLz4KPHBhdGggZD0iTTkgMTgDMTEuNDMgMTggMTMuNDY3MyAxNy4xOTQ1IDE1IDEwLjI3MjdMMTEuNDU0NSAxMi44MzY0QzEwLjU5MDkgMTMuNzY2NCA5IDEzIDk5IDEzUzYuNDA5MSAxNS4yNzI3IDYuNDA5MSAxNS4yNzI3TDQuMjI3MjcgMTUuMjcyN0M1LjY5MDkxIDEzLjk2MzYgOCAxNCA5IDE4WiIgZmlsbD0iIzM0QTg1MyIvPgo8cGF0aCBkPSJNNC4yMjcyNyAxNS4yNzI3QzMuODQwOTEgMTQuMjk1NSA0LjE4MTgyIDEzLjE4MTggNCA5VjEyLjgzNjRIMTFMMTEuNDU0NSAxMi44MzY0QzEyLjQ5MDkgMTAuODE4MiAxMy4zNjM2IDUuODA5MDkgOSA1LjU0NTQ1WiIgZmlsbD0iI0ZCQkMwNSIvPgo8cGF0aCBkPSJNOSA0LjJDMTAuNjY4NCA0LjIgMTIuMjA0NSA0Ljc2MDkxIDEzLjQ1NDUgNi4wNTQ1NUwxMS40NTQ1IDcuNzI3MjdDMTAuNzQ1NSA3LjIyNzI3IDEwLjIyNzMgNi45ODI3MyA5IDUuNDU0NTVDNi45OTU0NSA1LjQ1NDU1IDUuMjQwOTEgNi44NjM2NCA0LjY4MTgyIDguNTQ1NDVMNC4yMjcyNyAxMS40NTQ1SDE4QzQgNi4yNTQ1NSA1LjcyNzI3IDQuMiA5IDQuMloiIGZpbGw9IiNFQTQzMzUiLz4KPC9zdmc+)',
                                                 backgroundSize: 'contain',
                                                 backgroundRepeat: 'no-repeat',
                                             }}
@@ -584,13 +623,21 @@ const Register: React.FC = () => {
                                     Or sign up with Google
                                 </Button> */}
 
-                                {/* Login Link */}
+                                {/* Sign In Link */}
                                 <Box sx={{ textAlign: 'center', mt: 1 }}>
-                                    <Typography variant="body2" sx={{ color: '#666666', fontSize: '0.75rem' }}>
+                                    <Typography
+                                        variant="body2"
+                                        sx={{
+                                            fontFamily: '"Nunito Sans", sans-serif',
+                                            color: '#666666',
+                                            fontSize: '0.75rem'
+                                        }}
+                                    >
                                         Already have an account?{' '}
                                         <Link
                                             to="/login"
                                             style={{
+                                                fontFamily: '"Nunito Sans", sans-serif',
                                                 color: '#667eea',
                                                 textDecoration: 'none',
                                                 fontWeight: 600,

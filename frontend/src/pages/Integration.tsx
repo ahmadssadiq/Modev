@@ -66,7 +66,7 @@ const Integration: React.FC = () => {
             <div className="space-y-6">
                 {/* Setup Progress */}
                 <div className="card p-6">
-                    <h3 className="text-lg font-semibold text-gray-900 mb-4">Setup Progress</h3>
+                    <h3 className="text-lg font-semibold text-gray-900 mb-4" style={{ fontFamily: '"Instrument Serif", serif', fontWeight: 400 }}>Setup Progress</h3>
                     <div className="space-y-3">
                         {/* Step 1: API Keys */}
                         <div className="flex items-center space-x-3">

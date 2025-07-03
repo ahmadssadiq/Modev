@@ -138,8 +138,9 @@ const Login: React.FC = () => {
                             <Typography
                                 variant="subtitle1"
                                 sx={{
+                                    fontFamily: '"Instrument Serif", serif',
                                     color: '#ffffff',
-                                    fontWeight: 600,
+                                    fontWeight: 400,
                                     fontSize: '0.9rem',
                                 }}
                             >
@@ -165,8 +166,9 @@ const Login: React.FC = () => {
                             <Typography
                                 variant="h5"
                                 sx={{
+                                    fontFamily: '"Instrument Serif", serif',
                                     color: '#1a1a1a',
-                                    fontWeight: 600,
+                                    fontWeight: 400,
                                     mb: 0.5,
                                     fontSize: '1.5rem',
                                 }}
@@ -177,6 +179,7 @@ const Login: React.FC = () => {
                             <Typography
                                 variant="body2"
                                 sx={{
+                                    fontFamily: '"Nunito Sans", sans-serif',
                                     color: '#666666',
                                     mb: 3,
                                     fontSize: '0.8rem',
@@ -192,6 +195,7 @@ const Login: React.FC = () => {
                                     <Typography
                                         variant="body2"
                                         sx={{
+                                            fontFamily: '"Nunito Sans", sans-serif',
                                             color: '#333333',
                                             mb: 0.5,
                                             fontWeight: 500,
@@ -227,6 +231,7 @@ const Login: React.FC = () => {
                                                     border: '2px solid #ef4444',
                                                 },
                                                 '& input': {
+                                                    fontFamily: '"Nunito Sans", sans-serif',
                                                     color: '#333333',
                                                     fontSize: '0.8rem',
                                                     py: 1,
@@ -237,6 +242,7 @@ const Login: React.FC = () => {
                                                 },
                                             },
                                             '& .MuiFormHelperText-root': {
+                                                fontFamily: '"Nunito Sans", sans-serif',
                                                 fontSize: '0.7rem',
                                                 mt: 0.5,
                                             },
@@ -249,6 +255,7 @@ const Login: React.FC = () => {
                                     <Typography
                                         variant="body2"
                                         sx={{
+                                            fontFamily: '"Nunito Sans", sans-serif',
                                             color: '#333333',
                                             mb: 0.5,
                                             fontWeight: 500,
@@ -303,6 +310,7 @@ const Login: React.FC = () => {
                                                     border: '2px solid #ef4444',
                                                 },
                                                 '& input': {
+                                                    fontFamily: '"Nunito Sans", sans-serif',
                                                     color: '#333333',
                                                     fontSize: '0.8rem',
                                                     py: 1,
@@ -313,6 +321,7 @@ const Login: React.FC = () => {
                                                 },
                                             },
                                             '& .MuiFormHelperText-root': {
+                                                fontFamily: '"Nunito Sans", sans-serif',
                                                 fontSize: '0.7rem',
                                                 mt: 0.5,
                                             },
@@ -338,7 +347,14 @@ const Login: React.FC = () => {
                                             />
                                         }
                                         label={
-                                            <Typography variant="body2" sx={{ color: '#666666', fontSize: '0.75rem' }}>
+                                            <Typography
+                                                variant="body2"
+                                                sx={{
+                                                    fontFamily: '"Nunito Sans", sans-serif',
+                                                    color: '#666666',
+                                                    fontSize: '0.75rem'
+                                                }}
+                                            >
                                                 Remember me
                                             </Typography>
                                         }
@@ -346,6 +362,7 @@ const Login: React.FC = () => {
                                     <Link
                                         to="/forgot-password"
                                         style={{
+                                            fontFamily: '"Nunito Sans", sans-serif',
                                             color: '#667eea',
                                             textDecoration: 'none',
                                             fontSize: '0.75rem',
@@ -365,7 +382,14 @@ const Login: React.FC = () => {
                                             border: '1px solid #fecaca',
                                         }}
                                     >
-                                        <Typography variant="body2" sx={{ color: '#dc2626', fontSize: '0.75rem' }}>
+                                        <Typography
+                                            variant="body2"
+                                            sx={{
+                                                fontFamily: '"Nunito Sans", sans-serif',
+                                                color: '#dc2626',
+                                                fontSize: '0.75rem'
+                                            }}
+                                        >
                                             {error}
                                         </Typography>
                                     </Box>
@@ -382,6 +406,7 @@ const Login: React.FC = () => {
                                         borderRadius: 2,
                                         background: '#1976d2',
                                         textTransform: 'none',
+                                        fontFamily: '"Nunito Sans", sans-serif',
                                         fontWeight: 600,
                                         fontSize: '0.8rem',
                                         boxShadow: 'none',
@@ -409,6 +434,7 @@ const Login: React.FC = () => {
                                         borderColor: '#e0e0e0',
                                         color: '#ffffff',
                                         textTransform: 'none',
+                                        fontFamily: '"Nunito Sans", sans-serif',
                                         fontWeight: 500,
                                         fontSize: '0.8rem',
                                         backgroundColor: '#333333',
@@ -434,11 +460,19 @@ const Login: React.FC = () => {
 
                                 {/* Sign Up Link */}
                                 <Box sx={{ textAlign: 'center', mt: 1 }}>
-                                    <Typography variant="body2" sx={{ color: '#666666', fontSize: '0.75rem' }}>
+                                    <Typography
+                                        variant="body2"
+                                        sx={{
+                                            fontFamily: '"Nunito Sans", sans-serif',
+                                            color: '#666666',
+                                            fontSize: '0.75rem'
+                                        }}
+                                    >
                                         Don't have an account?{' '}
                                         <Link
                                             to="/register"
                                             style={{
+                                                fontFamily: '"Nunito Sans", sans-serif',
                                                 color: '#667eea',
                                                 textDecoration: 'none',
                                                 fontWeight: 600,

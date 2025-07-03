@@ -348,11 +348,11 @@ const LandingPage: React.FC = () => {
                                         backgroundColor: '#ffffff',
                                         p: 4,
                                         mb: 3,
-                                        boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
+                                        
                                     }}
                                 >
                                     {/* Header */}
-                                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
+                                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3, }}>
                                         <Typography
                                             variant="h6"
                                             sx={{
@@ -450,7 +450,7 @@ const LandingPage: React.FC = () => {
                                         border: '1px solid #e5e7eb',
                                         backgroundColor: '#ffffff',
                                         p: 3,
-                                        boxShadow: '0 2px 4px -1px rgba(0, 0, 0, 0.1)',
+
                                         transform: 'translateX(20px)',
                                         width: 'calc(100% - 20px)',
                                     }}
@@ -610,13 +610,13 @@ const LandingPage: React.FC = () => {
                     </Grid>
 
                     {/* Large Image Section */}
-                    <Box sx={{ mt: 12 }}>
+                    <Box sx={{ mt: 12, pt: 1 }}>
                         <Box
                             sx={{
                                 width: '100%',
                                 height: { xs: 300, md: 400 },
                                 borderRadius: '20px',
-                                backgroundImage: 'url(https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80)',
+                                backgroundImage: 'url(https://images.unsplash.com/photo-1739978080544-7d8ad1670f98?q=80&w=2064&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)',
                                 backgroundSize: 'cover',
                                 backgroundPosition: 'center',
                                 backgroundRepeat: 'no-repeat',
@@ -627,7 +627,7 @@ const LandingPage: React.FC = () => {
             </Box>
 
             {/* "See the Big Picture" Section */}
-            <Box sx={{ backgroundColor: '#fafbfc', py: 16 }}>
+            <Box sx={{ backgroundColor: '#fafbfc', py: 12 }}>
                 <Container maxWidth="lg">
                     <Grid container spacing={8} alignItems="center">
                         <Grid size={{ xs: 12, lg: 6 }}>

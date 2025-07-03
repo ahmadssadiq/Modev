@@ -152,7 +152,7 @@ const Dashboard: React.FC = () => {
                 {/* Connected API Keys Status */}
                 <div className="card p-6">
                     <div className="flex items-center justify-between mb-4">
-                        <h3 className="text-lg font-semibold text-gray-900">Connected AI Providers</h3>
+                        <h3 className="text-lg font-semibold text-gray-900" style={{ fontFamily: '"Instrument Serif", serif', fontWeight: 400 }}>Connected AI Providers</h3>
                         <span className="text-sm text-gray-500">
                             {apiKeys.length} {apiKeys.length === 1 ? 'provider' : 'providers'} connected
                         </span>
@@ -175,7 +175,7 @@ const Dashboard: React.FC = () => {
                     ) : apiKeys.length === 0 ? (
                         <div className="text-center py-8">
                             <KeyIcon className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-                            <h4 className="text-lg font-medium text-gray-900 mb-2">No API Keys Connected</h4>
+                            <h4 className="text-lg font-medium text-gray-900 mb-2" style={{ fontFamily: '"Instrument Serif", serif', fontWeight: 400 }}>No API Keys Connected</h4>
                             <p className="text-gray-600 mb-4">
                                 Connect your AI provider API keys to start tracking usage and costs.
                             </p>
@@ -246,7 +246,7 @@ const Dashboard: React.FC = () => {
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                     {/* Daily Cost Trend */}
                     <div className="card p-6">
-                        <h3 className="text-lg font-semibold text-gray-900 mb-4">Daily Cost Trend</h3>
+                        <h3 className="text-lg font-semibold text-gray-900 mb-4" style={{ fontFamily: '"Instrument Serif", serif', fontWeight: 400 }}>Daily Cost Trend</h3>
                         <div className="h-80">
                             {loading ? (
                                 <div className="flex items-center justify-center h-full">
@@ -284,7 +284,7 @@ const Dashboard: React.FC = () => {
 
                     {/* Model Usage Breakdown */}
                     <div className="card p-6">
-                        <h3 className="text-lg font-semibold text-gray-900 mb-4">Model Usage by Cost</h3>
+                        <h3 className="text-lg font-semibold text-gray-900 mb-4" style={{ fontFamily: '"Instrument Serif", serif', fontWeight: 400 }}>Model Usage by Cost</h3>
                         <div className="h-80">
                             {loading ? (
                                 <div className="flex items-center justify-center h-full">
@@ -320,7 +320,7 @@ const Dashboard: React.FC = () => {
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                     {/* Top Models */}
                     <div className="card p-6">
-                        <h3 className="text-lg font-semibold text-gray-900 mb-4">Top Models by Cost</h3>
+                        <h3 className="text-lg font-semibold text-gray-900 mb-4" style={{ fontFamily: '"Instrument Serif", serif', fontWeight: 400 }}>Top Models by Cost</h3>
                         <div className="overflow-hidden">
                             <table className="min-w-full">
                                 <thead>
@@ -387,7 +387,7 @@ const Dashboard: React.FC = () => {
 
                     {/* Provider Breakdown */}
                     <div className="card p-6">
-                        <h3 className="text-lg font-semibold text-gray-900 mb-4">Provider Breakdown</h3>
+                        <h3 className="text-lg font-semibold text-gray-900 mb-4" style={{ fontFamily: '"Instrument Serif", serif', fontWeight: 400 }}>Provider Breakdown</h3>
                         <div className="overflow-hidden">
                             <table className="min-w-full">
                                 <thead>

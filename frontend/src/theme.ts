@@ -41,7 +41,7 @@ const theme = createTheme({
     },
     typography: {
         fontFamily: [
-            'Inter',
+            'Nunito Sans',
             '-apple-system',
             'BlinkMacSystemFont',
             '"Segoe UI"',
@@ -51,24 +51,49 @@ const theme = createTheme({
             'sans-serif',
         ].join(','),
         h1: {
-            fontWeight: 800,
+            fontFamily: '"Instrument Serif", serif',
+            fontWeight: 400,
         },
         h2: {
-            fontWeight: 800,
+            fontFamily: '"Instrument Serif", serif',
+            fontWeight: 400,
         },
         h3: {
-            fontWeight: 700,
+            fontFamily: '"Instrument Serif", serif',
+            fontWeight: 400,
         },
         h4: {
-            fontWeight: 700,
+            fontFamily: '"Instrument Serif", serif',
+            fontWeight: 400,
         },
         h5: {
-            fontWeight: 600,
+            fontFamily: '"Instrument Serif", serif',
+            fontWeight: 400,
         },
         h6: {
-            fontWeight: 600,
+            fontFamily: '"Instrument Serif", serif',
+            fontWeight: 400,
+        },
+        body1: {
+            fontFamily: '"Nunito Sans", sans-serif',
+        },
+        body2: {
+            fontFamily: '"Nunito Sans", sans-serif',
+        },
+        subtitle1: {
+            fontFamily: '"Nunito Sans", sans-serif',
+        },
+        subtitle2: {
+            fontFamily: '"Nunito Sans", sans-serif',
+        },
+        caption: {
+            fontFamily: '"Nunito Sans", sans-serif',
+        },
+        overline: {
+            fontFamily: '"Nunito Sans", sans-serif',
         },
         button: {
+            fontFamily: '"Nunito Sans", sans-serif',
             textTransform: 'none',
             fontWeight: 600,
         },
@@ -83,6 +108,7 @@ const theme = createTheme({
                     textTransform: 'none',
                     borderRadius: '12px',
                     fontWeight: 600,
+                    fontFamily: '"Nunito Sans", sans-serif',
                 },
             },
         },
@@ -105,7 +131,36 @@ const theme = createTheme({
                 root: {
                     '& .MuiOutlinedInput-root': {
                         borderRadius: '12px',
+                        fontFamily: '"Nunito Sans", sans-serif',
                     },
+                    '& .MuiInputLabel-root': {
+                        fontFamily: '"Nunito Sans", sans-serif',
+                    },
+                    '& .MuiFormHelperText-root': {
+                        fontFamily: '"Nunito Sans", sans-serif',
+                    },
+                },
+            },
+        },
+        MuiChip: {
+            styleOverrides: {
+                root: {
+                    fontFamily: '"Nunito Sans", sans-serif',
+                },
+            },
+        },
+        MuiTab: {
+            styleOverrides: {
+                root: {
+                    fontFamily: '"Nunito Sans", sans-serif',
+                    textTransform: 'none',
+                },
+            },
+        },
+        MuiMenuItem: {
+            styleOverrides: {
+                root: {
+                    fontFamily: '"Nunito Sans", sans-serif',
                 },
             },
         },
