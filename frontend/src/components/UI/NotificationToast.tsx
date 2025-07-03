@@ -59,7 +59,7 @@ const NotificationToast: React.FC = () => {
     };
 
     return (
-        <div className="fixed top-0 right-0 z-50 p-6 pointer-events-none">
+        <div className="fixed bottom-0 right-0 z-50 p-6 pointer-events-none ">
             <div className="flex flex-col space-y-4">
                 {notifications.map((notification) => (
                     <Transition
@@ -73,20 +73,26 @@ const NotificationToast: React.FC = () => {
                         leaveTo="opacity-0"
                     >
                         <div
-                            className={`max-w-sm w-full shadow-lg rounded-lg pointer-events-auto border ${getBackgroundColor(
+                            className={`w-96 shadow-lg rounded-lg pointer-events-auto border ${getBackgroundColor(
                                 notification.type
                             )}`}
                         >
-                            <div className="p-4">
+                            <div className="p-5">
                                 <div className="flex items-start">
                                     <div className="flex-shrink-0">
                                         {getIcon(notification.type)}
                                     </div>
-                                    <div className="ml-3 w-0 flex-1 pt-0.5">
-                                        <p className={`text-sm font-medium ${getTextColor(notification.type)}`}>
+                                    <div className="ml-4 w-0 flex-1 pt-0.5">
+                                        <p
+                                            className={`text-sm font-medium ${getTextColor(notification.type)}`}
+                                            style={{ fontFamily: '"Instrument Serif", serif', fontWeight: 400 }}
+                                        >
                                             {notification.title}
                                         </p>
-                                        <p className={`mt-1 text-sm ${getTextColor(notification.type)} opacity-75`}>
+                                        <p
+                                            className={`mt-2 text-sm ${getTextColor(notification.type)} opacity-75`}
+                                            style={{ fontFamily: '"Nunito Sans", sans-serif' }}
+                                        >
                                             {notification.message}
                                         </p>
                                     </div>

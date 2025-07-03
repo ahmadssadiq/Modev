@@ -83,6 +83,21 @@ class APIService {
         return response.data;
     }
 
+    async updateUserPlan(planId: string): Promise<{ message: string; plan: string }> {
+        const response = await this.api.post('/auth/select-plan', { plan: planId });
+        return response.data;
+    }
+
+    async upgradePlan(targetPlan: string): Promise<{ message: string; new_plan: string }> {
+        const response = await this.api.post('/admin/account/upgrade-plan', { target_plan: targetPlan });
+        return response.data;
+    }
+
+    async exportAccountData(): Promise<any> {
+        const response = await this.api.get('/admin/account/export-data');
+        return response.data;
+    }
+
     // API Key Methods
     async getAPIKeys(): Promise<APIKey[]> {
         const response: AxiosResponse<APIKey[]> = await this.api.get('/proxy/api-keys');
@@ -167,16 +182,6 @@ class APIService {
     // Account Methods
     async getAccountStats(): Promise<AccountStats> {
         const response: AxiosResponse<AccountStats> = await this.api.get('/admin/account/usage-stats');
-        return response.data;
-    }
-
-    async upgradePlan(targetPlan: string): Promise<{ message: string; new_plan: string }> {
-        const response = await this.api.post('/admin/account/upgrade-plan', { target_plan: targetPlan });
-        return response.data;
-    }
-
-    async exportAccountData(): Promise<any> {
-        const response = await this.api.get('/admin/account/export-data');
         return response.data;
     }
 

@@ -84,7 +84,12 @@ const MetricCard: React.FC<MetricCardProps> = ({
         >
             {/* Header */}
             <div className="flex items-center justify-between mb-4">
-                <h3 className="text-sm font-medium text-gray-600">{title}</h3>
+                <h3
+                    className="text-sm font-medium text-gray-600"
+                    style={{ fontFamily: '"Nunito Sans", sans-serif' }}
+                >
+                    {title}
+                </h3>
                 {icon && (
                     <div className={`p-2 rounded-lg ${getIconColor()}`}>
                         {icon}
@@ -94,19 +99,29 @@ const MetricCard: React.FC<MetricCardProps> = ({
 
             {/* Main Value */}
             <div className="mb-2">
-                <p className={`font-bold text-gray-900 ${size === 'lg' ? 'text-4xl' : size === 'sm' ? 'text-2xl' : 'text-3xl'
-                    }`}>
+                <p
+                    className={`font-bold text-gray-900 ${size === 'lg' ? 'text-4xl' : size === 'sm' ? 'text-2xl' : 'text-3xl'}`}
+                    style={{ fontFamily: '"Instrument Serif", serif', fontWeight: 400 }}
+                >
                     {value}
                 </p>
                 {subtitle && (
-                    <p className="text-sm text-gray-500 mt-1">{subtitle}</p>
+                    <p
+                        className="text-sm text-gray-500 mt-1"
+                        style={{ fontFamily: '"Nunito Sans", sans-serif' }}
+                    >
+                        {subtitle}
+                    </p>
                 )}
             </div>
 
             {/* Change Indicator */}
             {change && (
                 <div className="flex items-center">
-                    <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${getChangeColor()}`}>
+                    <span
+                        className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${getChangeColor()}`}
+                        style={{ fontFamily: '"Nunito Sans", sans-serif' }}
+                    >
                         {change.type === 'increase' ? (
                             <ArrowUpIcon className="w-3 h-3 mr-1" />
                         ) : (
@@ -115,7 +130,10 @@ const MetricCard: React.FC<MetricCardProps> = ({
                         {Math.abs(change.value)}%
                     </span>
                     {change.period && (
-                        <span className="text-xs text-gray-500 ml-2">
+                        <span
+                            className="text-xs text-gray-500 ml-2"
+                            style={{ fontFamily: '"Nunito Sans", sans-serif' }}
+                        >
                             {change.period}
                         </span>
                     )}

@@ -36,24 +36,24 @@ const LandingPage: React.FC = () => {
 
     const insights = [
         {
-            icon: <CurrencyDollarIcon className="h-8 w-8" />,
-            title: 'Amplify Insights',
-            description: 'Unlock data-driven decisions with comprehensive analytics, revealing key opportunities for strategic regional growth.',
+            icon: <EyeIcon className="h-8 w-8" />,
+            title: 'Real-time Cost Visibility',
+            description: 'See exactly where every dollar goes across all AI providers. No more surprise bills - track usage and costs in real-time.',
         },
         {
             icon: <ShieldCheckIcon className="h-8 w-8" />,
-            title: 'Control Your Global Presence',
-            description: 'Manage and track AI model offsets ensuring consistent performance and streamlined operations everywhere.',
+            title: 'Budget Protection & Alerts',
+            description: 'Set spending limits and get instant alerts when approaching them. Auto-cutoff prevents runaway costs.',
         },
         {
-            icon: <BoltIcon className="h-8 w-8" />,
-            title: 'Remove Language Barriers',
-            description: 'Adapt to diverse markets with built-in localization for clear communication and enhanced user experience.',
+            icon: <CpuChipIcon className="h-8 w-8" />,
+            title: 'Multi-vendor Consolidation',
+            description: 'One dashboard for all AI providers - OpenAI, Anthropic, Azure, and more. Compare costs and performance easily.',
         },
         {
-            icon: <ChartBarIcon className="h-8 w-8" />,
-            title: 'Visualize Growth',
-            description: 'Generate precise, visually compelling reports that illustrate your growth trajectories across all regions.',
+            icon: <CurrencyDollarIcon className="h-8 w-8" />,
+            title: '30% Automatic Savings',
+            description: 'Our optimization engine identifies cheaper alternatives and suggests model switches that maintain quality.',
         },
     ];
 
@@ -109,30 +109,30 @@ const LandingPage: React.FC = () => {
             >
                 <Container maxWidth="lg">
                     <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
                             <Box
                                 sx={{
-                                    width: 40,
-                                    height: 40,
-                                    borderRadius: '10px',
-                                    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                                    width: 28,
+                                    height: 28,
+                                    borderRadius: '6px',
+                                    background: 'linear-gradient(135deg, #FF6127 0%, #FFB99F 100%)',
                                     display: 'flex',
                                     alignItems: 'center',
                                     justifyContent: 'center',
                                 }}
                             >
-                                <CpuChipIcon style={{ width: 20, height: 20, color: 'white' }} />
+                                <CpuChipIcon style={{ width: 14, height: 14, color: 'white' }} />
                             </Box>
                             <Typography
                                 variant="h6"
                                 sx={{
                                     fontFamily: '"Instrument Serif", serif',
-                                    fontWeight: 400,
+                                    fontWeight: 1000,
                                     color: '#111827',
-                                    fontSize: '1.25rem',
+                                    fontSize: '2rem',
                                 }}
                             >
-                                MovDev
+                                MODEV
                             </Typography>
                         </Box>
 
@@ -159,13 +159,13 @@ const LandingPage: React.FC = () => {
                                 component={Link}
                                 to="/register"
                                 sx={{
-                                    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                                    background: 'linear-gradient(135deg, #FF6127 0%, #FFB99F 100%)',
                                     fontFamily: '"Nunito Sans", sans-serif',
                                     fontWeight: 600,
                                     boxShadow: 'none',
                                     '&:hover': {
-                                        boxShadow: '0 4px 12px rgba(102, 126, 234, 0.3)',
-                                        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                                        boxShadow: '0 4px 12px rgba(255, 97, 39, 0.3)',
+                                        background: 'linear-gradient(135deg, #FF6127 0%, #FFB99F 100%)',
                                     }
                                 }}
                             >
@@ -210,7 +210,7 @@ const LandingPage: React.FC = () => {
                                 <Box
                                     component="span"
                                     sx={{
-                                        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                                        background: 'linear-gradient(135deg, #FF6127 0%, #FFB99F 100%)',
                                         backgroundClip: 'text',
                                         WebkitBackgroundClip: 'text',
                                         color: 'transparent',
@@ -232,8 +232,7 @@ const LandingPage: React.FC = () => {
                                     fontSize: '1.125rem',
                                 }}
                             >
-                                The vendor-neutral platform that sits between your applications and AI providers.
-                                Track usage, control costs, and save up to 30% on AI spending in your first month.
+                                Teams building fast, then boom - OpenAI bills spike without warning. Our transparent proxy gives you real-time cost visibility and budget protection with zero code changes needed.
                             </Typography>
 
                             <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} sx={{ mb: 6 }}>
@@ -246,14 +245,14 @@ const LandingPage: React.FC = () => {
                                     sx={{
                                         py: 1.5,
                                         px: 4,
-                                        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                                        background: 'linear-gradient(135deg, #FF6127 0%, #FFB99F 100%)',
                                         fontFamily: '"Nunito Sans", sans-serif',
                                         fontSize: '1rem',
                                         fontWeight: 600,
                                         boxShadow: 'none',
                                         '&:hover': {
-                                            boxShadow: '0 4px 12px rgba(102, 126, 234, 0.3)',
-                                            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                                            boxShadow: '0 4px 12px rgba(255, 97, 39, 0.3)',
+                                            background: 'linear-gradient(135deg, #FF6127 0%, #FFB99F 100%)',
                                         }
                                     }}
                                 >
@@ -348,7 +347,7 @@ const LandingPage: React.FC = () => {
                                         backgroundColor: '#ffffff',
                                         p: 4,
                                         mb: 3,
-                                        
+
                                     }}
                                 >
                                     {/* Header */}
@@ -517,6 +516,241 @@ const LandingPage: React.FC = () => {
                 </Grid>
             </Container>
 
+            {/* Drop-in Integration Section */}
+            <Box sx={{ backgroundColor: '#ffffff', py: 16 }}>
+                <Container maxWidth="lg">
+                    <Box sx={{ textAlign: 'center', mb: 8 }}>
+                        <Typography
+                            variant="h2"
+                            sx={{
+                                fontFamily: '"Instrument Serif", serif',
+                                fontSize: { xs: '2.5rem', md: '3rem' },
+                                fontWeight: 400,
+                                color: '#111827',
+                                mb: 3,
+                            }}
+                        >
+                            Get integrated in{' '}
+                            <Box
+                                component="span"
+                                sx={{
+                                    background: 'linear-gradient(135deg, #FF6127 0%, #FFB99F 100%)',
+                                    backgroundClip: 'text',
+                                    WebkitBackgroundClip: 'text',
+                                    color: 'transparent',
+                                }}
+                            >
+                                seconds
+                            </Box>
+                        </Typography>
+                        <Typography
+                            variant="h6"
+                            sx={{
+                                fontFamily: '"Nunito Sans", sans-serif',
+                                color: '#6b7280',
+                                fontWeight: 400,
+                                maxWidth: '600px',
+                                mx: 'auto',
+                                fontSize: '1.125rem',
+                                lineHeight: 1.6,
+                            }}
+                        >
+                            The simplest integration that connects seamlessly to any LLM provider and framework.
+                        </Typography>
+                    </Box>
+
+                    {/* Provider Logos */}
+                    <Box sx={{ display: 'flex', justifyContent: 'center', mb: 8 }}>
+                        <Stack direction="row" spacing={3} alignItems="center" flexWrap="wrap" useFlexGap>
+                            {[
+                                { name: 'OpenAI', icon: '🤖' },
+                                { name: 'Anthropic', icon: '🧠' },
+                                { name: 'Azure', icon: '☁️' },
+                                { name: 'Gemini', icon: '💎' },
+                                { name: 'Claude', icon: '⚡' },
+                                { name: 'LangChain', icon: '🔗' },
+                                { name: 'Groq', icon: '⚙️' },
+                                { name: 'Cohere', icon: '🔮' },
+                            ].map((provider, index) => (
+                                <Box
+                                    key={index}
+                                    sx={{
+                                        width: 60,
+                                        height: 60,
+                                        borderRadius: '12px',
+                                        backgroundColor: '#f8fafc',
+                                        border: '1px solid #e5e7eb',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        fontSize: '1.5rem',
+                                        '&:hover': {
+                                            borderColor: '#667eea',
+                                            backgroundColor: 'rgba(102, 126, 234, 0.05)',
+                                        }
+                                    }}
+                                >
+                                    {provider.icon}
+                                </Box>
+                            ))}
+                        </Stack>
+                    </Box>
+
+                    {/* Code Examples */}
+                    <Box sx={{ maxWidth: '800px', mx: 'auto' }}>
+                        {/* Language Tabs */}
+                        <Box sx={{ display: 'flex', mb: 3, borderBottom: '1px solid #e5e7eb' }}>
+                            {['javascript', 'python', 'curl'].map((lang, index) => (
+                                <Button
+                                    key={lang}
+                                    sx={{
+                                        py: 1.5,
+                                        px: 3,
+                                        borderRadius: 0,
+                                        borderBottom: index === 0 ? '2px solid #667eea' : '2px solid transparent',
+                                        backgroundColor: index === 0 ? 'rgba(102, 126, 234, 0.05)' : 'transparent',
+                                        color: index === 0 ? '#667eea' : '#6b7280',
+                                        fontFamily: '"Nunito Sans", sans-serif',
+                                        fontWeight: 500,
+                                        textTransform: 'lowercase',
+                                        '&:hover': {
+                                            backgroundColor: 'rgba(102, 126, 234, 0.05)',
+                                        }
+                                    }}
+                                >
+                                    {lang}
+                                </Button>
+                            ))}
+                        </Box>
+
+                        {/* Code Block */}
+                        <Paper
+                            elevation={0}
+                            sx={{
+                                backgroundColor: '#FFEDE7',
+                                borderRadius: '12px',
+                                p: 4,
+                                fontFamily: '"JetBrains Mono", "Consolas", monospace',
+                                position: 'relative',
+                                overflow: 'hidden',
+                            }}
+                        >
+                            {/* Code Header */}
+                            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
+                                <Box sx={{ display: 'flex', gap: 1 }}>
+                                    <Box sx={{ width: 12, height: 12, borderRadius: '50%', backgroundColor: '#ef4444' }} />
+                                    <Box sx={{ width: 12, height: 12, borderRadius: '50%', backgroundColor: '#f59e0b' }} />
+                                    <Box sx={{ width: 12, height: 12, borderRadius: '50%', backgroundColor: '#22c55e' }} />
+                                </Box>
+                                <Button
+                                    size="small"
+                                    sx={{
+                                        color: '#666666',
+                                        fontFamily: '"Nunito Sans", sans-serif',
+                                        fontSize: '0.75rem',
+                                        minWidth: 'auto',
+                                        p: 1,
+                                    }}
+                                >
+                                    Copy
+                                </Button>
+                            </Box>
+
+                            {/* Code Content */}
+                            <Box sx={{ fontSize: '0.875rem', lineHeight: 1.6 }}>
+                                <Box sx={{ color: '#333333', mb: 2 }}>
+                                    <span style={{ color: '#d97706' }}>import</span>{' '}
+                                    <span style={{ color: '#0369a1' }}>OpenAI</span>{' '}
+                                    <span style={{ color: '#d97706' }}>from</span>{' '}
+                                    <span style={{ color: '#059669' }}>"openai"</span>;
+                                </Box>
+
+                                <Box sx={{ color: '#333333', mb: 1 }}>
+                                    <span style={{ color: '#d97706' }}>const</span>{' '}
+                                    <span style={{ color: '#0369a1' }}>openai</span>{' '}
+                                    <span style={{ color: '#d97706' }}>=</span>{' '}
+                                    <span style={{ color: '#d97706' }}>new</span>{' '}
+                                    <span style={{ color: '#0369a1' }}>OpenAI</span>({'{'}
+                                </Box>
+
+                                <Box sx={{ color: '#333333', ml: 2, mb: 1 }}>
+                                    <span style={{ color: '#0369a1' }}>apiKey</span>:{' '}
+                                    <span style={{ color: '#0369a1' }}>YOUR_MODEV_API_KEY</span>,
+                                </Box>
+
+                                <Box sx={{ color: '#333333', ml: 2, mb: 1 }}>
+                                    <span style={{ color: '#0369a1' }}>baseURL</span>:{' '}
+                                    <span style={{ color: '#059669' }}>"https://api.modev.ai/v1/"</span>
+                                </Box>
+
+                                <Box sx={{ color: '#333333', mb: 2 }}>{'});'}</Box>
+
+                                <Box sx={{ color: '#666666', fontSize: '0.8rem', fontStyle: 'italic' }}>
+                                    // That's it! All your OpenAI calls now go through MoDev
+                                </Box>
+                                <Box sx={{ color: '#666666', fontSize: '0.8rem', fontStyle: 'italic' }}>
+                                    // Real-time cost tracking, budget alerts, and optimization tips
+                                </Box>
+                            </Box>
+                        </Paper>
+
+                        {/* Integration Features */}
+                        <Box sx={{ mt: 6 }}>
+                            <Grid container spacing={4}>
+                                {[
+                                    { icon: <ClockIcon className="h-6 w-6" />, title: 'Zero Downtime', desc: 'Drop-in replacement with identical API' },
+                                    { icon: <ShieldCheckIcon className="h-6 w-6" />, title: 'Secure by Default', desc: 'Encrypted API keys and secure proxy' },
+                                    { icon: <EyeIcon className="h-6 w-6" />, title: 'Real-time Monitoring', desc: 'Instant cost visibility and alerts' },
+                                    { icon: <CurrencyDollarIcon className="h-6 w-6" />, title: 'Automatic Savings', desc: 'Up to 30% cost reduction immediately' },
+                                ].map((feature, index) => (
+                                    <Grid size={{ xs: 6, md: 3 }} key={index}>
+                                        <Box sx={{ textAlign: 'center' }}>
+                                            <Box
+                                                sx={{
+                                                    width: 48,
+                                                    height: 48,
+                                                    borderRadius: '12px',
+                                                    backgroundColor: '#f0f9ff',
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    justifyContent: 'center',
+                                                    mx: 'auto',
+                                                    mb: 2,
+                                                    color: '#0369a1',
+                                                }}
+                                            >
+                                                {feature.icon}
+                                            </Box>
+                                            <Typography
+                                                variant="subtitle2"
+                                                sx={{
+                                                    fontFamily: '"Instrument Serif", serif',
+                                                    fontWeight: 400,
+                                                    color: '#111827',
+                                                    mb: 1,
+                                                }}
+                                            >
+                                                {feature.title}
+                                            </Typography>
+                                            <Typography
+                                                variant="caption"
+                                                sx={{
+                                                    fontFamily: '"Nunito Sans", sans-serif',
+                                                    color: '#6b7280',
+                                                    fontSize: '0.8rem',
+                                                }}
+                                            >
+                                                {feature.desc}
+                                            </Typography>
+                                        </Box>
+                                    </Grid>
+                                ))}
+                            </Grid>
+                        </Box>
+                    </Box>
+                </Container>
+            </Box>
+
             {/* "We've cracked the code" Section */}
             <Box sx={{ backgroundColor: '#ffffff', py: 16 }}>
                 <Container maxWidth="lg">
@@ -545,7 +779,18 @@ const LandingPage: React.FC = () => {
                                 lineHeight: 1.2,
                             }}
                         >
-                            We've cracked the code.
+                            Stop AI bills from{' '}
+                            <Box
+                                component="span"
+                                sx={{
+                                    background: 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)',
+                                    backgroundClip: 'text',
+                                    WebkitBackgroundClip: 'text',
+                                    color: 'transparent',
+                                }}
+                            >
+                                spiraling out of control
+                            </Box>
                         </Typography>
                         <Typography
                             variant="h6"
@@ -553,12 +798,12 @@ const LandingPage: React.FC = () => {
                                 fontFamily: '"Nunito Sans", sans-serif',
                                 color: '#6b7280',
                                 fontWeight: 400,
-                                maxWidth: '500px',
+                                maxWidth: '600px',
                                 fontSize: '1rem',
                                 lineHeight: 1.6,
                             }}
                         >
-                            Area provides real insights, without the data overload
+                            Teams ship fast, then get hit with massive AI bills. We give you the transparency and control you need to avoid surprises.
                         </Typography>
                     </Box>
 
@@ -576,7 +821,7 @@ const LandingPage: React.FC = () => {
                                             alignItems: 'center',
                                             justifyContent: 'center',
                                             mb: 3,
-                                            color: '#667eea',
+                                            color: '#FF6127',
                                         }}
                                     >
                                         {insight.icon}
@@ -818,7 +1063,7 @@ const LandingPage: React.FC = () => {
                                     sx={{
                                         fontFamily: '"Instrument Serif", serif',
                                         fontWeight: 400,
-                                        color: '#667eea',
+                                        color: '#FF6127',
                                         mb: 1,
                                         fontSize: { xs: '2rem', md: '2.5rem' },
                                     }}
@@ -850,6 +1095,367 @@ const LandingPage: React.FC = () => {
                     ))}
                 </Grid>
             </Container>
+
+            {/* Pricing Section */}
+            <Box sx={{ backgroundColor: '#f9fafb', py: 16 }}>
+                <Container maxWidth="lg">
+                    <Box sx={{ textAlign: 'center', mb: 12 }}>
+                        <Typography
+                            variant="h2"
+                            sx={{
+                                fontFamily: '"Instrument Serif", serif',
+                                fontSize: { xs: '2.5rem', md: '3rem' },
+                                fontWeight: 400,
+                                color: '#111827',
+                                mb: 3,
+                            }}
+                        >
+                            Simple, transparent pricing
+                        </Typography>
+                        <Typography
+                            variant="h6"
+                            sx={{
+                                fontFamily: '"Nunito Sans", sans-serif',
+                                color: '#6b7280',
+                                fontWeight: 400,
+                                maxWidth: '600px',
+                                mx: 'auto',
+                                fontSize: '1.125rem',
+                            }}
+                        >
+                            Start free, scale as you grow. No hidden fees, no surprise charges.
+                        </Typography>
+                    </Box>
+
+                    <Grid container spacing={4} justifyContent="center">
+                        {/* Free Tier */}
+                        <Grid size={{ xs: 12, md: 4 }}>
+                            <Paper
+                                elevation={0}
+                                sx={{
+                                    borderRadius: '16px',
+                                    border: '2px solid #e5e7eb',
+                                    p: 4,
+                                    backgroundColor: '#ffffff',
+                                    height: '100%',
+                                    position: 'relative',
+                                }}
+                            >
+                                <Typography
+                                    variant="h6"
+                                    sx={{
+                                        fontFamily: '"Instrument Serif", serif',
+                                        fontWeight: 400,
+                                        color: '#111827',
+                                        mb: 2,
+                                    }}
+                                >
+                                    Starter
+                                </Typography>
+                                <Box sx={{ mb: 4 }}>
+                                    <Typography
+                                        variant="h3"
+                                        sx={{
+                                            fontFamily: '"Instrument Serif", serif',
+                                            fontWeight: 400,
+                                            color: '#111827',
+                                            display: 'inline',
+                                        }}
+                                    >
+                                        $0
+                                    </Typography>
+                                    <Typography
+                                        variant="body1"
+                                        sx={{
+                                            fontFamily: '"Nunito Sans", sans-serif',
+                                            color: '#6b7280',
+                                            display: 'inline',
+                                            ml: 1,
+                                        }}
+                                    >
+                                        /month
+                                    </Typography>
+                                </Box>
+                                <Typography
+                                    variant="body2"
+                                    sx={{
+                                        fontFamily: '"Nunito Sans", sans-serif',
+                                        color: '#6b7280',
+                                        mb: 4,
+                                    }}
+                                >
+                                    Perfect for getting started and tracking up to $1,000 monthly spend
+                                </Typography>
+                                <Stack spacing={2} sx={{ mb: 6 }}>
+                                    {[
+                                        'Track up to $1,000/month spend',
+                                        'Real-time cost monitoring',
+                                        'Basic budget alerts',
+                                        'Multi-provider support',
+                                        'Community support',
+                                    ].map((feature, index) => (
+                                        <Box key={index} sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+                                            <CheckIcon style={{ width: 16, height: 16, color: '#22c55e' }} />
+                                            <Typography
+                                                variant="body2"
+                                                sx={{
+                                                    fontFamily: '"Nunito Sans", sans-serif',
+                                                    color: '#374151',
+                                                }}
+                                            >
+                                                {feature}
+                                            </Typography>
+                                        </Box>
+                                    ))}
+                                </Stack>
+                                <Button
+                                    variant="outlined"
+                                    fullWidth
+                                    component={Link}
+                                    to="/register"
+                                    sx={{
+                                        py: 1.5,
+                                        borderColor: '#e5e7eb',
+                                        color: '#374151',
+                                        fontFamily: '"Nunito Sans", sans-serif',
+                                        fontWeight: 500,
+                                        '&:hover': {
+                                            borderColor: '#667eea',
+                                            backgroundColor: 'rgba(102, 126, 234, 0.05)',
+                                        }
+                                    }}
+                                >
+                                    Get Started Free
+                                </Button>
+                            </Paper>
+                        </Grid>
+
+                        {/* Pro Tier */}
+                        <Grid size={{ xs: 12, md: 4 }}>
+                            <Paper
+                                elevation={0}
+                                sx={{
+                                    borderRadius: '16px',
+                                    border: '2px solid #FF6127',
+                                    p: 4,
+                                    backgroundColor: '#ffffff',
+                                    height: '100%',
+                                    position: 'relative',
+                                }}
+                            >
+                                <Box
+                                    sx={{
+                                        position: 'absolute',
+                                        top: -1,
+                                        left: '50%',
+                                        transform: 'translateX(-50%)',
+                                        backgroundColor: '#FF6127',
+                                        color: 'white',
+                                        px: 3,
+                                        py: 0.5,
+                                        borderRadius: '0 0 8px 8px',
+                                        fontSize: '0.75rem',
+                                        fontFamily: '"Nunito Sans", sans-serif',
+                                        fontWeight: 600,
+                                    }}
+                                >
+                                    MOST POPULAR
+                                </Box>
+                                <Typography
+                                    variant="h6"
+                                    sx={{
+                                        fontFamily: '"Instrument Serif", serif',
+                                        fontWeight: 400,
+                                        color: '#111827',
+                                        mb: 2,
+                                        mt: 2,
+                                    }}
+                                >
+                                    Professional
+                                </Typography>
+                                <Box sx={{ mb: 4 }}>
+                                    <Typography
+                                        variant="h3"
+                                        sx={{
+                                            fontFamily: '"Instrument Serif", serif',
+                                            fontWeight: 400,
+                                            color: '#111827',
+                                            display: 'inline',
+                                        }}
+                                    >
+                                        $99
+                                    </Typography>
+                                    <Typography
+                                        variant="body1"
+                                        sx={{
+                                            fontFamily: '"Nunito Sans", sans-serif',
+                                            color: '#6b7280',
+                                            display: 'inline',
+                                            ml: 1,
+                                        }}
+                                    >
+                                        /month
+                                    </Typography>
+                                </Box>
+                                <Typography
+                                    variant="body2"
+                                    sx={{
+                                        fontFamily: '"Nunito Sans", sans-serif',
+                                        color: '#6b7280',
+                                        mb: 4,
+                                    }}
+                                >
+                                    Advanced optimization features and unlimited tracking for growing teams
+                                </Typography>
+                                <Stack spacing={2} sx={{ mb: 6 }}>
+                                    {[
+                                        'Unlimited spend tracking',
+                                        'Advanced cost optimization',
+                                        'Custom budget controls',
+                                        'Team collaboration',
+                                        'API access',
+                                        'Priority support',
+                                        'Cost forecasting',
+                                    ].map((feature, index) => (
+                                        <Box key={index} sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+                                            <CheckIcon style={{ width: 16, height: 16, color: '#22c55e' }} />
+                                            <Typography
+                                                variant="body2"
+                                                sx={{
+                                                    fontFamily: '"Nunito Sans", sans-serif',
+                                                    color: '#374151',
+                                                }}
+                                            >
+                                                {feature}
+                                            </Typography>
+                                        </Box>
+                                    ))}
+                                </Stack>
+                                <Button
+                                    variant="contained"
+                                    fullWidth
+                                    component={Link}
+                                    to="/register"
+                                    sx={{
+                                        py: 1.5,
+                                        background: 'linear-gradient(135deg, #FF6127 0%, #FFB99F 100%)',
+                                        fontFamily: '"Nunito Sans", sans-serif',
+                                        fontWeight: 600,
+                                        boxShadow: 'none',
+                                        '&:hover': {
+                                            boxShadow: '0 4px 12px rgba(255, 97, 39, 0.3)',
+                                        }
+                                    }}
+                                >
+                                    Start Free Trial
+                                </Button>
+                            </Paper>
+                        </Grid>
+
+                        {/* Enterprise Tier */}
+                        <Grid size={{ xs: 12, md: 4 }}>
+                            <Paper
+                                elevation={0}
+                                sx={{
+                                    borderRadius: '16px',
+                                    border: '2px solid #e5e7eb',
+                                    p: 4,
+                                    backgroundColor: '#ffffff',
+                                    height: '100%',
+                                    position: 'relative',
+                                }}
+                            >
+                                <Typography
+                                    variant="h6"
+                                    sx={{
+                                        fontFamily: '"Instrument Serif", serif',
+                                        fontWeight: 400,
+                                        color: '#111827',
+                                        mb: 2,
+                                    }}
+                                >
+                                    Enterprise
+                                </Typography>
+                                <Box sx={{ mb: 4 }}>
+                                    <Typography
+                                        variant="h3"
+                                        sx={{
+                                            fontFamily: '"Instrument Serif", serif',
+                                            fontWeight: 400,
+                                            color: '#111827',
+                                            display: 'inline',
+                                        }}
+                                    >
+                                        $499
+                                    </Typography>
+                                    <Typography
+                                        variant="body1"
+                                        sx={{
+                                            fontFamily: '"Nunito Sans", sans-serif',
+                                            color: '#6b7280',
+                                            display: 'inline',
+                                            ml: 1,
+                                        }}
+                                    >
+                                        /month
+                                    </Typography>
+                                </Box>
+                                <Typography
+                                    variant="body2"
+                                    sx={{
+                                        fontFamily: '"Nunito Sans", sans-serif',
+                                        color: '#6b7280',
+                                        mb: 4,
+                                    }}
+                                >
+                                    For teams spending $10K+ monthly with custom integrations
+                                </Typography>
+                                <Stack spacing={2} sx={{ mb: 6 }}>
+                                    {[
+                                        'Everything in Professional',
+                                        'Custom integrations',
+                                        'Dedicated support manager',
+                                        'SLA guarantees',
+                                        'Advanced security features',
+                                        'Custom reporting',
+                                        'On-premise deployment',
+                                    ].map((feature, index) => (
+                                        <Box key={index} sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+                                            <CheckIcon style={{ width: 16, height: 16, color: '#22c55e' }} />
+                                            <Typography
+                                                variant="body2"
+                                                sx={{
+                                                    fontFamily: '"Nunito Sans", sans-serif',
+                                                    color: '#374151',
+                                                }}
+                                            >
+                                                {feature}
+                                            </Typography>
+                                        </Box>
+                                    ))}
+                                </Stack>
+                                <Button
+                                    variant="outlined"
+                                    fullWidth
+                                    sx={{
+                                        py: 1.5,
+                                        borderColor: '#e5e7eb',
+                                        color: '#374151',
+                                        fontFamily: '"Nunito Sans", sans-serif',
+                                        fontWeight: 500,
+                                        '&:hover': {
+                                            borderColor: '#667eea',
+                                            backgroundColor: 'rgba(102, 126, 234, 0.05)',
+                                        }
+                                    }}
+                                >
+                                    Contact Sales
+                                </Button>
+                            </Paper>
+                        </Grid>
+                    </Grid>
+                </Container>
+            </Box>
 
             {/* CTA Section */}
             <Box sx={{ backgroundColor: '#111827', py: 12 }}>
@@ -888,13 +1494,13 @@ const LandingPage: React.FC = () => {
                                 sx={{
                                     py: 2,
                                     px: 6,
-                                    backgroundColor: '#667eea',
+                                    backgroundColor: '#FF6127',
                                     fontFamily: '"Nunito Sans", sans-serif',
                                     fontSize: '1.1rem',
                                     fontWeight: 600,
                                     '&:hover': {
-                                        backgroundColor: '#5b6fd8',
-                                        boxShadow: '0 4px 12px rgba(102, 126, 234, 0.3)',
+                                        backgroundColor: '#e55b30',
+                                        boxShadow: '0 4px 12px rgba(255, 97, 39, 0.3)',
                                     }
                                 }}
                             >
@@ -936,7 +1542,7 @@ const LandingPage: React.FC = () => {
                                     width: 32,
                                     height: 32,
                                     borderRadius: '8px',
-                                    background: 'linear-gradient(35deg, #667eea 0%, #764ba2 100%)',
+                                    background: 'linear-gradient(35deg, #FF6127 0%, #FFB99F 100%)',
                                     display: 'flex',
                                     alignItems: 'center',
                                     justifyContent: 'center',
@@ -948,11 +1554,11 @@ const LandingPage: React.FC = () => {
                                 variant="h6"
                                 sx={{
                                     fontFamily: '"Instrument Serif", serif',
-                                    fontWeight: 400,
+                                    fontWeight: 800,
                                     color: '#111827',
                                 }}
                             >
-                                MovDev
+                                MoDev
                             </Typography>
                         </Box>
                         <Typography
@@ -972,7 +1578,7 @@ const LandingPage: React.FC = () => {
                                 color: '#9ca3af'
                             }}
                         >
-                            © 2024 MovDev. All rights reserved.
+                            © 2024 MoDev. All rights reserved.
                         </Typography>
                     </Box>
                 </Container>

@@ -12,7 +12,7 @@ import {
     Stack,
     Divider,
 } from '@mui/material';
-import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
+import { EyeIcon, EyeSlashIcon, ArrowLeftIcon } from '@heroicons/react/24/outline';
 import { useAuth } from '../hooks/useAuth';
 import { useNotify } from '../hooks/useNotifications';
 
@@ -68,9 +68,32 @@ const Login: React.FC = () => {
                 alignItems: 'center',
                 justifyContent: 'center',
                 backgroundColor: '#f5f5f5',
-                p: 3
+                p: 3,
+                position: 'relative',
             }}
         >
+            {/* Back Button - Top Right of Screen */}
+            <IconButton
+                onClick={() => navigate(-1)}
+                sx={{
+                    position: 'fixed',
+                    top: 24,
+                    left: 24,
+                    zIndex: 1000,
+                    color: '#6b7280',
+                    backgroundColor: '#ffffff',
+                    width: 48,
+                    height: 48,
+                    boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
+                    '&:hover': {
+                        backgroundColor: '#f9fafb',
+                        color: '#374151',
+                    }
+                }}
+            >
+                <ArrowLeftIcon style={{ width: 24, height: 24 }} />
+            </IconButton>
+
             <Box
                 sx={{
                     display: 'flex',
@@ -116,7 +139,8 @@ const Login: React.FC = () => {
                 >
                     {/* Logo */}
                     <Box sx={{ p: 4, textAlign: 'right' }}>
-                        <Box
+                        <Button
+                            onClick={() => navigate('/')}
                             sx={{
                                 display: 'inline-flex',
                                 alignItems: 'center',
@@ -124,7 +148,13 @@ const Login: React.FC = () => {
                                 px: 2,
                                 py: 1,
                                 borderRadius: 2,
-                                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                                background: 'linear-gradient(135deg, #FF6127 0%, #FFB99F 100%)',
+                                minWidth: 'auto',
+                                textTransform: 'none',
+                                '&:hover': {
+                                    background: 'linear-gradient(135deg, #e55b30 0%, #ff9d7a 100%)',
+                                    boxShadow: '0 4px 8px rgba(255, 97, 39, 0.3)',
+                                }
                             }}
                         >
                             <Box
@@ -144,9 +174,9 @@ const Login: React.FC = () => {
                                     fontSize: '0.9rem',
                                 }}
                             >
-                                MovDev
+                                MODEV
                             </Typography>
-                        </Box>
+                        </Button>
                     </Box>
 
                     {/* Form Content */}
@@ -404,14 +434,14 @@ const Login: React.FC = () => {
                                     sx={{
                                         py: 1,
                                         borderRadius: 2,
-                                        background: '#1976d2',
+                                        background: '#FFB99F',
                                         textTransform: 'none',
                                         fontFamily: '"Nunito Sans", sans-serif',
                                         fontWeight: 600,
                                         fontSize: '0.8rem',
                                         boxShadow: 'none',
                                         '&:hover': {
-                                            background: '#1565c0',
+                                            background: '#ff9d7a',
                                             boxShadow: 'none',
                                         },
                                         '&:disabled': {

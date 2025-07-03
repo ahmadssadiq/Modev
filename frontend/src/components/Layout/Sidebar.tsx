@@ -10,6 +10,7 @@ import {
     UserIcon,
     DocumentChartBarIcon,
     CodeBracketIcon,
+    CpuChipIcon,
 } from '@heroicons/react/24/outline';
 import { useAuth } from '../../hooks/useAuth';
 
@@ -35,13 +36,26 @@ const Sidebar: React.FC = () => {
     return (
         <div className="flex flex-col w-64 bg-white border-r border-gray-200 shadow-sm">
             {/* Logo */}
-            <div className="flex items-center justify-center h-16 px-4 border-b border-gray-200">
+            <div className="flex items-center justify-start h-16 px-4 border-b border-gray-200">
                 <div className="flex items-center space-x-2">
-                    <div className="w-8 h-8 bg-primary-600 rounded-lg flex items-center justify-center">
-                        <ChartBarIcon className="w-5 h-5 text-white" />
+                    <div
+                        style={{
+                            width: 32,
+                            height: 32,
+                            borderRadius: '8px',
+                            background: 'linear-gradient(135deg, #FF6127 0%, #FFB99F 100%)',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                        }}
+                    >
+                        <CpuChipIcon style={{ width: 16, height: 16, color: 'white' }} />
                     </div>
-                    <span className="text-xl font-bold text-gray-900">
-                        AI Cost Optimizer
+                    <span
+                        className="text-lg font-medium text-gray-900"
+                        style={{ fontFamily: '"Instrument Serif", serif', fontWeight: 400 }}
+                    >
+                        MODEV
                     </span>
                 </div>
             </div>
@@ -56,6 +70,7 @@ const Sidebar: React.FC = () => {
                             to={item.href}
                             className={`sidebar-link ${isActive ? 'sidebar-link-active' : 'sidebar-link-inactive'
                                 }`}
+                            style={{ fontFamily: '"Nunito Sans", sans-serif' }}
                         >
                             <item.icon
                                 className={`mr-3 h-5 w-5 ${isActive ? 'text-primary-600' : 'text-gray-400'
@@ -74,10 +89,16 @@ const Sidebar: React.FC = () => {
                         <UserIcon className="w-6 h-6 text-primary-600" />
                     </div>
                     <div className="flex-1 min-w-0">
-                        <p className="text-sm font-medium text-gray-900 truncate">
+                        <p
+                            className="text-sm font-medium text-gray-900 truncate"
+                            style={{ fontFamily: '"Nunito Sans", sans-serif' }}
+                        >
                             {user?.full_name || user?.email}
                         </p>
-                        <p className="text-xs text-gray-500 capitalize">
+                        <p
+                            className="text-xs text-gray-500 capitalize"
+                            style={{ fontFamily: '"Nunito Sans", sans-serif' }}
+                        >
                             {user?.plan} Plan
                         </p>
                     </div>
@@ -94,6 +115,7 @@ const Sidebar: React.FC = () => {
                                     ? 'bg-blue-100 text-blue-800'
                                     : 'bg-gray-100 text-gray-800'
                             }`}
+                        style={{ fontFamily: '"Nunito Sans", sans-serif' }}
                     >
                         {user?.plan === 'free' ? 'Free Tier' : `${user?.plan} Plan`}
                     </span>
@@ -104,6 +126,7 @@ const Sidebar: React.FC = () => {
                     <NavLink
                         to="/settings/profile"
                         className="sidebar-link sidebar-link-inactive text-xs"
+                        style={{ fontFamily: '"Nunito Sans", sans-serif' }}
                     >
                         <CogIcon className="mr-2 h-4 w-4 text-gray-400" />
                         Account Settings
@@ -112,6 +135,7 @@ const Sidebar: React.FC = () => {
                     <button
                         onClick={logout}
                         className="w-full text-left sidebar-link sidebar-link-inactive text-xs text-red-600 hover:text-red-700 hover:bg-red-50"
+                        style={{ fontFamily: '"Nunito Sans", sans-serif' }}
                     >
                         <svg
                             className="mr-2 h-4 w-4"
