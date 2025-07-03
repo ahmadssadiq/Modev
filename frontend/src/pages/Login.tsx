@@ -1,6 +1,18 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { ChartBarIcon, EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
+import {
+    Box,
+    TextField,
+    Button,
+    Typography,
+    Checkbox,
+    FormControlLabel,
+    IconButton,
+    InputAdornment,
+    Stack,
+    Divider,
+} from '@mui/material';
+import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
 import { useAuth } from '../hooks/useAuth';
 import { useNotify } from '../hooks/useNotifications';
 
@@ -8,6 +20,7 @@ const Login: React.FC = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
+    const [rememberMe, setRememberMe] = useState(false);
     const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
     const { login, loading, error } = useAuth();
@@ -44,177 +57,403 @@ const Login: React.FC = () => {
             navigate('/dashboard');
         } catch (err: any) {
             console.error('Login failed:', err);
-            // Error is already handled in the login function
         }
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-            <div className="max-w-md w-full space-y-8">
-                {/* Header */}
-                <div className="text-center">
-                    <div className="flex justify-center">
-                        <div className="w-12 h-12 bg-primary-600 rounded-lg flex items-center justify-center">
-                            <ChartBarIcon className="w-8 h-8 text-white" />
-                        </div>
-                    </div>
-                    <h2 className="mt-6 text-3xl font-bold text-gray-900">
-                        Sign in to your account
-                    </h2>
-                    <p className="mt-2 text-sm text-gray-600">
-                        Monitor and optimize your AI costs
-                    </p>
-                </div>
+        <Box
+            sx={{
+                minHeight: '100vh',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                backgroundColor: '#f5f5f5',
+                p: 3
+            }}
+        >
+            <Box
+                sx={{
+                    display: 'flex',
+                    width: '100%',
+                    maxWidth: 1000,
+                    height: 600,
+                    backgroundColor: '#ffffff',
+                    borderRadius: 3,
+                    overflow: 'hidden',
+                    boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)'
+                }}
+            >
+                {/* Left Side - Background Image */}
+                <Box
+                    sx={{
+                        flex: 1,
+                        backgroundImage: 'url(https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80)',
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center',
+                        backgroundRepeat: 'no-repeat',
+                        position: 'relative',
+                        '&::before': {
+                            content: '""',
+                            position: 'absolute',
+                            top: 0,
+                            left: 0,
+                            right: 0,
+                            bottom: 0,
+                            background: 'linear-gradient(45deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.1) 100%)',
+                        },
+                    }}
+                />
 
-                {/* Form */}
-                <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-                    <div className="space-y-4">
-                        {/* Email Field */}
-                        <div>
-                            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                                Email address
-                            </label>
-                            <div className="mt-1">
-                                <input
-                                    id="email"
-                                    name="email"
-                                    type="email"
-                                    autoComplete="email"
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
-                                    className={`input-field ${errors.email ? 'border-red-300' : ''}`}
-                                    placeholder="Enter your email"
-                                />
-                                {errors.email && (
-                                    <p className="mt-1 text-sm text-red-600">{errors.email}</p>
-                                )}
-                            </div>
-                        </div>
-
-                        {/* Password Field */}
-                        <div>
-                            <label htmlFor="password" className="block text-sm font-medium text-gray-700">
-                                Password
-                            </label>
-                            <div className="mt-1 relative">
-                                <input
-                                    id="password"
-                                    name="password"
-                                    type={showPassword ? 'text' : 'password'}
-                                    autoComplete="current-password"
-                                    value={password}
-                                    onChange={(e) => setPassword(e.target.value)}
-                                    className={`input-field pr-10 ${errors.password ? 'border-red-300' : ''}`}
-                                    placeholder="Enter your password"
-                                />
-                                <button
-                                    type="button"
-                                    className="absolute inset-y-0 right-0 pr-3 flex items-center"
-                                    onClick={() => setShowPassword(!showPassword)}
-                                >
-                                    {showPassword ? (
-                                        <EyeSlashIcon className="h-5 w-5 text-gray-400" />
-                                    ) : (
-                                        <EyeIcon className="h-5 w-5 text-gray-400" />
-                                    )}
-                                </button>
-                                {errors.password && (
-                                    <p className="mt-1 text-sm text-red-600">{errors.password}</p>
-                                )}
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Error Display */}
-                    {error && (
-                        <div className="rounded-md bg-red-50 border border-red-200 p-4">
-                            <div className="text-sm text-red-700">{error}</div>
-                        </div>
-                    )}
-
-                    {/* Remember me and Forgot password */}
-                    <div className="flex items-center justify-between">
-                        <div className="flex items-center">
-                            <input
-                                id="remember-me"
-                                name="remember-me"
-                                type="checkbox"
-                                className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded"
-                            />
-                            <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
-                                Remember me
-                            </label>
-                        </div>
-
-                        <div className="text-sm">
-                            <Link
-                                to="/forgot-password"
-                                className="font-medium text-primary-600 hover:text-primary-500"
-                            >
-                                Forgot your password?
-                            </Link>
-                        </div>
-                    </div>
-
-                    {/* Submit Button */}
-                    <div>
-                        <button
-                            type="submit"
-                            disabled={loading}
-                            className="btn-primary w-full flex justify-center items-center disabled:opacity-50 disabled:cursor-not-allowed"
+                {/* Right Side - Login Form */}
+                <Box
+                    sx={{
+                        width: 480,
+                        display: 'flex',
+                        flexDirection: 'column',
+                        backgroundColor: '#ffffff',
+                        position: 'relative',
+                    }}
+                >
+                    {/* Logo */}
+                    <Box sx={{ p: 4, textAlign: 'right' }}>
+                        <Box
+                            sx={{
+                                display: 'inline-flex',
+                                alignItems: 'center',
+                                gap: 1,
+                                px: 2,
+                                py: 1,
+                                borderRadius: 2,
+                                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                            }}
                         >
-                            {loading ? (
-                                <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
-                            ) : (
-                                'Sign in'
-                            )}
-                        </button>
-                    </div>
-
-                    {/* Sign up link */}
-                    <div className="text-center">
-                        <span className="text-sm text-gray-600">
-                            Don't have an account?{' '}
-                            <Link
-                                to="/register"
-                                className="font-medium text-primary-600 hover:text-primary-500"
+                            <Box
+                                sx={{
+                                    width: 8,
+                                    height: 8,
+                                    borderRadius: '50%',
+                                    backgroundColor: '#ffffff',
+                                }}
+                            />
+                            <Typography
+                                variant="subtitle1"
+                                sx={{
+                                    color: '#ffffff',
+                                    fontWeight: 600,
+                                    fontSize: '0.9rem',
+                                }}
                             >
-                                Sign up for free
-                            </Link>
-                        </span>
-                    </div>
-                </form>
+                                MovDev
+                            </Typography>
+                        </Box>
+                    </Box>
 
-                {/* Features */}
-                <div className="mt-8 border-t border-gray-200 pt-8">
-                    <div className="text-center">
-                        <h3 className="text-sm font-medium text-gray-900 mb-4">
-                            Why choose AI Cost Optimizer?
-                        </h3>
-                        <div className="space-y-2 text-sm text-gray-600">
-                            <div className="flex items-center justify-center">
-                                <svg className="w-4 h-4 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                                </svg>
-                                Real-time cost tracking
-                            </div>
-                            <div className="flex items-center justify-center">
-                                <svg className="w-4 h-4 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                                </svg>
-                                Multi-provider support
-                            </div>
-                            <div className="flex items-center justify-center">
-                                <svg className="w-4 h-4 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                                </svg>
-                                Budget alerts & controls
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+                    {/* Form Content */}
+                    <Box
+                        sx={{
+                            flex: 1,
+                            display: 'flex',
+                            flexDirection: 'column',
+                            justifyContent: 'center',
+                            px: 5,
+                            pt: 0,
+                            pb: 30,
+                        }}
+                    >
+                        <Box sx={{ maxWidth: 340, width: '100%' }}>
+                            {/* Header */}
+                            <Typography
+                                variant="h5"
+                                sx={{
+                                    color: '#1a1a1a',
+                                    fontWeight: 600,
+                                    mb: 0.5,
+                                    fontSize: '1.5rem',
+                                }}
+                            >
+                                Nice to see you again
+                            </Typography>
+
+                            <Typography
+                                variant="body2"
+                                sx={{
+                                    color: '#666666',
+                                    mb: 3,
+                                    fontSize: '0.8rem',
+                                }}
+                            >
+                                Login
+                            </Typography>
+
+                            {/* Form */}
+                            <Stack spacing={2} component="form" onSubmit={handleSubmit}>
+                                {/* Email Field */}
+                                <Box>
+                                    <Typography
+                                        variant="body2"
+                                        sx={{
+                                            color: '#333333',
+                                            mb: 0.5,
+                                            fontWeight: 500,
+                                            fontSize: '0.8rem',
+                                        }}
+                                    >
+                                        Email or phone number
+                                    </Typography>
+                                    <TextField
+                                        fullWidth
+                                        value={email}
+                                        onChange={(e) => setEmail(e.target.value)}
+                                        error={!!errors.email}
+                                        helperText={errors.email}
+                                        placeholder="Enter your email"
+                                        variant="outlined"
+                                        size="small"
+                                        sx={{
+                                            '& .MuiOutlinedInput-root': {
+                                                borderRadius: 2,
+                                                backgroundColor: '#f8f9fa',
+                                                border: 'none',
+                                                '& fieldset': {
+                                                    border: 'none',
+                                                },
+                                                '&:hover fieldset': {
+                                                    border: 'none',
+                                                },
+                                                '&.Mui-focused fieldset': {
+                                                    border: '2px solid #667eea',
+                                                },
+                                                '&.Mui-error fieldset': {
+                                                    border: '2px solid #ef4444',
+                                                },
+                                                '& input': {
+                                                    color: '#333333',
+                                                    fontSize: '0.8rem',
+                                                    py: 1,
+                                                    '&::placeholder': {
+                                                        color: '#999999',
+                                                        opacity: 1,
+                                                    },
+                                                },
+                                            },
+                                            '& .MuiFormHelperText-root': {
+                                                fontSize: '0.7rem',
+                                                mt: 0.5,
+                                            },
+                                        }}
+                                    />
+                                </Box>
+
+                                {/* Password Field */}
+                                <Box>
+                                    <Typography
+                                        variant="body2"
+                                        sx={{
+                                            color: '#333333',
+                                            mb: 0.5,
+                                            fontWeight: 500,
+                                            fontSize: '0.8rem',
+                                        }}
+                                    >
+                                        Password
+                                    </Typography>
+                                    <TextField
+                                        fullWidth
+                                        type={showPassword ? 'text' : 'password'}
+                                        value={password}
+                                        onChange={(e) => setPassword(e.target.value)}
+                                        error={!!errors.password}
+                                        helperText={errors.password}
+                                        placeholder="Enter password"
+                                        variant="outlined"
+                                        size="small"
+                                        InputProps={{
+                                            endAdornment: (
+                                                <InputAdornment position="end">
+                                                    <IconButton
+                                                        onClick={() => setShowPassword(!showPassword)}
+                                                        edge="end"
+                                                        size="small"
+                                                        sx={{ color: '#999999' }}
+                                                    >
+                                                        {showPassword ? (
+                                                            <EyeSlashIcon style={{ width: 16, height: 16 }} />
+                                                        ) : (
+                                                            <EyeIcon style={{ width: 16, height: 16 }} />
+                                                        )}
+                                                    </IconButton>
+                                                </InputAdornment>
+                                            ),
+                                        }}
+                                        sx={{
+                                            '& .MuiOutlinedInput-root': {
+                                                borderRadius: 2,
+                                                backgroundColor: '#f8f9fa',
+                                                border: 'none',
+                                                '& fieldset': {
+                                                    border: 'none',
+                                                },
+                                                '&:hover fieldset': {
+                                                    border: 'none',
+                                                },
+                                                '&.Mui-focused fieldset': {
+                                                    border: '2px solid #667eea',
+                                                },
+                                                '&.Mui-error fieldset': {
+                                                    border: '2px solid #ef4444',
+                                                },
+                                                '& input': {
+                                                    color: '#333333',
+                                                    fontSize: '0.8rem',
+                                                    py: 1,
+                                                    '&::placeholder': {
+                                                        color: '#999999',
+                                                        opacity: 1,
+                                                    },
+                                                },
+                                            },
+                                            '& .MuiFormHelperText-root': {
+                                                fontSize: '0.7rem',
+                                                mt: 0.5,
+                                            },
+                                        }}
+                                    />
+                                </Box>
+
+                                {/* Remember Me & Forgot Password */}
+                                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                    <FormControlLabel
+                                        control={
+                                            <Checkbox
+                                                checked={rememberMe}
+                                                onChange={(e) => setRememberMe(e.target.checked)}
+                                                size="small"
+                                                sx={{
+                                                    color: '#cccccc',
+                                                    padding: 0.5,
+                                                    '&.Mui-checked': {
+                                                        color: '#667eea',
+                                                    },
+                                                }}
+                                            />
+                                        }
+                                        label={
+                                            <Typography variant="body2" sx={{ color: '#666666', fontSize: '0.75rem' }}>
+                                                Remember me
+                                            </Typography>
+                                        }
+                                    />
+                                    <Link
+                                        to="/forgot-password"
+                                        style={{
+                                            color: '#667eea',
+                                            textDecoration: 'none',
+                                            fontSize: '0.75rem',
+                                        }}
+                                    >
+                                        Forgot password?
+                                    </Link>
+                                </Box>
+
+                                {/* Error Display */}
+                                {error && (
+                                    <Box
+                                        sx={{
+                                            p: 1.5,
+                                            borderRadius: 2,
+                                            backgroundColor: '#fef2f2',
+                                            border: '1px solid #fecaca',
+                                        }}
+                                    >
+                                        <Typography variant="body2" sx={{ color: '#dc2626', fontSize: '0.75rem' }}>
+                                            {error}
+                                        </Typography>
+                                    </Box>
+                                )}
+
+                                {/* Sign In Button */}
+                                <Button
+                                    type="submit"
+                                    fullWidth
+                                    variant="contained"
+                                    disabled={loading}
+                                    sx={{
+                                        py: 1,
+                                        borderRadius: 2,
+                                        background: '#1976d2',
+                                        textTransform: 'none',
+                                        fontWeight: 600,
+                                        fontSize: '0.8rem',
+                                        boxShadow: 'none',
+                                        '&:hover': {
+                                            background: '#1565c0',
+                                            boxShadow: 'none',
+                                        },
+                                        '&:disabled': {
+                                            background: '#cccccc',
+                                        },
+                                    }}
+                                >
+                                    {loading ? 'Signing in...' : 'Sign in'}
+                                </Button>
+
+                                <Divider sx={{ my: 1 }} />
+
+                                {/* Google Sign In */}
+                                <Button
+                                    fullWidth
+                                    variant="outlined"
+                                    sx={{
+                                        py: 1,
+                                        borderRadius: 2,
+                                        borderColor: '#e0e0e0',
+                                        color: '#ffffff',
+                                        textTransform: 'none',
+                                        fontWeight: 500,
+                                        fontSize: '0.8rem',
+                                        backgroundColor: '#333333',
+                                        '&:hover': {
+                                            backgroundColor: '#555555',
+                                            borderColor: '#333333',
+                                        },
+                                    }}
+                                    startIcon={
+                                        <Box
+                                            sx={{
+                                                width: 16,
+                                                height: 16,
+                                                backgroundImage: 'url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHZpZXdCb3g9IjAgMCAxOCAxOCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTE3LjY0IDkuMjA0NTVDMTcuNjQgOC41NjYzNiAxNy41ODI3IDcuOTUyNzMgMTcuNDc2NCA3LjM2MzY0SDE5VjEwLjY5OTFIMTMuNDQzNkMxMy4yNDE4IDExLjYyNTUgMTIuNDY2NCAxMi4zNzA5IDExLjQ1NDUgMTIuODM2NEw5LjM1OTA5IDExLjkzNjRWMTUuMTY5MUgxNC41MzgyQzE2LjU5NTUgMTMuMzM2NCAxNy42NCA1NC1lLTUgMTcuNjQgOS4yMDQ1NVoiIGZpbGw9IiM0Mjg1RjQiLz4KPHBhdGggZD0iTTkgMThDMTEuNDMgMTggMTMuNDY3MyAxNy4xOTQ1IDE1IDEwLjI3MjdMMTEuNDU0NSAxMi44MzY0QzEwLjU5MDkgMTMuNzY2NCA5IDEzIDk5IDEzUzYuNDA5MSAxNS4yNzI3IDYuNDA5MSAxNS4yNzI3TDQuMjI3MjcgMTUuMjcyN0M1LjY5MDkxIDEzLjk2MzYgOCAxNCA5IDE4WiIgZmlsbD0iIzM0QTg1MyIvPgo8cGF0aCBkPSJNNC4yMjcyNyAxNS4yNzI3QzMuODQwOTEgMTQuMjk1NSA0LjE4MTgyIDEzLjE4MTggNCA5VjEyLjgzNjRIMTFMMTEuNDU0NSAxMi44MzY0QzEyLjQ5MDkgMTAuODE4MiAxMy4zNjM2IDUuODA5MDkgOSA1LjU0NTQ1WiIgZmlsbD0iI0ZCQkMwNSIvPgo8cGF0aCBkPSJNOSA0LjJDMTAuNjY4NCA0LjIgMTIuMjA0NSA0Ljc2MDkxIDEzLjQ1NDUgNi4wNTQ1NUwxMS40NTQ1IDcuNzI3MjdDMTAuNzQ1NSA3LjIyNzI3IDEwLjIyNzMgNi45ODI3MyA5IDUuNDU0NTVDNi45OTU0NSA1LjQ1NDU1IDUuMjQwOTEgNi44NjM2NCA0LjY4MTgyIDguNTQ1NDVMNC4yMjcyNyAxMS40NTQ1SDE4QzQgNi4yNTQ1NSA1LjcyNzI3IDQuMiA5IDQuMloiIGZpbGw9IiNFQTQzMzUiLz4KPC9zdmc+)',
+                                                backgroundSize: 'contain',
+                                                backgroundRepeat: 'no-repeat',
+                                            }}
+                                        />
+                                    }
+                                >
+                                    Or sign in with Google
+                                </Button>
+
+                                {/* Sign Up Link */}
+                                <Box sx={{ textAlign: 'center', mt: 1 }}>
+                                    <Typography variant="body2" sx={{ color: '#666666', fontSize: '0.75rem' }}>
+                                        Don't have an account?{' '}
+                                        <Link
+                                            to="/register"
+                                            style={{
+                                                color: '#667eea',
+                                                textDecoration: 'none',
+                                                fontWeight: 600,
+                                            }}
+                                        >
+                                            Sign up now
+                                        </Link>
+                                    </Typography>
+                                </Box>
+                            </Stack>
+                        </Box>
+                    </Box>
+                </Box>
+            </Box>
+        </Box>
     );
 };
 
