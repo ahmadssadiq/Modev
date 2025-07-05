@@ -73,7 +73,7 @@ const Sidebar: React.FC = () => {
                             style={{ fontFamily: '"Nunito Sans", sans-serif' }}
                         >
                             <item.icon
-                                className={`mr-3 h-5 w-5 ${isActive ? 'text-primary-600' : 'text-gray-400'
+                                className={`mr-3 h-5 w-5 ${isActive ? 'text-orange-600' : 'text-gray-400'
                                     }`}
                             />
                             {item.name}
@@ -85,8 +85,8 @@ const Sidebar: React.FC = () => {
             {/* User Profile Section */}
             <div className="border-t border-gray-200 p-4">
                 <div className="flex items-center space-x-3 mb-4">
-                    <div className="w-10 h-10 bg-primary-100 rounded-full flex items-center justify-center">
-                        <UserIcon className="w-6 h-6 text-primary-600" />
+                    <div className="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center">
+                        <UserIcon className="w-6 h-6 text-orange-600" />
                     </div>
                     <div className="flex-1 min-w-0">
                         <p

@@ -330,7 +330,7 @@ const LandingPage: React.FC = () => {
                                     left: -20,
                                     right: -20,
                                     bottom: -20,
-                                    background: 'linear-gradient(135deg, #667eea10 0%, #764ba220 100%)',
+                                    background: 'linear-gradient(135deg, #FFEDE7 0%, #764ba220 100%)',
                                     borderRadius: '24px',
                                     zIndex: 0,
                                 }}
@@ -404,7 +404,7 @@ const LandingPage: React.FC = () => {
                                                         variant="caption"
                                                         sx={{
                                                             fontFamily: '"Nunito Sans", sans-serif',
-                                                            color: metric.positive ? '#22c55e' : '#6b7280',
+                                                            color: metric.positive ? '#22c55e' : '#B22222',
                                                             fontSize: '0.7rem',
                                                             fontWeight: 500,
                                                         }}
@@ -420,7 +420,7 @@ const LandingPage: React.FC = () => {
                                     <Box
                                         sx={{
                                             height: 80,
-                                            background: 'linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%)',
+                                            background: 'linear-gradient(135deg, rgba(117, 234, 102, 0.1) 0%, rgba(163, 0, 0, 0.1) 100%)',
                                             borderRadius: '8px',
                                             position: 'relative',
                                             overflow: 'hidden',
@@ -428,14 +428,14 @@ const LandingPage: React.FC = () => {
                                     >
                                         <svg width="100%" height="100%" viewBox="0 0 300 80">
                                             <path
-                                                d="M0,60 Q75,40 150,30 T300,20"
-                                                stroke="#667eea"
+                                                d="M0,0 Q75,40 150,30 T300,40"
+                                                stroke="#B22222"
                                                 strokeWidth="2"
                                                 fill="none"
                                             />
                                             <path
-                                                d="M0,60 Q75,40 150,30 T300,20 L300,80 L0,80 Z"
-                                                fill="rgba(102, 126, 234, 0.2)"
+                                                d="M0,0 Q75,40 150,30 T300,40 L300,80 L0,80 Z"
+                                                fill="rgba(234, 102, 102, 0.2)"
                                             />
                                         </svg>
                                     </Box>

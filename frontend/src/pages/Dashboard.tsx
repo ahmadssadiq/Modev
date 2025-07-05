@@ -61,7 +61,7 @@ const Dashboard: React.FC = () => {
 
     // Chart colors
     const chartColors = {
-        primary: '#3B82F6',
+        primary: '#FF6F3C',
         success: '#22C55E',
         warning: '#EAB308',
         danger: '#EF4444',
@@ -221,19 +221,19 @@ const Dashboard: React.FC = () => {
                     )}
 
                     {apiKeys.length > 0 && (
-                        <div className="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                        <div className="mt-4 p-4 bg-orange-50 border border-orange-200 rounded-lg">
                             <div className="flex items-start justify-between">
                                 <div className="flex-1">
-                                    <p className="text-sm text-blue-800 mb-2">
+                                    <p className="text-sm text-orange-800 mb-2">
                                         <strong>Ready to track usage!</strong> Your AI API calls will be logged when you use our proxy endpoints.
                                     </p>
-                                    <code className="text-xs bg-blue-100 px-2 py-1 rounded font-mono text-blue-900">
+                                    <code className="text-xs bg-orange-100 px-2 py-1 rounded font-mono text-blue-900">
                                         {window.location.origin.replace(':5173', ':8000')}/proxy/{apiKeys[0].provider}/...
                                     </code>
                                 </div>
                                 <a
                                     href="/integration"
-                                    className="ml-4 btn-primary text-xs px-3 py-1"
+                                    className="ml-4 bg-orange-500 btn-primary text-xs px-3 py-1"
                                 >
                                     Get Code Examples
                                 </a>

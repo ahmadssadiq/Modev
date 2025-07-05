@@ -85,7 +85,7 @@ const Header: React.FC<HeaderProps> = ({ title, subtitle, actions }) => {
                     </button>
 
                     {/* User info */}
-                    <div className="flex items-center space-x-3">
+                    {/* <div className="flex items-center space-x-3">
                         <div className="text-right">
                             <div className="text-sm font-medium text-gray-900" style={{ fontFamily: '"Nunito Sans", sans-serif' }}>
                                 {user?.full_name || user?.email}
@@ -104,7 +104,7 @@ const Header: React.FC<HeaderProps> = ({ title, subtitle, actions }) => {
                                 {(user?.full_name || user?.email || 'U').charAt(0).toUpperCase()}
                             </span>
                         </div>
-                    </div>
+                    </div> */}
                 </div>
             </div>
         </header>
