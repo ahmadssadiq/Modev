@@ -112,9 +112,9 @@ const LandingPage: React.FC = () => {
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
                             <Box
                                 sx={{
-                                    width: 28,
-                                    height: 28,
-                                    borderRadius: '6px',
+                                    width: 8,
+                                    height: 8,
+                                    borderRadius: '50%',
                                     background: 'linear-gradient(135deg, #FF6127 0%, #FFB99F 100%)',
                                     display: 'flex',
                                     alignItems: 'center',
@@ -559,43 +559,6 @@ const LandingPage: React.FC = () => {
                         </Typography>
                     </Box>
 
-                    {/* Provider Logos */}
-                    <Box sx={{ display: 'flex', justifyContent: 'center', mb: 8 }}>
-                        <Stack direction="row" spacing={3} alignItems="center" flexWrap="wrap" useFlexGap>
-                            {[
-                                { name: 'OpenAI', icon: '🤖' },
-                                { name: 'Anthropic', icon: '🧠' },
-                                { name: 'Azure', icon: '☁️' },
-                                { name: 'Gemini', icon: '💎' },
-                                { name: 'Claude', icon: '⚡' },
-                                { name: 'LangChain', icon: '🔗' },
-                                { name: 'Groq', icon: '⚙️' },
-                                { name: 'Cohere', icon: '🔮' },
-                            ].map((provider, index) => (
-                                <Box
-                                    key={index}
-                                    sx={{
-                                        width: 60,
-                                        height: 60,
-                                        borderRadius: '12px',
-                                        backgroundColor: '#f8fafc',
-                                        border: '1px solid #e5e7eb',
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        justifyContent: 'center',
-                                        fontSize: '1.5rem',
-                                        '&:hover': {
-                                            borderColor: '#667eea',
-                                            backgroundColor: 'rgba(102, 126, 234, 0.05)',
-                                        }
-                                    }}
-                                >
-                                    {provider.icon}
-                                </Box>
-                            ))}
-                        </Stack>
-                    </Box>
-
                     {/* Code Examples */}
                     <Box sx={{ maxWidth: '800px', mx: 'auto' }}>
                         {/* Language Tabs */}
@@ -607,7 +570,6 @@ const LandingPage: React.FC = () => {
                                         py: 1.5,
                                         px: 3,
                                         borderRadius: 0,
-                                        borderBottom: index === 0 ? '2px solid #667eea' : '2px solid transparent',
                                         backgroundColor: index === 0 ? 'rgba(102, 126, 234, 0.05)' : 'transparent',
                                         color: index === 0 ? '#667eea' : '#6b7280',
                                         fontFamily: '"Nunito Sans", sans-serif',
@@ -1038,7 +1000,7 @@ const LandingPage: React.FC = () => {
             </Box>
 
             {/* Stats Section */}
-            <Container maxWidth="lg" sx={{ py: 12 }}>
+            {/* <Container maxWidth="lg" sx={{ py: 12 }}>
                 <Box sx={{ textAlign: 'center', mb: 8 }}>
                     <Typography
                         variant="h3"
@@ -1094,10 +1056,10 @@ const LandingPage: React.FC = () => {
                         </Grid>
                     ))}
                 </Grid>
-            </Container>
+            </Container> */}
 
             {/* Pricing Section */}
-            <Box sx={{ backgroundColor: '#f9fafb', py: 16 }}>
+            {/* <Box sx={{ backgroundColor: '#f9fafb', py: 16 }}>
                 <Container maxWidth="lg">
                     <Box sx={{ textAlign: 'center', mb: 12 }}>
                         <Typography
@@ -1127,9 +1089,9 @@ const LandingPage: React.FC = () => {
                         </Typography>
                     </Box>
 
-                    <Grid container spacing={4} justifyContent="center">
-                        {/* Free Tier */}
-                        <Grid size={{ xs: 12, md: 4 }}>
+                    <Grid container spacing={4} justifyContent="center"> */}
+            {/* Free Tier */}
+            {/* <Grid size={{ xs: 12, md: 4 }}>
                             <Paper
                                 elevation={0}
                                 sx={{
@@ -1228,10 +1190,10 @@ const LandingPage: React.FC = () => {
                                     Get Started Free
                                 </Button>
                             </Paper>
-                        </Grid>
+                        </Grid> */}
 
-                        {/* Pro Tier */}
-                        <Grid size={{ xs: 12, md: 4 }}>
+            {/* Pro Tier */}
+            {/* <Grid size={{ xs: 12, md: 4 }}>
                             <Paper
                                 elevation={0}
                                 sx={{
@@ -1350,10 +1312,10 @@ const LandingPage: React.FC = () => {
                                     Start Free Trial
                                 </Button>
                             </Paper>
-                        </Grid>
+                        </Grid> */}
 
-                        {/* Enterprise Tier */}
-                        <Grid size={{ xs: 12, md: 4 }}>
+            {/* Enterprise Tier */}
+            {/* <Grid size={{ xs: 12, md: 4 }}>
                             <Paper
                                 elevation={0}
                                 sx={{
@@ -1452,13 +1414,13 @@ const LandingPage: React.FC = () => {
                                     Contact Sales
                                 </Button>
                             </Paper>
-                        </Grid>
-                    </Grid>
+                        </Grid> */}
+            {/* </Grid>
                 </Container>
-            </Box>
+            </Box> */}
 
             {/* CTA Section */}
-            <Box sx={{ backgroundColor: '#111827', py: 12 }}>
+            {/* <Box sx={{ backgroundColor: '#111827', py: 12 }}>
                 <Container maxWidth="lg">
                     <Box sx={{ textAlign: 'center' }}>
                         <Typography
@@ -1530,7 +1492,7 @@ const LandingPage: React.FC = () => {
                         </Stack>
                     </Box>
                 </Container>
-            </Box>
+            </Box> */}
 
             {/* Footer */}
             <Box sx={{ backgroundColor: '#f9fafb', py: 8 }}>
@@ -1539,10 +1501,10 @@ const LandingPage: React.FC = () => {
                         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 2, mb: 3 }}>
                             <Box
                                 sx={{
-                                    width: 32,
-                                    height: 32,
-                                    borderRadius: '8px',
-                                    background: 'linear-gradient(35deg, #FF6127 0%, #FFB99F 100%)',
+                                    width: 8,
+                                    height: 8,
+                                    borderRadius: '50%',
+                                    background: 'linear-gradient(135deg, #FF6127 0%, #FFB99F 100%)',
                                     display: 'flex',
                                     alignItems: 'center',
                                     justifyContent: 'center',
