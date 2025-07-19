@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, useEffect, type ReactNode } from 'react';
 import type { User, LoginRequest, RegisterRequest } from '../types';
 import apiService from '../services/api';
-import { auth } from '../lib/supabase';
+import { supabase } from '../lib/supabase';
 
 interface AuthContextType {
     user: User | null;
@@ -33,7 +33,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         const initializeAuth = async () => {
             try {
                 // Get current session from Supabase
-                const { data: { session }, error } = await auth.getCurrentSession();
+                const { data: { session }, error } = await supabase.auth.getSession();
 
                 if (session && !error) {
                     setToken(session.access_token);
@@ -44,7 +44,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
                         setUser(userData);
                     } catch (apiError) {
                         // If API call fails, create user object from Supabase data
-                        const { data: { user } } = await auth.getCurrentUser();
+                        const { data: { user } } = await supabase.auth.getUser();
                         if (user) {
                             setUser({
                                 id: parseInt(user.id),
@@ -74,11 +74,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         initializeAuth();
 
         // Listen for auth state changes
-        const { data: { subscription } } = auth.onAuthStateChange(async (event, session) => {
+        const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event: string, session: any) => {
             if (event === 'SIGNED_IN' && session) {
                 setToken(session.access_token);
                 // Update user data
-                const { data: { user } } = await auth.getCurrentUser();
+                const { data: { user } } = await supabase.auth.getUser();
                 if (user) {
                     setUser({
                         id: parseInt(user.id),
@@ -106,7 +106,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             setError(null);
 
             // Use Supabase auth
-            const { data, error } = await auth.signIn(credentials.email, credentials.password);
+            const { data, error } = await supabase.auth.signInWithPassword({
+                email: credentials.email,
+                password: credentials.password
+            });
 
             if (error) {
                 throw new Error(error.message);
@@ -147,14 +150,16 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             setError(null);
 
             // Use Supabase auth for registration
-            const { data, error } = await auth.signUp(
-                userData.email,
-                userData.password,
-                {
-                    full_name: userData.full_name,
-                    plan: 'free'
+            const { data, error } = await supabase.auth.signUp({
+                email: userData.email,
+                password: userData.password,
+                options: {
+                    data: {
+                        full_name: userData.full_name,
+                        plan: 'free'
+                    }
                 }
-            );
+            });
 
             if (error) {
                 throw new Error(error.message);
@@ -185,7 +190,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
     const logout = async () => {
         try {
-            await auth.signOut();
+            await supabase.auth.signOut();
         } catch (error) {
             console.error('Logout error:', error);
         } finally {

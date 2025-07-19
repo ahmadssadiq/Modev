@@ -25,7 +25,7 @@ import {
     ChartBarIcon,
     // ShieldCheckIcon,
     // CogIcon,
-    // BuildingOfficeIcon,
+    BuildingOfficeIcon,
     // SparklesIcon,
     CpuChipIcon,
     RocketLaunchIcon,
