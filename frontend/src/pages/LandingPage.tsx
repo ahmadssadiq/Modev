@@ -83,11 +83,11 @@ const LandingPage: React.FC = () => {
     ];
 
     // const stats = [
-        { label: 'Average Cost Reduction', value: '30%', description: 'in first month' },
-        { label: 'Setup Time', value: '<60s', description: 'drop-in integration' },
-        { label: 'Supported Providers', value: '4+', description: 'and growing' },
-        { label: 'Enterprise Ready', value: '99.9%', description: 'uptime SLA' },
-    ];
+    //     { label: 'Average Cost Reduction', value: '30%', description: 'in first month' },
+    //     { label: 'Setup Time', value: '<60s', description: 'drop-in integration' },
+    //     { label: 'Supported Providers', value: '4+', description: 'and growing' },
+    //     { label: 'Enterprise Ready', value: '99.9%', description: 'uptime SLA' },
+    // ];
 
     const codeExamples = {
         javascript: {

@@ -226,4 +226,11 @@ class SupabaseAuthService:
             )
 
 # Global instance
-supabase_auth_service = SupabaseAuthService() 
+# Initialize the service lazily
+_supabase_auth_service = None
+
+def get_supabase_auth_service():
+    global _supabase_auth_service
+    if _supabase_auth_service is None:
+        _supabase_auth_service = SupabaseAuthService()
+    return _supabase_auth_service 

@@ -4,7 +4,7 @@ from typing import List
 
 from app.core.database import get_db
 from app.core.auth import get_current_active_user
-from app.core.supabase_auth import supabase_auth_service
+from app.core.supabase_auth import get_supabase_auth_service
 from app.models.user import User as UserModel
 from app.schemas.user import (
     User, UserCreate, UserUpdate, LoginRequest, Token
@@ -17,7 +17,7 @@ router = APIRouter()
 async def register(user_data: UserCreate):
     """Register a new user with Supabase Auth"""
     try:
-        result = await supabase_auth_service.sign_up(
+        result = await get_supabase_auth_service().sign_up(
             email=user_data.email,
             password=user_data.password,
             full_name=user_data.full_name
@@ -42,7 +42,7 @@ async def register(user_data: UserCreate):
 async def login(login_data: LoginRequest):
     """Authenticate user with Supabase Auth and return access token"""
     try:
-        result = await supabase_auth_service.sign_in(
+        result = await get_supabase_auth_service().sign_in(
             email=login_data.email,
             password=login_data.password
         )
@@ -109,7 +109,7 @@ async def verify_token_endpoint(
 async def logout():
     """Sign out user"""
     try:
-        result = await supabase_auth_service.sign_out("")
+        result = await get_supabase_auth_service().sign_out("")
         return result
     except Exception as e:
         raise HTTPException(
@@ -122,7 +122,7 @@ async def logout():
 async def refresh_token(refresh_token: str):
     """Refresh access token"""
     try:
-        result = await supabase_auth_service.refresh_token(refresh_token)
+        result = await get_supabase_auth_service().refresh_token(refresh_token)
         return {
             "access_token": result["access_token"],
             "refresh_token": result["refresh_token"],
@@ -141,7 +141,7 @@ async def refresh_token(refresh_token: str):
 async def reset_password(email: str):
     """Send password reset email"""
     try:
-        result = await supabase_auth_service.reset_password(email)
+        result = await get_supabase_auth_service().reset_password(email)
         return result
     except HTTPException:
         raise
