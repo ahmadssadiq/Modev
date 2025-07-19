@@ -6,8 +6,8 @@ import {
     Typography,
     Button,
     Grid,
-    Card,
-    CardContent,
+    // Card,
+    // CardContent,
     Stack,
     Chip,
     Paper,
@@ -15,15 +15,15 @@ import {
 } from '@mui/material';
 import {
     CurrencyDollarIcon,
-    ChartBarIcon,
+    // ChartBarIcon,
     ClockIcon,
     CpuChipIcon,
     ShieldCheckIcon,
-    BoltIcon,
+    // BoltIcon,
     EyeIcon,
-    CodeBracketIcon,
+    // CodeBracketIcon,
     ArrowRightIcon,
-    CheckIcon,
+    // CheckIcon,
 } from '@heroicons/react/24/outline';
 
 const LandingPage: React.FC = () => {
@@ -82,7 +82,7 @@ const LandingPage: React.FC = () => {
         },
     ];
 
-    const stats = [
+    // const stats = [
         { label: 'Average Cost Reduction', value: '30%', description: 'in first month' },
         { label: 'Setup Time', value: '<60s', description: 'drop-in integration' },
         { label: 'Supported Providers', value: '4+', description: 'and growing' },

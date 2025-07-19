@@ -14,19 +14,19 @@ import {
     ListItem,
     ListItemIcon,
     ListItemText,
-    Paper,
-    alpha,
-    useTheme,
-    Divider,
-    Badge,
+    // Paper,
+    // alpha,
+    // useTheme,
+    // Divider,
+    // Badge,
 } from '@mui/material';
 import {
     CheckIcon,
     ChartBarIcon,
-    ShieldCheckIcon,
-    CogIcon,
-    BuildingOfficeIcon,
-    SparklesIcon,
+    // ShieldCheckIcon,
+    // CogIcon,
+    // BuildingOfficeIcon,
+    // SparklesIcon,
     CpuChipIcon,
     RocketLaunchIcon,
     XMarkIcon,
@@ -55,7 +55,7 @@ interface Plan {
 }
 
 const PlanSelection: React.FC = () => {
-    const theme = useTheme();
+    // const theme = useTheme();
     const [selectedPlan, setSelectedPlan] = useState<string>('free');
     const { user } = useAuth();
     const navigate = useNavigate();
