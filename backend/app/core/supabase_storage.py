@@ -262,5 +262,11 @@ class SupabaseStorageService:
                 detail=f"Failed to upload report: {str(e)}"
             )
 
-# Global instance
-supabase_storage_service = SupabaseStorageService() 
+# Global instance - lazy initialization
+_supabase_storage_service = None
+
+def get_supabase_storage_service():
+    global _supabase_storage_service
+    if _supabase_storage_service is None:
+        _supabase_storage_service = SupabaseStorageService()
+    return _supabase_storage_service 

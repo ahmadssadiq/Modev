@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException, status, UploadFile, File, Form
 from typing import List, Optional
-from ..core.supabase_storage import supabase_storage_service
+from ..core.supabase_storage import get_supabase_storage_service
 from ..core.auth import get_current_active_user
 from ..models.user import User
 from ..schemas.user import User as UserSchema
@@ -17,7 +17,7 @@ async def upload_file(
 ):
     """Upload a file to Supabase Storage"""
     try:
-        result = await supabase_storage_service.upload_file(
+        result = await get_supabase_storage_service().upload_file(
             file=file,
             bucket_name=bucket_name,
             folder_path=folder_path,
@@ -43,7 +43,7 @@ async def list_files(
 ):
     """List files in a bucket or folder"""
     try:
-        files = await supabase_storage_service.list_files(
+        files = await get_supabase_storage_service().list_files(
             bucket_name=bucket_name,
             folder_path=folder_path,
             limit=limit,
@@ -68,7 +68,7 @@ async def get_file_url(
 ):
     """Get a signed URL for file access"""
     try:
-        url = await supabase_storage_service.get_file_url(
+        url = await get_supabase_storage_service().get_file_url(
             file_path=file_path,
             bucket_name=bucket_name,
             expires_in=expires_in
@@ -91,7 +91,7 @@ async def delete_file(
 ):
     """Delete a file from Supabase Storage"""
     try:
-        result = await supabase_storage_service.delete_file(
+        result = await get_supabase_storage_service().delete_file(
             file_path=file_path,
             bucket_name=bucket_name
         )
@@ -114,7 +114,7 @@ async def move_file(
 ):
     """Move a file within the same bucket"""
     try:
-        result = await supabase_storage_service.move_file(
+        result = await get_supabase_storage_service().move_file(
             from_path=from_path,
             to_path=to_path,
             bucket_name=bucket_name
@@ -136,7 +136,7 @@ async def get_bucket_info(
 ):
     """Get information about a bucket"""
     try:
-        info = await supabase_storage_service.get_bucket_info(bucket_name)
+        info = await get_supabase_storage_service().get_bucket_info(bucket_name)
         return info
     except HTTPException:
         raise
@@ -154,7 +154,7 @@ async def upload_avatar(
 ):
     """Upload user avatar image"""
     try:
-        result = await supabase_storage_service.upload_user_avatar(
+        result = await get_supabase_storage_service().upload_user_avatar(
             file=file,
             user_id=str(current_user.id)
         )
@@ -176,7 +176,7 @@ async def upload_report(
 ):
     """Upload usage report file"""
     try:
-        result = await supabase_storage_service.upload_usage_report(
+        result = await get_supabase_storage_service().upload_usage_report(
             file=file,
             user_id=str(current_user.id),
             report_type=report_type
@@ -206,7 +206,7 @@ async def create_bucket(
         )
     
     try:
-        result = await supabase_storage_service.create_bucket(
+        result = await get_supabase_storage_service().create_bucket(
             bucket_name=bucket_name,
             public=public
         )
