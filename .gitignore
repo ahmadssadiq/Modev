@@ -93,3 +93,4 @@ alembic/versions/*.pyc
 tmp/
 temp/
 *.tmp 
+.vercel

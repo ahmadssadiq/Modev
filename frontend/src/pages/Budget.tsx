@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { PlusIcon, CurrencyDollarIcon } from '@heroicons/react/24/outline';
 import DashboardLayout from '../components/Layout/DashboardLayout';
 import { useNotify } from '../hooks/useNotifications';
 
 const Budget: React.FC = () => {
-    const [loading, setLoading] = useState(false);
-    const notify = useNotify();
+    // const [loading, setLoading] = useState(false);
+    // const notify = useNotify();
 
     return (
         <DashboardLayout

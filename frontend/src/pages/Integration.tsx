@@ -7,7 +7,7 @@ import type { APIKey } from '../types';
 import apiService from '../services/api';
 
 const Integration: React.FC = () => {
-    const { user, token } = useAuth();
+    const { token } = useAuth();
     const [showToken, setShowToken] = useState(false);
     const [copied, setCopied] = useState(false);
     const [apiUrl, setApiUrl] = useState('');
