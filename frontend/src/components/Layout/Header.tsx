@@ -13,18 +13,18 @@ const Header: React.FC<HeaderProps> = ({ title, subtitle, actions }) => {
     const { user } = useAuth();
     const navigate = useNavigate();
 
-    const getPlanColor = (plan: string) => {
-        switch (plan?.toLowerCase()) {
-            case 'free':
-                return 'bg-orange-100 text-orange-600 border border-orange-200';
-            case 'professional':
-                return 'bg-green-100 text-green-600 border border-green-200';
-            case 'enterprise':
-                return 'bg-purple-100 text-purple-600 border border-purple-200';
-            default:
-                return 'bg-gray-100 text-gray-600 border border-gray-200';
-        }
-    };
+    // const getPlanColor = (plan: string) => {
+    //     switch (plan?.toLowerCase()) {
+    //         case 'free':
+    //             return 'bg-orange-100 text-orange-600 border border-orange-200';
+    //         case 'professional':
+    //             return 'bg-green-100 text-green-600 border border-green-200';
+    //         case 'enterprise':
+    //             return 'bg-purple-100 text-purple-600 border border-purple-200';
+    //         default:
+    //             return 'bg-gray-100 text-gray-600 border border-gray-200';
+    //     }
+    // };
 
     const shouldShowUpgrade = (plan: string) => {
         return plan?.toLowerCase() === 'free';

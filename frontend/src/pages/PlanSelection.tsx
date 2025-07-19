@@ -267,6 +267,8 @@ const PlanSelection: React.FC = () => {
                             fontWeight: 600,
                             fontSize: '0.7rem',
                             height: '24px',
+                            marginTop: '10px',
+                            marginBottom: '50px',
                         }}
                     />
                 </Box>

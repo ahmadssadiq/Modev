@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect, type ReactNode } from 'react';
 import type { User, LoginRequest, RegisterRequest } from '../types';
 import apiService from '../services/api';
+import { auth } from '../lib/supabase';
 
 interface AuthContextType {
     user: User | null;
@@ -30,25 +31,73 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     // Check if user is authenticated on app load
     useEffect(() => {
         const initializeAuth = async () => {
-            const storedToken = apiService.getToken();
-            setToken(storedToken);
+            try {
+                // Get current session from Supabase
+                const { data: { session }, error } = await auth.getCurrentSession();
 
-            if (storedToken && apiService.isAuthenticated()) {
-                try {
-                    const userData = await apiService.getCurrentUser();
-                    setUser(userData);
-                } catch (err) {
-                    // Token might be invalid, clear it
+                if (session && !error) {
+                    setToken(session.access_token);
+
+                    // Get user data from our API
+                    try {
+                        const userData = await apiService.getCurrentUser();
+                        setUser(userData);
+                    } catch (apiError) {
+                        // If API call fails, create user object from Supabase data
+                        const { data: { user } } = await auth.getCurrentUser();
+                        if (user) {
+                            setUser({
+                                id: parseInt(user.id),
+                                email: user.email || '',
+                                full_name: user.user_metadata?.full_name || '',
+                                is_active: true,
+                                is_verified: !!user.email_confirmed_at,
+                                plan: user.user_metadata?.plan || 'free',
+                                created_at: user.created_at
+                            });
+                        }
+                    }
+                } else {
+                    // Clear any stored tokens
                     apiService.clearAuth();
                     setToken(null);
-                    console.error('Failed to fetch user data:', err);
                 }
+            } catch (err) {
+                console.error('Auth initialization error:', err);
+                apiService.clearAuth();
+                setToken(null);
+            } finally {
+                setLoading(false);
             }
-
-            setLoading(false);
         };
 
         initializeAuth();
+
+        // Listen for auth state changes
+        const { data: { subscription } } = auth.onAuthStateChange(async (event, session) => {
+            if (event === 'SIGNED_IN' && session) {
+                setToken(session.access_token);
+                // Update user data
+                const { data: { user } } = await auth.getCurrentUser();
+                if (user) {
+                    setUser({
+                        id: parseInt(user.id),
+                        email: user.email || '',
+                        full_name: user.user_metadata?.full_name || '',
+                        is_active: true,
+                        is_verified: !!user.email_confirmed_at,
+                        plan: user.user_metadata?.plan || 'free',
+                        created_at: user.created_at
+                    });
+                }
+            } else if (event === 'SIGNED_OUT') {
+                setUser(null);
+                setToken(null);
+                apiService.clearAuth();
+            }
+        });
+
+        return () => subscription.unsubscribe();
     }, []);
 
     const login = async (credentials: LoginRequest) => {
@@ -56,15 +105,35 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             setLoading(true);
             setError(null);
 
-            const authResponse = await apiService.login(credentials);
+            // Use Supabase auth
+            const { data, error } = await auth.signIn(credentials.email, credentials.password);
 
-            if (authResponse.access_token) {
-                setToken(authResponse.access_token);
-                const userData = await apiService.getCurrentUser();
-                setUser(userData);
+            if (error) {
+                throw new Error(error.message);
+            }
+
+            if (data.user && data.session) {
+                setToken(data.session.access_token);
+
+                // Get user data from our API
+                try {
+                    const userData = await apiService.getCurrentUser();
+                    setUser(userData);
+                } catch (apiError) {
+                    // If API call fails, create user object from Supabase data
+                    setUser({
+                        id: parseInt(data.user.id),
+                        email: data.user.email || '',
+                        full_name: data.user.user_metadata?.full_name || '',
+                        is_active: true,
+                        is_verified: !!data.user.email_confirmed_at,
+                        plan: data.user.user_metadata?.plan || 'free',
+                        created_at: data.user.created_at
+                    });
+                }
             }
         } catch (err: any) {
-            const errorMessage = err.response?.data?.detail || 'Login failed. Please try again.';
+            const errorMessage = err.message || 'Login failed. Please try again.';
             setError(errorMessage);
             throw new Error(errorMessage);
         } finally {
@@ -77,15 +146,36 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             setLoading(true);
             setError(null);
 
-            await apiService.register(userData);
+            // Use Supabase auth for registration
+            const { data, error } = await auth.signUp(
+                userData.email,
+                userData.password,
+                {
+                    full_name: userData.full_name,
+                    plan: 'free'
+                }
+            );
 
-            // Auto-login after registration
-            await login({
-                email: userData.email,
-                password: userData.password,
-            });
+            if (error) {
+                throw new Error(error.message);
+            }
+
+            if (data.user && data.session) {
+                setToken(data.session.access_token);
+
+                // Create user object from Supabase data
+                setUser({
+                    id: parseInt(data.user.id),
+                    email: data.user.email || '',
+                    full_name: data.user.user_metadata?.full_name || '',
+                    is_active: true,
+                    is_verified: !!data.user.email_confirmed_at,
+                    plan: data.user.user_metadata?.plan || 'free',
+                    created_at: data.user.created_at
+                });
+            }
         } catch (err: any) {
-            const errorMessage = err.response?.data?.detail || 'Registration failed. Please try again.';
+            const errorMessage = err.message || 'Registration failed. Please try again.';
             setError(errorMessage);
             throw new Error(errorMessage);
         } finally {
@@ -93,11 +183,17 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         }
     };
 
-    const logout = () => {
-        apiService.clearAuth();
-        setUser(null);
-        setToken(null);
-        setError(null);
+    const logout = async () => {
+        try {
+            await auth.signOut();
+        } catch (error) {
+            console.error('Logout error:', error);
+        } finally {
+            apiService.clearAuth();
+            setUser(null);
+            setToken(null);
+            setError(null);
+        }
     };
 
     const updateUser = async (userData: Partial<User>) => {

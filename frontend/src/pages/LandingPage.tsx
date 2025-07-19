@@ -27,6 +27,8 @@ import {
 } from '@heroicons/react/24/outline';
 
 const LandingPage: React.FC = () => {
+    const [selectedLanguage, setSelectedLanguage] = useState('javascript');
+
     const integrations = [
         { name: 'OpenAI', logo: '🤖', color: '#10B981' },
         { name: 'Anthropic', logo: '🧠', color: '#8B5CF6' },
@@ -86,6 +88,52 @@ const LandingPage: React.FC = () => {
         { label: 'Supported Providers', value: '4+', description: 'and growing' },
         { label: 'Enterprise Ready', value: '99.9%', description: 'uptime SLA' },
     ];
+
+    const codeExamples = {
+        javascript: {
+            code: [
+                { type: 'import', content: 'import OpenAI from "openai";' },
+                { type: 'empty', content: '' },
+                { type: 'const', content: 'const openai = new OpenAI({' },
+                { type: 'indent', content: 'apiKey: "YOUR_MODEV_API_KEY",' },
+                { type: 'indent', content: 'baseURL: "https://api.modev.ai/v1/"' },
+                { type: 'close', content: '});' },
+                { type: 'empty', content: '' },
+                { type: 'comment', content: '// That\'s it! All your OpenAI calls now go through MoDev' },
+                { type: 'comment', content: '// Real-time cost tracking, budget alerts, and optimization tips' },
+            ]
+        },
+        python: {
+            code: [
+                { type: 'import', content: 'from openai import OpenAI' },
+                { type: 'empty', content: '' },
+                { type: 'const', content: 'client = OpenAI(' },
+                { type: 'indent', content: 'api_key="YOUR_MODEV_API_KEY",' },
+                { type: 'indent', content: 'base_url="https://api.modev.ai/v1/"' },
+                { type: 'close', content: ')' },
+                { type: 'empty', content: '' },
+                { type: 'comment', content: '# That\'s it! All your OpenAI calls now go through MoDev' },
+                { type: 'comment', content: '# Real-time cost tracking, budget alerts, and optimization tips' },
+            ]
+        },
+        curl: {
+            code: [
+                { type: 'comment', content: '# Set your MoDev API key' },
+                { type: 'const', content: 'export MODEV_API_KEY="YOUR_MODEV_API_KEY"' },
+                { type: 'empty', content: '' },
+                { type: 'comment', content: '# Make API calls through MoDev proxy' },
+                { type: 'curl', content: 'curl https://api.modev.ai/v1/chat/completions \\' },
+                { type: 'indent', content: '  -H "Authorization: Bearer $MODEV_API_KEY" \\' },
+                { type: 'indent', content: '  -H "Content-Type: application/json" \\' },
+                { type: 'indent', content: '  -d \'{' },
+                { type: 'indent', content: '    "model": "gpt-4",' },
+                { type: 'indent', content: '    "messages": [{"role": "user", "content": "Hello!"}]' },
+                { type: 'indent', content: '  }\'' },
+                { type: 'empty', content: '' },
+                { type: 'comment', content: '# Real-time cost tracking, budget alerts, and optimization tips' },
+            ]
+        }
+    };
 
     return (
         <Box sx={{
@@ -258,7 +306,7 @@ const LandingPage: React.FC = () => {
                                 >
                                     Start Free Trial
                                 </Button>
-                                <Button
+                                {/* <Button
                                     variant="outlined"
                                     size="large"
                                     component={Link}
@@ -278,7 +326,7 @@ const LandingPage: React.FC = () => {
                                     }}
                                 >
                                     View Demo
-                                </Button>
+                                </Button> */}
                             </Stack>
 
                             {/* Integrations */}
@@ -563,15 +611,16 @@ const LandingPage: React.FC = () => {
                     <Box sx={{ maxWidth: '800px', mx: 'auto' }}>
                         {/* Language Tabs */}
                         <Box sx={{ display: 'flex', mb: 3, borderBottom: '1px solid #e5e7eb' }}>
-                            {['javascript', 'python', 'curl'].map((lang, index) => (
+                            {['javascript', 'python', 'curl'].map((lang) => (
                                 <Button
                                     key={lang}
+                                    onClick={() => setSelectedLanguage(lang)}
                                     sx={{
                                         py: 1.5,
                                         px: 3,
                                         borderRadius: 0,
-                                        backgroundColor: index === 0 ? 'rgba(102, 126, 234, 0.05)' : 'transparent',
-                                        color: index === 0 ? '#667eea' : '#6b7280',
+                                        backgroundColor: selectedLanguage === lang ? 'rgba(102, 126, 234, 0.05)' : 'transparent',
+                                        color: selectedLanguage === lang ? '#667eea' : '#6b7280',
                                         fontFamily: '"Nunito Sans", sans-serif',
                                         fontWeight: 500,
                                         textTransform: 'lowercase',
@@ -620,39 +669,80 @@ const LandingPage: React.FC = () => {
 
                             {/* Code Content */}
                             <Box sx={{ fontSize: '0.875rem', lineHeight: 1.6 }}>
-                                <Box sx={{ color: '#333333', mb: 2 }}>
-                                    <span style={{ color: '#d97706' }}>import</span>{' '}
-                                    <span style={{ color: '#0369a1' }}>OpenAI</span>{' '}
-                                    <span style={{ color: '#d97706' }}>from</span>{' '}
-                                    <span style={{ color: '#059669' }}>"openai"</span>;
-                                </Box>
+                                {codeExamples[selectedLanguage as keyof typeof codeExamples].code.map((line, index) => {
+                                    if (line.type === 'empty') {
+                                        return <Box key={index} sx={{ height: '1rem' }} />;
+                                    }
 
-                                <Box sx={{ color: '#333333', mb: 1 }}>
-                                    <span style={{ color: '#d97706' }}>const</span>{' '}
-                                    <span style={{ color: '#0369a1' }}>openai</span>{' '}
-                                    <span style={{ color: '#d97706' }}>=</span>{' '}
-                                    <span style={{ color: '#d97706' }}>new</span>{' '}
-                                    <span style={{ color: '#0369a1' }}>OpenAI</span>({'{'}
-                                </Box>
+                                    const getSyntaxHighlighting = (content: string, type: string) => {
+                                        if (type === 'comment') {
+                                            return <span style={{ color: '#666666', fontStyle: 'italic' }}>{content}</span>;
+                                        }
+                                        if (type === 'import') {
+                                            const parts = content.split(' ');
+                                            return (
+                                                <>
+                                                    <span style={{ color: '#d97706' }}>{parts[0]}</span>{' '}
+                                                    <span style={{ color: '#0369a1' }}>{parts[1]}</span>{' '}
+                                                    {parts[2] && <span style={{ color: '#d97706' }}>{parts[2]}</span>}{' '}
+                                                    {parts[3] && <span style={{ color: '#059669' }}>"{parts[3].replace(/"/g, '')}"</span>}
+                                                    {content.includes(';') && ';'}
+                                                </>
+                                            );
+                                        }
+                                        if (type === 'const') {
+                                            if (content.includes('=')) {
+                                                const [varPart, ...rest] = content.split('=');
+                                                return (
+                                                    <>
+                                                        <span style={{ color: '#d97706' }}>const</span>{' '}
+                                                        <span style={{ color: '#0369a1' }}>{varPart.trim()}</span>{' '}
+                                                        <span style={{ color: '#d97706' }}>=</span>{' '}
+                                                        {rest.join('=').includes('new') ? (
+                                                            <>
+                                                                <span style={{ color: '#d97706' }}>new</span>{' '}
+                                                                <span style={{ color: '#0369a1' }}>{rest.join('=').replace('new ', '').replace('(', '')}</span>({'{'}
+                                                            </>
+                                                        ) : (
+                                                            <span style={{ color: '#059669' }}>"{rest.join('=').trim().replace(/"/g, '')}"</span>
+                                                        )}
+                                                    </>
+                                                );
+                                            }
+                                            return <span style={{ color: '#333333' }}>{content}</span>;
+                                        }
+                                        if (type === 'indent') {
+                                            if (content.includes(':')) {
+                                                const [key, ...valueParts] = content.split(':');
+                                                return (
+                                                    <Box sx={{ color: '#333333', ml: 2, mb: 1 }}>
+                                                        <span style={{ color: '#0369a1' }}>{key.trim()}</span>:{' '}
+                                                        {valueParts.join(':').includes('"') ? (
+                                                            <span style={{ color: '#059669' }}>"{valueParts.join(':').trim().replace(/"/g, '')}"</span>
+                                                        ) : (
+                                                            <span style={{ color: '#0369a1' }}>{valueParts.join(':').trim()}</span>
+                                                        )}
+                                                        {content.includes(',') && ','}
+                                                    </Box>
+                                                );
+                                            }
+                                            return <Box sx={{ color: '#333333', ml: 2, mb: 1 }}>{content}</Box>;
+                                        }
+                                        if (type === 'close') {
+                                            return <Box sx={{ color: '#333333', mb: 2 }}>{content}</Box>;
+                                        }
+                                        if (type === 'curl') {
+                                            return <Box sx={{ color: '#333333', mb: 1 }}>{content}</Box>;
+                                        }
+                                        return <Box sx={{ color: '#333333', mb: 1 }}>{content}</Box>;
+                                    };
 
-                                <Box sx={{ color: '#333333', ml: 2, mb: 1 }}>
-                                    <span style={{ color: '#0369a1' }}>apiKey</span>:{' '}
-                                    <span style={{ color: '#0369a1' }}>YOUR_MODEV_API_KEY</span>,
-                                </Box>
-
-                                <Box sx={{ color: '#333333', ml: 2, mb: 1 }}>
-                                    <span style={{ color: '#0369a1' }}>baseURL</span>:{' '}
-                                    <span style={{ color: '#059669' }}>"https://api.modev.ai/v1/"</span>
-                                </Box>
-
-                                <Box sx={{ color: '#333333', mb: 2 }}>{'});'}</Box>
-
-                                <Box sx={{ color: '#666666', fontSize: '0.8rem', fontStyle: 'italic' }}>
-                                    // That's it! All your OpenAI calls now go through MoDev
-                                </Box>
-                                <Box sx={{ color: '#666666', fontSize: '0.8rem', fontStyle: 'italic' }}>
-                                    // Real-time cost tracking, budget alerts, and optimization tips
-                                </Box>
+                                    return (
+                                        <Box key={index}>
+                                            {getSyntaxHighlighting(line.content, line.type)}
+                                        </Box>
+                                    );
+                                })}
                             </Box>
                         </Paper>
 
