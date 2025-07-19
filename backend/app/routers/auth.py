@@ -3,10 +3,8 @@ from sqlalchemy.orm import Session
 from typing import List
 
 from app.core.database import get_db
-from app.core.auth import (
-    authenticate_user, create_access_token, get_password_hash,
-    get_current_active_user, get_user_by_email
-)
+from app.core.auth import get_current_active_user
+from app.core.supabase_auth import supabase_auth_service
 from app.models.user import User as UserModel
 from app.schemas.user import (
     User, UserCreate, UserUpdate, LoginRequest, Token
@@ -15,53 +13,53 @@ from app.schemas.user import (
 router = APIRouter()
 
 
-@router.post("/register", response_model=User, status_code=status.HTTP_201_CREATED)
-async def register(user_data: UserCreate, db: Session = Depends(get_db)):
-    """Register a new user"""
-    # Check if user already exists
-    existing_user = get_user_by_email(db, user_data.email)
-    if existing_user:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Email already registered"
+@router.post("/register", response_model=Token, status_code=status.HTTP_201_CREATED)
+async def register(user_data: UserCreate):
+    """Register a new user with Supabase Auth"""
+    try:
+        result = await supabase_auth_service.sign_up(
+            email=user_data.email,
+            password=user_data.password,
+            full_name=user_data.full_name
         )
-    
-    # Create new user
-    hashed_password = get_password_hash(user_data.password)
-    db_user = UserModel(
-        email=user_data.email,
-        hashed_password=hashed_password,
-        full_name=user_data.full_name,
-        is_active=user_data.is_active,
-        plan="free"  # Default plan
-    )
-    
-    db.add(db_user)
-    db.commit()
-    db.refresh(db_user)
-    
-    return db_user
+        
+        return {
+            "access_token": result["session"].access_token,
+            "refresh_token": result["session"].refresh_token,
+            "token_type": "bearer",
+            "user": result["user"]
+        }
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Registration failed: {str(e)}"
+        )
 
 
 @router.post("/login", response_model=Token)
-async def login(login_data: LoginRequest, db: Session = Depends(get_db)):
-    """Authenticate user and return access token"""
-    user = authenticate_user(db, login_data.email, login_data.password)
-    if not user:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Incorrect email or password",
-            headers={"WWW-Authenticate": "Bearer"},
+async def login(login_data: LoginRequest):
+    """Authenticate user with Supabase Auth and return access token"""
+    try:
+        result = await supabase_auth_service.sign_in(
+            email=login_data.email,
+            password=login_data.password
         )
-    
-    if not user.is_active:
+        
+        return {
+            "access_token": result["access_token"],
+            "refresh_token": result["refresh_token"],
+            "token_type": "bearer",
+            "user": result["user"]
+        }
+    except HTTPException:
+        raise
+    except Exception as e:
         raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Inactive user"
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Login failed: {str(e)}"
         )
-    
-    access_token = create_access_token(data={"sub": user.email})
-    return {"access_token": access_token, "token_type": "bearer"}
 
 
 @router.get("/me", response_model=User)
@@ -104,4 +102,51 @@ async def verify_token_endpoint(
     current_user: UserModel = Depends(get_current_active_user)
 ):
     """Verify if token is valid and return user info"""
-    return current_user 
+    return current_user
+
+
+@router.post("/logout")
+async def logout():
+    """Sign out user"""
+    try:
+        result = await supabase_auth_service.sign_out("")
+        return result
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Logout failed: {str(e)}"
+        )
+
+
+@router.post("/refresh")
+async def refresh_token(refresh_token: str):
+    """Refresh access token"""
+    try:
+        result = await supabase_auth_service.refresh_token(refresh_token)
+        return {
+            "access_token": result["access_token"],
+            "refresh_token": result["refresh_token"],
+            "token_type": "bearer"
+        }
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Token refresh failed: {str(e)}"
+        )
+
+
+@router.post("/reset-password")
+async def reset_password(email: str):
+    """Send password reset email"""
+    try:
+        result = await supabase_auth_service.reset_password(email)
+        return result
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Password reset failed: {str(e)}"
+        ) 

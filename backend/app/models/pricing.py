@@ -1,13 +1,15 @@
-from sqlalchemy import Column, Integer, String, Float, DateTime, Boolean, Text
+from sqlalchemy import Column, String, Float, DateTime, Boolean, Text
+from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.sql import func
 from app.core.database import Base
+import uuid
 
 
 class ModelPricing(Base):
     """Store pricing information for different AI models"""
     __tablename__ = "model_pricing"
 
-    id = Column(Integer, primary_key=True, index=True)
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, index=True)
     provider = Column(String(50), nullable=False, index=True)  # openai, anthropic, etc.
     model_name = Column(String(100), nullable=False, index=True)  # gpt-4, gpt-3.5-turbo, etc.
     
@@ -22,7 +24,7 @@ class ModelPricing(Base):
     
     # Model metadata
     description = Column(Text, nullable=True)
-    max_tokens = Column(Integer, nullable=True)       # Max context length
+    max_tokens = Column(Float, nullable=True)       # Max context length
     supports_streaming = Column(Boolean, default=True)
     
     # Status

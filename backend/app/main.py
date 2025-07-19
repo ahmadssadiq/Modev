@@ -4,7 +4,7 @@ from fastapi.middleware.trustedhost import TrustedHostMiddleware
 import os
 from dotenv import load_dotenv
 
-from app.routers import auth, proxy, analytics, admin
+from app.routers import auth, proxy, analytics, admin, storage
 from app.core.database import engine, Base
 
 load_dotenv()
@@ -40,6 +40,7 @@ if os.getenv("ENVIRONMENT") == "production":
 app.include_router(auth.router, prefix="/auth", tags=["authentication"])
 app.include_router(analytics.router, prefix="/analytics", tags=["analytics"])
 app.include_router(admin.router, prefix="/admin", tags=["admin"])
+app.include_router(storage.router, prefix="/storage", tags=["storage"])
 app.include_router(proxy.router, prefix="/proxy", tags=["ai-proxy"])
 app.include_router(proxy.router, tags=["simplified-proxy"])  # Include proxy router at root for /v1/ routes LAST
 
