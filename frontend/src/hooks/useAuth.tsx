@@ -1,12 +1,7 @@
 import React, { createContext, useContext, useState, useEffect, type ReactNode } from 'react';
 import type { User, LoginRequest, RegisterRequest } from '../types';
 import apiService from '../services/api';
-import { createClient } from '@supabase/supabase-js';
-
-// Create Supabase client directly in this file - Vercel build fix
-const supabaseUrl = 'https://ljtujpxhwuxarcsxzsds.supabase.co';
-const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxqdHVqcHhod3V4YXJjc3h6c2RzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTI5NTYyOTUsImV4cCI6MjA2ODUzMjI5NX0.NK6niIXgVJxceZgh5FrlwR6USdYY5Jqnu5pM-FNlN5Y';
-const supabase = createClient(supabaseUrl, supabaseAnonKey);
+import { supabase } from '../utils/supabase';
 
 interface AuthContextType {
     user: User | null;
