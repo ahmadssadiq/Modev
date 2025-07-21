@@ -252,7 +252,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     };
 
     const isAuthenticated = !!user && !!token;
-    
+
     // Debug logging
     console.log('Auth state:', { user: !!user, token: !!token, isAuthenticated });
 
