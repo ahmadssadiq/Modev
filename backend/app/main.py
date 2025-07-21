@@ -1,30 +1,21 @@
-from fastapi import FastAPI
+from http.server import BaseHTTPRequestHandler
+import json
 import os
-from dotenv import load_dotenv
 
-load_dotenv()
-
-app = FastAPI(
-    title=os.getenv("APP_NAME", "AI Cost Optimizer"),
-    description="A vendor-neutral SaaS platform for tracking and optimizing AI API usage and costs",
-    version="1.0.0",
-)
-
-@app.get("/")
-async def root():
-    """Health check endpoint"""
-    return {
-        "message": "AI Cost Optimizer API",
-        "status": "healthy",
-        "version": "1.0.0",
-        "database_url_set": bool(os.getenv("SUPABASE_DATABASE_URL") or os.getenv("DATABASE_URL"))
-    }
-
-@app.get("/health")
-async def health_check():
-    """Simple health check"""
-    return {
-        "status": "healthy",
-        "environment": os.getenv("ENVIRONMENT", "development"),
-        "database_url_set": bool(os.getenv("SUPABASE_DATABASE_URL") or os.getenv("DATABASE_URL"))
-    } 
+class handler(BaseHTTPRequestHandler):
+    def do_GET(self):
+        self.send_response(200)
+        self.send_header('Content-type', 'application/json')
+        self.end_headers()
+        
+        response = {
+            "message": "AI Cost Optimizer API",
+            "status": "healthy",
+            "version": "1.0.0",
+            "path": self.path,
+            "database_url_set": bool(os.getenv("SUPABASE_DATABASE_URL") or os.getenv("DATABASE_URL")),
+            "environment": os.getenv("ENVIRONMENT", "development")
+        }
+        
+        self.wfile.write(json.dumps(response).encode())
+        return 
