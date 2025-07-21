@@ -32,13 +32,13 @@ A vendor-neutral platform for AI cost optimization that helps teams save up to 3
 ### Local Development
 
 1. **Clone the repository**
-   ```bash
+```bash
    git clone https://github.com/yourusername/modev.git
    cd modev
    ```
 
 2. **Install dependencies**
-   ```bash
+```bash
    npm run install:all
    ```
 
@@ -61,7 +61,7 @@ A vendor-neutral platform for AI cost optimization that helps teams save up to 3
    ```
 
 4. **Run the development server**
-   ```bash
+```bash
    npm run dev
    ```
 
@@ -74,12 +74,12 @@ A vendor-neutral platform for AI cost optimization that helps teams save up to 3
 ### Deploy to Vercel
 
 1. **Run the deployment script**
-   ```bash
+```bash
    ./deploy.sh
-   ```
+```
 
 2. **Deploy to Vercel**
-   ```bash
+```bash
    npx vercel --prod
    ```
 
