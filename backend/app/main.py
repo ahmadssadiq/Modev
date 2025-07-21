@@ -5,16 +5,16 @@ import os
 from dotenv import load_dotenv
 
 # from app.routers import auth, proxy, analytics, admin, storage
-from app.core.database import engine, Base, get_db
+# from app.core.database import engine, Base, get_db
 
 load_dotenv()
 
 # Create tables (if they don't exist) - only if database URL is available
-if os.getenv("SUPABASE_DATABASE_URL") or os.getenv("DATABASE_URL"):
-    try:
-        Base.metadata.create_all(bind=engine)
-    except Exception as e:
-        print(f"Warning: Could not create database tables: {e}")
+# if os.getenv("SUPABASE_DATABASE_URL") or os.getenv("DATABASE_URL"):
+#     try:
+#         Base.metadata.create_all(bind=engine)
+#     except Exception as e:
+#         print(f"Warning: Could not create database tables: {e}")
 
 app = FastAPI(
     title=os.getenv("APP_NAME", "AI Cost Optimizer"),
@@ -59,35 +59,10 @@ async def root():
 
 @app.get("/health")
 async def health_check():
-    """Detailed health check with database connection test"""
-    database_url_set = bool(os.getenv("SUPABASE_DATABASE_URL") or os.getenv("DATABASE_URL"))
-    
-    if not database_url_set:
-        return {
-            "status": "unhealthy",
-            "database": "no_url_set",
-            "error": "SUPABASE_DATABASE_URL or DATABASE_URL not set",
-            "environment": os.getenv("ENVIRONMENT", "development"),
-            "database_url_set": False
-        }
-    
-    try:
-        # Test database connection
-        db = next(get_db())
-        result = db.execute("SELECT 1").scalar()
-        db.close()
-        
-        return {
-            "status": "healthy",
-            "database": "connected",
-            "environment": os.getenv("ENVIRONMENT", "development"),
-            "database_url_set": True
-        }
-    except Exception as e:
-        return {
-            "status": "unhealthy",
-            "database": "disconnected",
-            "error": str(e),
-            "environment": os.getenv("ENVIRONMENT", "development"),
-            "database_url_set": True
-        } 
+    """Simple health check without database"""
+    return {
+        "status": "healthy",
+        "database": "disabled",
+        "environment": os.getenv("ENVIRONMENT", "development"),
+        "database_url_set": bool(os.getenv("SUPABASE_DATABASE_URL") or os.getenv("DATABASE_URL"))
+    } 
