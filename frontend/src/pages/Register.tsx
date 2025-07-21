@@ -73,7 +73,10 @@ const Register: React.FC = () => {
         try {
             await register({ email, password, full_name: fullName });
             notify.success('Welcome!', 'Account created successfully. Choose your plan to get started.');
-            navigate('/plan-selection');
+            // Small delay to ensure auth state is updated
+            setTimeout(() => {
+                navigate('/plan-selection');
+            }, 100);
         } catch (err: any) {
             console.error('Registration failed:', err);
         }

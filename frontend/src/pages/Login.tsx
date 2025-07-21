@@ -54,7 +54,10 @@ const Login: React.FC = () => {
         try {
             await login({ email, password });
             notify.success('Welcome back!', 'Successfully logged in');
-            navigate('/dashboard');
+            // Small delay to ensure auth state is updated
+            setTimeout(() => {
+                navigate('/dashboard');
+            }, 100);
         } catch (err: any) {
             console.error('Login failed:', err);
         }
