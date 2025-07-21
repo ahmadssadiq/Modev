@@ -38,24 +38,18 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
                 if (session && !error) {
                     setToken(session.access_token);
 
-                    // Get user data from our API
-                    try {
-                        const userData = await apiService.getCurrentUser();
-                        setUser(userData);
-                    } catch (apiError) {
-                        // If API call fails, create user object from Supabase data
-                        const { data: { user } } = await supabase.auth.getUser();
-                        if (user) {
-                            setUser({
-                                id: parseInt(user.id),
-                                email: user.email || '',
-                                full_name: user.user_metadata?.full_name || '',
-                                is_active: true,
-                                is_verified: !!user.email_confirmed_at,
-                                plan: user.user_metadata?.plan || 'free',
-                                created_at: user.created_at
-                            });
-                        }
+                    // Get user data directly from Supabase (no backend API dependency)
+                    const { data: { user } } = await supabase.auth.getUser();
+                    if (user) {
+                        setUser({
+                            id: parseInt(user.id),
+                            email: user.email || '',
+                            full_name: user.user_metadata?.full_name || '',
+                            is_active: true,
+                            is_verified: !!user.email_confirmed_at,
+                            plan: user.user_metadata?.plan || 'free',
+                            created_at: user.created_at
+                        });
                     }
                 } else {
                     // Clear any stored tokens
@@ -75,6 +69,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
         // Listen for auth state changes
         const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event: string, session: any) => {
+            console.log('Auth state change:', event, session);
             if (event === 'SIGNED_IN' && session) {
                 setToken(session.access_token);
                 // Update user data
@@ -105,11 +100,15 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             setLoading(true);
             setError(null);
 
+            console.log('Starting login for:', credentials.email);
+
             // Use Supabase auth
             const { data, error } = await supabase.auth.signInWithPassword({
                 email: credentials.email,
                 password: credentials.password
             });
+
+            console.log('Login response:', { data, error });
 
             if (error) {
                 // Handle specific error cases
@@ -122,22 +121,16 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             if (data.user && data.session) {
                 setToken(data.session.access_token);
 
-                // Get user data from our API
-                try {
-                    const userData = await apiService.getCurrentUser();
-                    setUser(userData);
-                } catch (apiError) {
-                    // If API call fails, create user object from Supabase data
-                    setUser({
-                        id: parseInt(data.user.id),
-                        email: data.user.email || '',
-                        full_name: data.user.user_metadata?.full_name || '',
-                        is_active: true,
-                        is_verified: !!data.user.email_confirmed_at,
-                        plan: data.user.user_metadata?.plan || 'free',
-                        created_at: data.user.created_at
-                    });
-                }
+                // Create user object directly from Supabase data (no backend API dependency)
+                setUser({
+                    id: parseInt(data.user.id),
+                    email: data.user.email || '',
+                    full_name: data.user.user_metadata?.full_name || '',
+                    is_active: true,
+                    is_verified: !!data.user.email_confirmed_at,
+                    plan: data.user.user_metadata?.plan || 'free',
+                    created_at: data.user.created_at
+                });
             }
         } catch (err: any) {
             const errorMessage = err.message || 'Login failed. Please try again.';
@@ -153,6 +146,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             setLoading(true);
             setError(null);
 
+            console.log('Starting registration for:', userData.email);
+
             // Use Supabase auth for registration
             const { data, error } = await supabase.auth.signUp({
                 email: userData.email,
@@ -164,6 +159,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
                     }
                 }
             });
+
+            console.log('Registration response:', { data, error });
 
             if (error) {
                 throw new Error(error.message);
