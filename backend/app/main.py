@@ -5,7 +5,7 @@ import os
 from dotenv import load_dotenv
 
 from app.routers import auth, proxy, analytics, admin, storage
-from app.core.database import engine, Base
+from app.core.database import engine, Base, get_db
 
 load_dotenv()
 
@@ -55,9 +55,24 @@ async def root():
 
 @app.get("/health")
 async def health_check():
-    """Detailed health check"""
-    return {
-        "status": "healthy",
-        "database": "connected",
-        "environment": os.getenv("ENVIRONMENT", "development")
-    } 
+    """Detailed health check with database connection test"""
+    try:
+        # Test database connection
+        db = next(get_db())
+        result = db.execute("SELECT 1").scalar()
+        db.close()
+        
+        return {
+            "status": "healthy",
+            "database": "connected",
+            "environment": os.getenv("ENVIRONMENT", "development"),
+            "database_url_set": bool(os.getenv("SUPABASE_DATABASE_URL") or os.getenv("DATABASE_URL"))
+        }
+    except Exception as e:
+        return {
+            "status": "unhealthy",
+            "database": "disconnected",
+            "error": str(e),
+            "environment": os.getenv("ENVIRONMENT", "development"),
+            "database_url_set": bool(os.getenv("SUPABASE_DATABASE_URL") or os.getenv("DATABASE_URL"))
+        } 
