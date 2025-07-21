@@ -37,6 +37,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
                 if (session && !error) {
                     setToken(session.access_token);
+                    // Store token in localStorage for persistence
+                    localStorage.setItem('supabase_token', session.access_token);
 
                     // Get user data directly from Supabase (no backend API dependency)
                     const { data: { user } } = await supabase.auth.getUser();
@@ -53,7 +55,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
                     }
                 } else {
                     // Clear any stored tokens
-                    apiService.clearAuth();
+                    localStorage.removeItem('supabase_token');
                     setToken(null);
                 }
             } catch (err) {
@@ -72,6 +74,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             console.log('Auth state change:', event, session);
             if (event === 'SIGNED_IN' && session) {
                 setToken(session.access_token);
+                localStorage.setItem('supabase_token', session.access_token);
                 // Update user data
                 const { data: { user } } = await supabase.auth.getUser();
                 if (user) {
@@ -88,7 +91,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             } else if (event === 'SIGNED_OUT') {
                 setUser(null);
                 setToken(null);
-                apiService.clearAuth();
+                localStorage.removeItem('supabase_token');
             }
         });
 
@@ -120,6 +123,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
             if (data.user && data.session) {
                 setToken(data.session.access_token);
+                // Store token in localStorage for persistence
+                localStorage.setItem('supabase_token', data.session.access_token);
 
                 // Create user object directly from Supabase data (no backend API dependency)
                 setUser({
@@ -223,7 +228,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         } catch (error) {
             console.error('Logout error:', error);
         } finally {
-            apiService.clearAuth();
+            localStorage.removeItem('supabase_token');
             setUser(null);
             setToken(null);
             setError(null);
@@ -246,7 +251,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         setError(null);
     };
 
-    const isAuthenticated = !!user && apiService.isAuthenticated();
+    const isAuthenticated = !!user && !!token;
+    
+    // Debug logging
+    console.log('Auth state:', { user: !!user, token: !!token, isAuthenticated });
 
     const value: AuthContextType = {
         user,
