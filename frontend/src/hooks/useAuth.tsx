@@ -112,6 +112,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             });
 
             if (error) {
+                // Handle specific error cases
+                if (error.message.includes('Email not confirmed')) {
+                    throw new Error('Please check your email and click the confirmation link before signing in.');
+                }
                 throw new Error(error.message);
             }
 
@@ -165,19 +169,47 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
                 throw new Error(error.message);
             }
 
-            if (data.user && data.session) {
-                setToken(data.session.access_token);
+            if (data.user) {
+                // Check if email confirmation is required
+                if (data.user.email_confirmed_at) {
+                    // User is confirmed, proceed with login
+                    if (data.session) {
+                        setToken(data.session.access_token);
+                        setUser({
+                            id: parseInt(data.user.id),
+                            email: data.user.email || '',
+                            full_name: data.user.user_metadata?.full_name || '',
+                            is_active: true,
+                            is_verified: true,
+                            plan: data.user.user_metadata?.plan || 'free',
+                            created_at: data.user.created_at
+                        });
+                    }
+                } else {
+                    // User needs email confirmation - try to sign in immediately
+                    // This will work if email confirmation is disabled
+                    const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({
+                        email: userData.email,
+                        password: userData.password
+                    });
 
-                // Create user object from Supabase data
-                setUser({
-                    id: parseInt(data.user.id),
-                    email: data.user.email || '',
-                    full_name: data.user.user_metadata?.full_name || '',
-                    is_active: true,
-                    is_verified: !!data.user.email_confirmed_at,
-                    plan: data.user.user_metadata?.plan || 'free',
-                    created_at: data.user.created_at
-                });
+                    if (signInError) {
+                        throw new Error('Account created! Please check your email to confirm your account before signing in.');
+                    }
+
+                    if (signInData.user && signInData.session) {
+                        setToken(signInData.session.access_token);
+                        setUser({
+                            id: parseInt(signInData.user.id),
+                            email: signInData.user.email || '',
+                            full_name: signInData.user.user_metadata?.full_name || '',
+                            is_active: true,
+                            is_verified: !!signInData.user.email_confirmed_at,
+                            plan: signInData.user.user_metadata?.plan || 'free',
+                            created_at: signInData.user.created_at
+                        });
+                    }
+                }
             }
         } catch (err: any) {
             const errorMessage = err.message || 'Registration failed. Please try again.';
