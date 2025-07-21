@@ -1,11 +1,16 @@
-from fastapi import FastAPI
+from http.server import BaseHTTPRequestHandler
+import json
 
-app = FastAPI()
-
-@app.get("/")
-async def root():
-    return {"message": "Hello World"}
-
-@app.get("/health")
-async def health_check():
-    return {"status": "ok"} 
+class handler(BaseHTTPRequestHandler):
+    def do_GET(self):
+        self.send_response(200)
+        self.send_header('Content-type', 'application/json')
+        self.end_headers()
+        
+        response = {
+            "message": "Hello World",
+            "path": self.path
+        }
+        
+        self.wfile.write(json.dumps(response).encode())
+        return 
