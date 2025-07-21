@@ -196,7 +196,7 @@ const APIKeys: React.FC = () => {
                             <h4 className="font-medium text-gray-900 mb-2" style={{ fontFamily: '"Instrument Serif", serif', fontWeight: 400 }}>1. Update your API endpoint:</h4>
                             <div className="bg-gray-50 p-3 rounded-lg font-mono text-sm" style={{ fontFamily: '"Nunito Sans", sans-serif' }}>
                                 # Instead of: https://api.openai.com/v1/chat/completions<br />
-                                # Use: http://localhost:8000/proxy/openai/v1/chat/completions
+                                # Use: https://modev-ahmad.vercel.app/api/proxy/openai/v1/chat/completions
                             </div>
                         </div>
                         <div>

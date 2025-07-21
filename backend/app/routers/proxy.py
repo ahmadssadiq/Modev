@@ -246,7 +246,7 @@ async def simplified_proxy_request(
 ):
     """
     Simplified proxy for one-line integration - token in URL path.
-    Usage: baseURL: 'http://localhost:8000/v1/{YOUR_TOKEN}/{PROVIDER}/'
+    Usage: baseURL: 'https://modev-ahmad.vercel.app/api/v1/{YOUR_TOKEN}/{PROVIDER}/'
     """
     
     # Validate provider

@@ -20,7 +20,7 @@ class APIService {
     private baseURL: string;
 
     constructor() {
-        this.baseURL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+        this.baseURL = import.meta.env.VITE_API_URL || 'https://modev-ahmad.vercel.app/api';
 
         this.api = axios.create({
             baseURL: this.baseURL,

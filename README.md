@@ -57,7 +57,7 @@ A vendor-neutral platform for AI cost optimization that helps teams save up to 3
    ```env
    VITE_SUPABASE_URL=https://ljtujpxhwuxarcsxzsds.supabase.co
    VITE_SUPABASE_ANON_KEY=your-anon-key
-   VITE_API_URL=http://localhost:8000
+   VITE_API_URL=https://modev-ahmad.vercel.app/api
    ```
 
 4. **Run the development server**
@@ -67,7 +67,7 @@ A vendor-neutral platform for AI cost optimization that helps teams save up to 3
 
    This will start:
    - Frontend: http://localhost:5173
-   - Backend: http://localhost:8000
+   - Backend: https://modev-ahmad.vercel.app/api
 
 ## 🚀 Deployment
 
